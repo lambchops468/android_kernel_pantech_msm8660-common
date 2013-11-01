@@ -28,6 +28,7 @@
 #include <linux/device.h>
 #include <linux/genhd.h>
 #include <linux/highmem.h>
+#include <linux/ratelimit.h>
 #include <linux/slab.h>
 #include <linux/string.h>
 #include <linux/vmalloc.h>
@@ -529,6 +530,8 @@ static int zram_bvec_write(struct zram *zram, struct bio_vec *bvec, u32 index,
 	struct zcomp_strm *zstrm;
 	bool locked = false;
 	unsigned long alloced_pages;
+	// Ratelimit memory allocation error messages to 1 per second.
+	static DEFINE_RATELIMIT_STATE(alloc_error_rs, HZ, 1);
 
 	page = bvec->bv_page;
 	if (is_partial_io(bvec)) {
@@ -593,8 +596,9 @@ static int zram_bvec_write(struct zram *zram, struct bio_vec *bvec, u32 index,
 
 	handle = zs_malloc(meta->mem_pool, clen);
 	if (!handle) {
-		pr_info("Error allocating memory for compressed page: %u, size=%zu\n",
-			index, clen);
+		if (__ratelimit(&alloc_error_rs))
+			pr_info("Error allocating memory for compressed page: "
+				"%u, size=%zu\n", index, clen);
 		ret = -ENOMEM;
 		goto out;
 	}
