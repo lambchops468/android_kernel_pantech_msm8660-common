@@ -29,6 +29,7 @@
 #include <linux/securebits.h>
 #include <linux/user_namespace.h>
 #include <linux/personality.h>
+#include <net/sock.h>
 
 #ifdef CONFIG_ANDROID_PARANOID_NETWORK
 #include <linux/android_aid.h>
@@ -63,6 +64,15 @@ int cap_netlink_send(struct sock *sk, struct sk_buff *skb)
 
 int cap_netlink_recv(struct sk_buff *skb, int cap)
 {
+	struct netlink_skb_parms_long *nspl = &NETLINK_CB_LONG(skb);
+
+	if (((nspl->flags & NETLINK_SKB_DST) == 0) &&
+	    nspl->sk &&
+	    nspl->sk->sk_socket &&
+	    nspl->sk->sk_socket->file &&
+	    security_capable(&init_user_ns, nspl->sk->sk_socket->file->f_cred, cap) != 0)
+			return -EPERM;
+
 	if (!cap_raised(current_cap(), cap))
 		return -EPERM;
 	return 0;

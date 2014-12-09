@@ -159,13 +159,25 @@ static inline struct nlmsghdr *nlmsg_hdr(const struct sk_buff *skb)
 	return (struct nlmsghdr *)skb->data;
 }
 
+enum netlink_skb_flags {
+	NETLINK_SKB_DST		= 0x8,  /* Dst set in sendto or sendmsg */
+};
+
 struct netlink_skb_parms {
 	struct ucred		creds;		/* Skb credentials	*/
 	__u32			pid;
 	__u32			dst_group;
 };
 
+/* extension of netlink_skb_parms avoiding KABI breakage */
+struct netlink_skb_parms_long {
+	struct netlink_skb_parms	parms;
+	__u32				flags;
+	struct sock			*sk;
+};
+
 #define NETLINK_CB(skb)		(*(struct netlink_skb_parms*)&((skb)->cb))
+#define NETLINK_CB_LONG(skb)	(*(struct netlink_skb_parms_long*)&((skb)->cb))
 #define NETLINK_CREDS(skb)	(&NETLINK_CB((skb)).creds)
 
 
