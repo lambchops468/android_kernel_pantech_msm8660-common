@@ -1523,9 +1523,10 @@ size_t get_numpages(const size_t wsize, const size_t len, size_t *cur_len)
 }
 
 static ssize_t
-cifs_iovec_write(struct file *file, const struct iovec *iov,
+cifs_iovec_write(struct kiocb *iocb, const struct iovec *iov,
 		 unsigned long nr_segs, loff_t *poffset)
 {
+	struct file *file = iocb->ki_filp;
 	unsigned int written;
 	unsigned long num_pages, npages, i;
 	size_t bytes, copied, len, cur_len;
@@ -1545,7 +1546,7 @@ cifs_iovec_write(struct file *file, const struct iovec *iov,
 	if (!len)
 		return 0;
 
-	rc = generic_write_checks(file, poffset, &len, 0);
+	rc = generic_write_checks2(iocb, poffset, &len, 0);
 	if (rc)
 		return rc;
 
@@ -1697,7 +1698,7 @@ ssize_t cifs_user_writev(struct kiocb *iocb, const struct iovec *iov,
 	 * write request.
 	 */
 
-	written = cifs_iovec_write(iocb->ki_filp, iov, nr_segs, &pos);
+	written = cifs_iovec_write(iocb, iov, nr_segs, &pos);
 	if (written > 0) {
 		CIFS_I(inode)->invalid_mapping = true;
 		iocb->ki_pos = pos;
