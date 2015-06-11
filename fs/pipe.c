@@ -103,10 +103,12 @@ void pipe_wait(struct pipe_inode_info *pipe)
 }
 
 static int
-pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
+pipe_iov_copy_from_user(void *to, struct iovec **iovp, unsigned long len,
 			int atomic)
 {
 	unsigned long copy;
+	struct iovec *iov = *iovp;
+	struct iovec this = *iov;
 
 	while (len > 0) {
 		while (!iov->iov_len)
@@ -125,14 +127,19 @@ pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
+	*iov = this;
+	*iovp = iov;
+
 	return 0;
 }
 
 static int
-pipe_iov_copy_to_user(struct iovec *iov, const void *from, unsigned long len,
+pipe_iov_copy_to_user(struct iovec **iovp, const void *from, unsigned long len,
 		      int atomic)
 {
 	unsigned long copy;
+	struct iovec *iov = *iovp;
+	struct iovec this = *iov;
 
 	while (len > 0) {
 		while (!iov->iov_len)
@@ -151,6 +158,9 @@ pipe_iov_copy_to_user(struct iovec *iov, const void *from, unsigned long len,
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
+	*iov = this;
+	*iovp = iov;
+
 	return 0;
 }
 
@@ -399,7 +409,7 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			atomic = !iov_fault_in_pages_write(iov, chars);
 redo:
 			addr = ops->map(pipe, buf, atomic);
-			error = pipe_iov_copy_to_user(iov, addr + buf->offset, chars, atomic);
+			error = pipe_iov_copy_to_user(&iov, addr + buf->offset, chars, atomic);
 			ops->unmap(pipe, buf, addr);
 			if (unlikely(error)) {
 				/*
@@ -529,7 +539,7 @@ pipe_write(struct kiocb *iocb, const struct iovec *_iov,
 			iov_fault_in_pages_read(iov, chars);
 redo1:
 			addr = ops->map(pipe, buf, atomic);
-			error = pipe_iov_copy_from_user(offset + addr, iov,
+			error = pipe_iov_copy_from_user(offset + addr, &iov,
 							chars, atomic);
 			ops->unmap(pipe, buf, addr);
 			ret = error;
@@ -591,7 +601,7 @@ redo2:
 			else
 				src = kmap(page);
 
-			error = pipe_iov_copy_from_user(src, iov, chars,
+			error = pipe_iov_copy_from_user(src, &iov, chars,
 							atomic);
 			if (atomic)
 				kunmap_atomic(src, KM_USER0);
