@@ -164,6 +164,10 @@ static int enable_bearer(struct tipc_bearer *tb_ptr)
 	}
 	if (!dev)
 		return -ENODEV;
+	if (tipc_mtu_bad(dev, 0)) {
+		dev_put(dev);
+		return -EINVAL;
+	}
 
 	/* Find Ethernet bearer for device (or create one) */
 
@@ -231,8 +235,6 @@ static int recv_notification(struct notifier_block *nb, unsigned long evt,
 	if (!eb_ptr->bearer)
 		return NOTIFY_DONE;		/* bearer had been disabled */
 
-	eb_ptr->bearer->mtu = dev->mtu;
-
 	switch (evt) {
 	case NETDEV_CHANGE:
 		if (netif_carrier_ok(dev))
@@ -246,8 +248,16 @@ static int recv_notification(struct notifier_block *nb, unsigned long evt,
 	case NETDEV_DOWN:
 		tipc_block_bearer(eb_ptr->bearer->name);
 		break;
-	case NETDEV_CHANGEMTU:
 	case NETDEV_CHANGEADDR:
+		tipc_block_bearer(eb_ptr->bearer->name);
+		tipc_continue(eb_ptr->bearer);
+		break;
+	case NETDEV_CHANGEMTU:
+		if (tipc_mtu_bad(dev, 0)) {
+			tipc_disable_bearer(eb_ptr->bearer->name);
+			break;
+		}
+		eb_ptr->bearer->mtu = dev->mtu;
 		tipc_block_bearer(eb_ptr->bearer->name);
 		tipc_continue(eb_ptr->bearer);
 		break;
