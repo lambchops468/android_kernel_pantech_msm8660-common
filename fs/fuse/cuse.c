@@ -530,6 +530,8 @@ static int cuse_channel_release(struct inode *inode, struct file *file)
 		unregister_chrdev_region(cc->cdev->dev, 1);
 		cdev_del(cc->cdev);
 	}
+	/* Base reference is now owned by "fud" */
+	fuse_conn_put(&cc->fc);
 
 	/* kill connection and shutdown channel */
 	fuse_conn_kill(&cc->fc);
