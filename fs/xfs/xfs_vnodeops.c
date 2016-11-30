@@ -508,7 +508,7 @@ xfs_setattr_dentry(
 	if (XFS_FORCED_SHUTDOWN(mp))
 		return XFS_ERROR(EIO);
 
-	code = -inode_change_ok(inode, iattr);
+	code = -setattr_prepare(dentry, iattr);
 	if (code)
 		return code;
 
