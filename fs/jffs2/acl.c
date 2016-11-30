@@ -228,6 +228,7 @@ static int jffs2_set_acl(struct inode *inode, int type, struct posix_acl *acl)
 		xprefix = JFFS2_XPREFIX_ACL_ACCESS;
 		if (acl) {
 			umode_t mode;
+
 			rc = posix_acl_update_mode(inode, &mode, &acl);
 			if (rc)
 				return rc;

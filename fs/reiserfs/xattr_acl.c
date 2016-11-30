@@ -272,8 +272,7 @@ reiserfs_set_acl(struct reiserfs_transaction_handle *th, struct inode *inode,
 	case ACL_TYPE_ACCESS:
 		name = POSIX_ACL_XATTR_ACCESS;
 		if (acl) {
-			umode_t mode = inode->i_mode;
-			error = posix_acl_update_mode(inode, &mode, &acl);
+			error = posix_acl_update_mode(inode, &inode->i_mode, &acl);
 			if (error)
 				return error;
 		}
