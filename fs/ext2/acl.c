@@ -194,8 +194,7 @@ ext2_set_acl(struct inode *inode, int type, struct posix_acl *acl)
 		case ACL_TYPE_ACCESS:
 			name_index = EXT2_XATTR_INDEX_POSIX_ACL_ACCESS;
 			if (acl) {
-				umode_t mode;
-				error = posix_acl_update_mode(inode, &mode, &acl);
+				error = posix_acl_update_mode(inode, &inode->i_mode, &acl);
 				if (error)
 					return error;
 				inode->i_ctime = CURRENT_TIME_SEC;
