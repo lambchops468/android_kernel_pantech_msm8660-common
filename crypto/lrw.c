@@ -154,6 +154,9 @@ static int crypt(struct blkcipher_desc *d,
 	iv = (be128 *)w->iv;
 	s.t = *iv;
 
+	if (!ctx->table)
+		return -ENOKEY;
+
 	/* T <- I*Key2 */
 	gf128mul_64k_bbe(&s.t, ctx->table);
 
