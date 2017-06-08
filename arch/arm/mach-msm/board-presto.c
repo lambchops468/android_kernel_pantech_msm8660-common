@@ -6211,6 +6211,27 @@ static void __init pm8901_vreg_mpp0_init(void)
 		pr_err("%s: pm8xxx_mpp_config: rc=%d\n", __func__, rc);
 }
 
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+// 0x78E00000 is the end of system ram as indicated by /proc/iomem
+#define MSM_RAM_CONSOLE_START   (0x78E00000 - MSM_RAM_CONSOLE_SIZE)
+#define MSM_RAM_CONSOLE_SIZE    (128 * SZ_1K)
+
+static struct resource ram_console_resources[] = {
+	[0] = {
+		.start  = MSM_RAM_CONSOLE_START,
+		.end    = MSM_RAM_CONSOLE_START + MSM_RAM_CONSOLE_SIZE - 1,
+		.flags  = IORESOURCE_MEM,
+	},
+};
+
+static struct platform_device ram_console_device = {
+	.name           = "ram_console",
+	.id             = -1,
+	.num_resources  = ARRAY_SIZE(ram_console_resources),
+	.resource       = ram_console_resources,
+};
+#endif
+
 static struct platform_device *charm_devices[] __initdata = {
 	&msm_charm_modem,
 #ifdef CONFIG_MSM_SDIO_AL
@@ -6435,6 +6456,10 @@ static struct platform_device *surf_devices[] __initdata = {
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */
     &msm_device_sensor_proximity,
 #endif /* CONFIG_INPUT_SENSOR */
+
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+    &ram_console_device,
+#endif 
 };
 
 #ifdef CONFIG_ION_MSM
