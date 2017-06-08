@@ -13,19 +13,17 @@ How to build:
       repo init -u https://android.googlesource.com/platform/manifest -b android-4.4.4_r1
 1c. Run
       repo sync platform/prebuilt
-2. In the kernel directory, Run
+2. Build the Kernel
+2a. In the kernel directory, Run
       ARCH=arm
-      CROSS_COMPILE=../android-4.4.4r1-prebuilt/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
+      CROSS_COMPILE=../android-4.4.4_r1-prebuilt/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
       make -j4 zImage modules
+    This will use the .config located at the root of this repository.
+    The .config located at the root of this repository is based off the config that
+    LG uses to build their official kernel. This can be found at
+    arch/arm/configs/cyanogenmod_presto_defconfig or on the phone the kernel is
+    booted at /proc/config.gz
 
-
-The .config located at the root of this repository is based off the config that
-LG uses to build their official kernel. This can be found at
-arch/arm/configs/cyanogenmod_presto_defconfig or on the phone the kernel is
-booted at /proc/config.gz
-
-
-Getting the Ubuntu 14.04 Dependencies required for android-4.4.4 prebuilt:
-sudo dpkg --add-architecture i386
-sudo apt-get update # to pull new packages
-sudo apt-get install libc6-i386 lib32z1
+2b. Alternatively, in the kernel directory, Run
+      ./build_kernel.sh
+    This uses the config at arch/arm/configs/cyanogenmod_presto_defconfig 
