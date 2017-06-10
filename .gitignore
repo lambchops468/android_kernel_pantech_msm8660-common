@@ -89,3 +89,4 @@ GTAGS
 #
 obj
 KERNEL_build.log
+zImage
