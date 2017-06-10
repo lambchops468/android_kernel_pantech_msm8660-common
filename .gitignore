@@ -10,8 +10,6 @@
 # Normal rules
 #
 .*
-# Don't ignore kernel .config
-!.config
 *.o
 *.o.*
 *.a
