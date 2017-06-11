@@ -21,7 +21,8 @@ rm -rf $CMD_V_LOG_FILE
 # make zImage
 ##############################################################################
 mkdir -p ./obj/KERNEL_OBJ/
-make O=./obj/KERNEL_OBJ cyanogenmod_presto_defconfig
+make O=./obj/KERNEL_OBJ cyanogenmod_presto_lockdebug_defconfig
+#make O=./obj/KERNEL_OBJ menuconfig
 make -j4 O=./obj/KERNEL_OBJ 2>&1 | tee $CMD_V_LOG_FILE
 
 ##############################################################################
