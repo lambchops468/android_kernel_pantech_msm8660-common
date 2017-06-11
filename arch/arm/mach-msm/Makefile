@@ -9,6 +9,7 @@ CFLAGS_scm.o :=$(call as-instr,.arch_extension sec,-DREQUIRES_SEC=1)
 ifdef CONFIG_MACH_MSM8X60_PRESTO
     ACPUCLOCK_OBJ_NAME:=acpuclock-presto.o
     BOARD_OBJ_NAME:=board-presto.o
+    CFLAGS_board-presto.o += -Idrivers/staging/android
     BOARD_CAMERA_OBJ_NAME:=board-presto-camera.o
     CLOCK_OBJ_NAME:=clock-presto.o
     DEVICES_OBJ_NAME:=devices-presto.o

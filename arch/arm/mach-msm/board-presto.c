@@ -131,6 +131,14 @@
 #include "msm8x60-sky-sensor.h"
 #endif /* CONFIG_INPUT_SENSOR */
 
+#ifdef CONFIG_ANDROID_PERSISTENT_RAM
+#include <asm/memory.h>
+#include <linux/persistent_ram.h>
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+#include <ram_console.h>
+#endif /* CONFIG_ANDROID_RAM_CONSOLE */
+#endif /* CONFIG_ANDROID_PERSISTENT_RAM */
+
 #define MDM2AP_SYNC 129
 
 #define GPIO_ETHERNET_RESET_N_DRAGON	30
@@ -6437,6 +6445,50 @@ static struct platform_device *surf_devices[] __initdata = {
 #endif /* CONFIG_INPUT_SENSOR */
 };
 
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+static struct platform_device ram_console_device = {
+        .name = "ram_console",
+        .id = -1,
+};
+
+void __init presto_add_ramconsole_devices(void)
+{
+        platform_device_register(&ram_console_device);
+}
+#endif /* CONFIG_ANDROID_RAM_CONSOLE */
+
+#ifdef CONFIG_ANDROID_RAM_CONSOLE || CONFIG_ANDROID_PERSISTENT_RAM
+#define PRESTO_RAM_CONSOLE_SIZE (124 * SZ_1K * 2)
+#define PRESTO_PERSISTENT_RAM_SIZE PRESTO_RAM_CONSOLE_SIZE
+#endif /* CONFIG_ANDROID_RAM_CONSOLE || CONFIG_ANDROID_PERSISTENT_RAM */
+
+#ifdef CONFIG_ANDROID_PERSISTENT_RAM
+static struct persistent_ram_descriptor pram_descs[] = {
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+        {
+                .name = "ram_console",
+                .size = PRESTO_RAM_CONSOLE_SIZE,
+        },
+#endif /* CONFIG_ANDROID_RAM_CONSOLE */
+};
+
+static struct persistent_ram presto_persistent_ram = {
+        .size = PRESTO_PERSISTENT_RAM_SIZE,
+        .num_descs = ARRAY_SIZE(pram_descs),
+        .descs = pram_descs,
+};
+
+void __init presto_add_persistent_ram(void)
+{
+        struct persistent_ram *pram = &presto_persistent_ram;
+        struct membank* bank = &meminfo.bank[0];
+
+        pram->start = bank->start + bank->size - PRESTO_PERSISTENT_RAM_SIZE;
+
+        persistent_ram_early_init(pram);
+}
+#endif /* CONFIG_ANDROID_PERSISTENT_RAM */
+
 #ifdef CONFIG_ION_MSM
 #ifdef CONFIG_MSM_MULTIMEDIA_USE_ION
 static struct ion_cp_heap_pdata cp_mm_ion_pdata = {
@@ -6721,6 +6773,9 @@ static void __init msm8x60_reserve(void)
 	msm8x60_set_display_params(prim_panel_name, ext_panel_name);
 	reserve_info = &msm8x60_reserve_info;
 	msm_reserve();
+#ifdef CONFIG_ANDROID_PERSISTENT_RAM
+        presto_add_persistent_ram();
+#endif /* CONFIG_ANDROID_PERSISTENT_RAM */
 }
 
 #if defined(CONFIG_SMB137B_CHARGER) || defined(CONFIG_SMB137B_CHARGER_MODULE) || defined(CONFIG_ISL9519_CHARGER)
@@ -12388,6 +12443,10 @@ static void __init msm8x60_init(struct msm_board_data *board_data)
 #endif	
 	)
 		msm_fusion_setup_pinctrl();
+
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+	presto_add_ramconsole_devices();
+#endif /* CONFIG_ANDROID_RAM_CONSOLE */
 }
 
 static void __init msm8x60_rumi3_init(void)
