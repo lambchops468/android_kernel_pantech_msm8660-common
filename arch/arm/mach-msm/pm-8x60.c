@@ -1264,7 +1264,10 @@ static int __init msm_pm_init(void)
 	clean_caches((unsigned long)&msm_pm_pc_pgd, sizeof(msm_pm_pc_pgd),
 		     virt_to_phys(&msm_pm_pc_pgd));
 
-#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+// There is a reundant pantech_resetinfo registration routine in
+// drivers/video/msm/msm_fb.c
+// XXX: seems that removing this causes pantech_resetinfo always print zeros.
+#ifdef defined(CONFIG_PANTECH_ERR_CRASH_LOGGING) && !defined(CONFIG_FB_MSM)
     sky_sys_rst_set_prev_reset_info();
     reset_info = create_proc_entry("pantech_resetinfo" , \
                        S_IRUSR | S_IWUSR | \
@@ -1275,7 +1278,7 @@ static int __init msm_pm_init(void)
         reset_info->write_proc = sky_sys_rst_write_proc_reset_info;
         reset_info->data = NULL;
     }
-#endif /* CONFIG_PANTECH_ERR_CRASH_LOGGING */
+#endif /* defined(CONFIG_PANTECH_ERR_CRASH_LOGGING) && !defined(CONFIG_FB_MSM) */
 	ret = request_irq(rpm_cpu0_wakeup_irq,
 			msm_pm_rpm_wakeup_interrupt, IRQF_TRIGGER_RISING,
 			"pm_drv", msm_pm_rpm_wakeup_interrupt);
