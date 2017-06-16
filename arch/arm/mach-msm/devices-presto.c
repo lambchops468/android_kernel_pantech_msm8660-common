@@ -2001,8 +2001,15 @@ struct platform_device msm_device_smd = {
 
 static struct msm_watchdog_pdata msm_watchdog_pdata = {
 #ifdef CONFIG_MACH_MSM8X60_PRESTO //pz1945
-    .pet_time  = 20000,
-    .bark_time = 22000,
+#ifdef CONFIG_DEFAULT_HUNG_TASK_TIMEOUT
+        // Allow the hung task detector to do work, log debug info, and
+        // possibly reset system before the watchdog resets the system.
+	.pet_time  = CONFIG_DEFAULT_HUNG_TASK_TIMEOUT*1000*2 + 20000,
+	.bark_time = CONFIG_DEFAULT_HUNG_TASK_TIMEOUT*1000*2 + 22000,
+#else /* CONFIG_DEFAULT_HUNG_TASK_TIMEOUT */
+	.pet_time  = 20000,
+	.bark_time = 22000,
+#endif /* CONFIG_DEFAULT_HUNG_TASK_TIMEOUT */
 #else /* CONFIG_MACH_MSM8X60_PRESTO */
 	.pet_time = 10000,
 	.bark_time = 11000,
