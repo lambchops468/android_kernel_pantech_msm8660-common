@@ -1,0 +1,2668 @@
+[    0.000000] Booting Linux on physical CPU 0
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Linux version 3.0.101-cyanogenmod-gc99b04f-dirty (ubuntu@ubuntu) (gcc version 4.7 (GCC) ) #6 SMP PREEMPT Sun Jun 11 20:03:35 UTC 2017
+[    0.000000] CPU: ARMv7 Processor [510f02d2] revision 2 (ARMv7), cr=10c5387d
+[    0.000000] CPU: VIPT nonaliasing data cache, VIVT ASID tagged instruction cache
+[    0.000000] Machine: PANTECH MSM8X60 PRESTO
+[    0.000000] memory pool 0 (start 38000000 size 600000) initialized
+[    0.000000] memory pool 1 (start 38600000 size 3802000) initialized
+[    0.000000] memory pool 3 (start 78e00000 size 7200000) initialized
+[    0.000000] Initialized persistent memory from 42cc2000-42cfffff
+[    0.000000] Memory policy: ECC disabled, Data cache writealloc
+[    0.000000] socinfo_init: v6, id=86, ver=2.0, raw_id=1696, raw_ver=1696, hw_plat=5,  hw_plat_ver=65536
+[    0.000000]  accessory_chip=57 hw_plat_subtype=1
+[    0.000000] allocating 4608000 bytes at c1c9b000 (41e9b000 physical) for fb
+[    0.000000] PERCPU: Embedded 8 pages/cpu @c2103000 s9696 r8192 d14880 u32768
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 209156
+[    0.000000] Kernel command line: console=ttyHSL0,115200,n8 androidboot.hardware=qcom kgsl.mmutype=gpummu vmalloc=256M loglevel=7 androidboot.selinux=permissive androidboot.baseband=csfb androidboot.emmc=true androidboot.serialno= androidboot.authorized_kernel=true androidboot.baseband=csfb
+[    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] allocated 4186112 bytes of page_cgroup
+[    0.000000] please try 'cgroup_disable=memory' option if you don't want memory cgroups
+[    0.000000] Memory: 43MB 782MB = 825MB total
+[    0.000000] Memory: 807708k/807708k available, 153828k reserved, 241664K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     DMA     : 0xff000000 - 0xffe00000   (  14 MB)
+[    0.000000]     vmalloc : 0xea800000 - 0xfa000000   ( 248 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xea000000   ( 672 MB)
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+[    0.000000]     modules : 0xbf000000 - 0xbfe00000   (  14 MB)
+[    0.000000]       .init : 0xc0008000 - 0xc004b000   ( 268 kB)
+[    0.000000]       .text : 0xc0100000 - 0xc0b7a2b4   (10729 kB)
+[    0.000000]       .data : 0xc0c00000 - 0xc0cee590   ( 954 kB)
+[    0.000000]        .bss : 0xc0cee5b4 - 0xc12c0c80   (5962 kB)
+[    0.000000] SLUB: Genslabs=13, HWalign=32, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] NR_IRQS:855
+[    0.000000] sched_clock: 32 bits at 32kHz, resolution 30517ns, wraps every 131071999ms
+[    0.000000] Console: colour dummy device 80x30
+[    0.150177] Calibrating delay using timer specific routine.. 13.52 BogoMIPS (lpj=67646)
+[    0.150207] pid_max: default: 32768 minimum: 301
+[    0.150573] Security Framework initialized
+[    0.150604] SELinux:  Initializing.
+[    0.150878] Mount-cache hash table entries: 512
+[    0.152252] Initializing cgroup subsys cpuacct
+[    0.152374] Initializing cgroup subsys memory
+[    0.152435] Initializing cgroup subsys freezer
+[    0.152496] CPU: Testing write buffer coherency: ok
+[    0.152862] hw perfevents: enabled with ARMv7 Scorpion-MP PMU driver, 5 counters available
+[    0.185394] CPU1: Booted secondary processor
+[    0.195281] Brought up 2 CPUs
+[    0.195312] SMP: Total of 2 processors activated (27.05 BogoMIPS).
+[    0.210296] print_constraints: dummy: 
+[    0.210418] rdev_init_debugfs: Error-Bad Function Input
+[    0.210723] NET: Registered protocol family 16
+[    0.210937] AXI: msm_bus_fabric_init_driver(): msm_bus_fabric_init_driver
+[    0.213256] msm_rpm_init: RPM firmware 2.0.200
+[    0.214294] saw_probe: id=0, name=8901_s0
+[    0.214752] saw_probe: id=1, name=8901_s1
+[    0.216552] rcg_clk_handoff: gsbi12_uart_clk rate=3686400
+[    0.216583] rcg_clk_handoff: gsbi11_qup_clk rate=24000000
+[    0.216613] rcg_clk_handoff: sdc1_clk rate=48000000
+[    0.216674] rcg_clk_handoff: dsi_byte_clk rate=1
+[    0.216735] rcg_clk_handoff: mdp_clk rate=200000000
+[    0.216827] rcg_clk_handoff: pixel_mdp_clk rate=24000000
+[    0.218902] ACPU PVS: Slow
+[    0.218933] Max ACPU freq: 1512000 KHz
+[    0.224700] CPU0: 23 scaling frequencies supported.
+[    0.224731] CPU1: 23 scaling frequencies supported.
+[    0.224884] msm8x60_init_uart12dm: GSBI12 port uart12_config_gpio configuration
+[    0.226806] pm8058_probe: PMIC revision: E3
+[    0.228118] pm_gpio_probe: OK: base=173, ngpio=40
+[    0.228332] pm8xxx_mpp_probe: OK: base=213, ngpio=12
+[    0.229736] pm8901_probe: PMIC REVISION = F4
+[    0.230163] pm8xxx_mpp_probe: OK: base=225, ngpio=4
+[    0.246307] gpio_vreg_probe: id=225, name=ext_5v, gpio=225, gpio_label=ext_5v_en
+[    0.248107] display_common_power(on): success
+[    0.248321] i2c-core: driver [fab2200-amp] using legacy suspend method
+[    0.248321] i2c-core: driver [fab2200-amp] using legacy resume method
+[    0.248321] [Snd_audience_a2020] audience_pmic_clk_vreg_on ==> START  
+[    0.248352] regulator_check_voltage: 8058_l2: requested voltage range [1800000, 1800000] does not fit within constraints: [3300000, 3300000]
+[    0.248352] [Snd_audience_a2020] vreg_enable failed(8058_l2) = -22 
+[    0.248382] regulator_enable: 8058_l2: invalid input - constraint: [3300000, 3300000], set point: [0, 0]
+[    0.248382] [Snd_audience_a2020] vreg_enable failed(8058_l2) = -22 
+[    0.265441] [Snd_audience_a2020] audience_pmic_clk_vreg_on ==> END rc : 0  
+[    0.265533] i2c-core: driver [audience-a2020] using legacy suspend method
+[    0.265563] i2c-core: driver [audience-a2020] using legacy resume method
+[    0.265563] /proc/a2020_gain created
+[    0.266204] <L10> sensors_power_up OK
+[    0.266601] <LVS1> Power up OK
+[    0.267181] <L15> sensors_power_up OK
+[    0.273376] max17040_init: 
+[    0.273376] BT - bt_power_init: 
+[    0.393554] BT - bluetooth_power: on(0) Done!! 
+[    0.393554] wlan_power: 0
+[    0.463989] persistent_ram: found existing buffer, size 64635, start 64635
+[    0.662628] console [ram-1] enabled
+[    0.666168] [fab2200] @@@snd_subsystem_en_init.....audio_sub_en GPIO init 
+[    0.666259] [fab2200] @@@POWER ON 
+[    0.667968] [fab2200] ###POWER OFF 
+[    0.668060] [fab2200] fab2200_probe 0 
+[    0.669281] ~~~~~~~~~~~~~~~~~pz1946 audience_a2020_probe start
+[    3.137268] bio: create slab <bio-0> at 0
+[    3.137695] qup_i2c qup_i2c.0: QUP: I2C status flags :0x1343c8, irq:183
+[    3.137817] qup_i2c qup_i2c.0: I2C slave addr:0x21 not connected
+[    3.137908] sx150x 0-0021: i2c write fail: can't write 01 to 10: -107
+[    3.138061] sx150x: probe of 0-0021 failed with error -107
+[    3.138183] qup_i2c qup_i2c.0: QUP: I2C status flags :0x1363c8, irq:183
+[    3.138305] qup_i2c qup_i2c.0: I2C slave addr:0x22 not connected
+[    3.138458] sx150x 0-0022: i2c write fail: can't write 01 to 10: -107
+[    3.138549] sx150x: probe of 0-0022 failed with error -107
+[    3.175079] qup_i2c qup_i2c.3: Transaction timed out, SL-AD = 0x3e
+[    3.175170] qup_i2c qup_i2c.3: I2C Status: 132100
+[    3.175292] qup_i2c qup_i2c.3: QUP Status: 0
+[    3.175354] qup_i2c qup_i2c.3: OP Flags: 10
+[    3.175445] sx150x 3-003e: i2c write fail: can't write 01 to 1f: -110
+[    3.175567] sx150x: probe of 3-003e failed with error -110
+[    3.215118] qup_i2c qup_i2c.3: Transaction timed out, SL-AD = 0x3f
+[    3.215240] qup_i2c qup_i2c.3: I2C Status: 132100
+[    3.215332] qup_i2c qup_i2c.3: QUP Status: 0
+[    3.215454] qup_i2c qup_i2c.3: OP Flags: 10
+[    3.215515] sx150x 3-003f: i2c write fail: can't write 01 to 1f: -110
+[    3.215667] sx150x: probe of 3-003f failed with error -110
+[    3.216857] ION heap vmalloc created
+[    3.216979] ION heap mm created at 38800000 with size 3600000
+[    3.217132] ION heap mm_fw created at 38600000 with size 200000
+[    3.217254] ION heap mfc created at 3be00000 with size 2000
+[    3.217407] ION heap sf created at 78e00000 with size 4000000
+[    3.217498] ION heap camera_preview created at 7ce00000 with size 2000000
+[    3.217651] ION heap wb created at 7ee00000 with size 600000
+[    3.217803] ION heap qsecom created at 7f400000 with size 600000
+[    3.217926] ION heap audio created at 7fa00000 with size 28b000
+[    3.218200] pmic8058_pwm_probe: OK
+[    3.218811] SCSI subsystem initialized
+[    3.219085] usbcore: registered new interface driver usbfs
+[    3.219299] usbcore: registered new interface driver hub
+[    3.219482] usbcore: registered new device driver usb
+[    3.220001] i2c-gpio i2c-gpio.12: using pins 51 (SDA) and 52 (SCL)
+[    3.220245] i2c-gpio i2c-gpio.14: using pins 171 (SDA) and 170 (SCL)
+[    3.220550] i2c-gpio i2c-gpio.15: using pins 127 (SDA) and 124 (SCL)
+[    3.220794] i2c-gpio i2c-gpio.13: using pins 35 (SDA) and 36 (SCL)
+[    3.221343] Advanced Linux Sound Architecture Driver Version 1.0.24.
+[    3.221862] Bluetooth: Core ver 2.16
+[    3.222045] NET: Registered protocol family 31
+[    3.222106] Bluetooth: HCI device and connection manager initialized
+[    3.222259] Bluetooth: HCI socket layer initialized
+[    3.222320] Bluetooth: L2CAP socket layer initialized
+[    3.222595] Bluetooth: SCO socket layer initialized
+[    3.223083] cfg80211: Calling CRDA to update world regulatory domain
+[    3.223419] Switching to clocksource gp_timer
+[    3.244659] NET: Registered protocol family 2
+[    3.244842] IP route cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    3.245300] TCP established hash table entries: 131072 (order: 8, 1048576 bytes)
+[    3.246704] TCP bind hash table entries: 65536 (order: 8, 1310720 bytes)
+[    3.247650] TCP: Hash tables configured (established 131072 bind 65536)
+[    3.247772] TCP reno registered
+[    3.247863] UDP hash table entries: 512 (order: 2, 24576 bytes)
+[    3.248016] UDP-Lite hash table entries: 512 (order: 2, 24576 bytes)
+[    3.248474] NET: Registered protocol family 1
+[    3.248809] RPC: Registered named UNIX socket transport module.
+[    3.248901] RPC: Registered udp transport module.
+[    3.248962] RPC: Registered tcp transport module.
+[    3.249084] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    3.249359] Trying to unpack rootfs image as initramfs...
+[    3.276641] Freeing initrd memory: 576K
+[    3.276977] PMU: registered new PMU device of type 0
+[    3.277313] PMU: registered new PMU device of type 1
+[    3.277770] ETM/ETB intialized.
+[    3.277954] pil_qdsp6v3 pil_qdsp6v3: using secure boot
+[    3.278472] pil_modem pil_modem: using secure boot
+[    3.278686] sdio_al:SDIO-AL SW version 1.30
+[    3.281311] smd_channel_probe_worker: allocation table not initialized
+[    3.288818] initialize_msm_icodec_gpios: icodec gpio 229 request failed
+[    3.288970] msm_icodec_gpio_probe: GPIO configuration failed
+[    3.293212] cfg_gpio_low_power: failed to sleep gpio 230: -22
+[    3.293365] cfg_gpio_low_power: failed to sleep gpio 236: -22
+[    3.293426] cfg_gpio_low_power: failed to sleep gpio 237: -22
+[    3.293640] cfg_gpio_low_power: failed to sleep gpio 240: -22
+[    3.293701] cfg_gpio_low_power: failed to sleep gpio 244: -22
+[    3.293853] cfg_gpio_low_power: failed to sleep gpio 245: -22
+[    3.293914] cfg_gpio_low_power: failed to sleep gpio 258: -22
+[    3.294067] cfg_gpio_low_power: failed to sleep gpio 282: -22
+[    3.294128] cfg_gpio_low_power: failed to sleep gpio 291: -22
+[    3.353881] charm_modem_probe: Registering charm modem
+[    3.356109] msm_rpm_log_probe: OK
+[    3.356353] Android kernel / Modem panic handler initialized 
+[    3.356414] panmac init
+[    3.356628] audit: initializing netlink socket (disabled)
+[    3.356781] type=2000 audit(3.310:1): initialized
+[    3.455047] highmem bounce pool size: 64 pages
+[    3.455352] ashmem: initialized
+[    3.462707] fuse init (API version 7.16)
+[    3.463134] msgmni has been set to 1106
+[    3.465240] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+[    3.465301] io scheduler noop registered
+[    3.465423] io scheduler deadline registered (default)
+[    3.465515] io scheduler row registered
+[    3.465637] io scheduler cfq registered
+[    3.468414] mdp4_csc_config: Block type 10 isn't supported by CSC.
+[    3.468475] mdp4_csc_config: Block type 8 isn't supported by CSC.
+[    3.473052] samsung_probe: id=0
+[    3.473144] setting pdata->panel_info.fb_num to 3. type: 3
+[    3.477111] mdp4_lcdc_vsync_init: ndx=0
+[    3.479309] FrameBuffer[0] 480x800 size=4608000 bytes is registered successfully!
+[    3.479522] [allydrop] msm_reset_reason:reason[77665501],result[0]
+[    3.479644] load_565rle_image: Can not open /initlogo.rle
+[    3.479766] [LIVED] msm_reset_reason_clear
+[    3.480194] mdp4_lcdc_vsync_init: ndx=0
+[    3.481323] 
+[    3.481323]  msm_vidc_enc: Inside vid_enc_init()
+[    3.481750] 
+[    3.481750]  msm_vidc_enc: Inside vid_enc_vcd_init()
+[    3.560974] msm_serial_hs.0: ttyHS0 at MMIO 0x16540000 (irq = 188) is a MSM HS UART
+[    3.664306] msm_serial_hs module loaded
+[    3.664489] msm_serial_hsl: detected port #1
+[    3.664703] msm_serial_hsl.1: ttyHSL1 at MMIO 0x19940000 (irq = 221) is a MSM
+[    3.753814] msm_serial_hsl: detected port #0
+[    3.754028] msm_serial_hsl.0: ttyHSL0 at MMIO 0x19c40000 (irq = 227) is a MSM
+[    3.754150] msm_serial_hsl: console setup on port #0
+[    4.953674] console [ttyHSL0] enabled
+[    5.044311] msm_serial_hsl: driver initialized
+[    5.049224] msm_rotator_probe: rotator_hw_revision=1
+[    5.059173] kgsl kgsl-3d0: |kgsl_gpummu_init| MMU type set for device is GPUMMU
+[    5.067108] kgsl kgsl-2d0: |kgsl_gpummu_init| MMU type set for device is GPUMMU
+[    5.074615] kgsl kgsl-2d1: |kgsl_gpummu_init| MMU type set for device is GPUMMU
+[    5.087188] brd: module loaded
+[    5.091949] loop: module loaded
+[    5.094329] pmem: Initializing pmem_audio (user-space) as non-cached
+[    5.100830] allocating 2666496 bytes at   (null) (7fc8b000 physical) for pmem_audio
+[    5.108398] i2c-core: driver [isa1200] using legacy suspend method
+[    5.114257] i2c-core: driver [isa1200] using legacy resume method
+[    5.120849] pm8xxx_upl_probe: OK
+[    5.129821] msm_bahama_setup_power: gpio_request 232 = -22
+[    5.134521] qup_i2c qup_i2c.4: QUP: I2C status flags :0x1343c8, irq:191
+[    5.140930] qup_i2c qup_i2c.4: I2C slave addr:0xc not connected
+[    5.147003] qup_i2c qup_i2c.4: QUP: I2C status flags :0x1343c8, irq:191
+[    5.153442] qup_i2c qup_i2c.4: I2C slave addr:0xc not connected
+[    5.159393] marimba-core 4-000c: i2c read failed
+[    5.164276] adie_codec_register_codec_operations: codec type 1
+[    5.170928] SCSI Media Changer driver v0.25 
+[    5.174316] PPP generic driver version 2.4.2
+[    5.178680] PPP Deflate Compression module registered
+[    5.183563] PPP BSD Compression module registered
+[    5.188842] PPP MPPE Compression module registered
+[    5.193023] NET: Registered protocol family 24
+[    5.197479] SLIP: version 0.8.4-NET3.019-NEWTTY (dynamic channels, max=256) (6 bit encapsulation enabled).
+[    5.207092] CSLIP: code copyright 1989 Regents of the University of California.
+[    5.214782] tun: Universal TUN/TAP device driver, 1.6
+[    5.219360] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[    5.226440] smsc911x: Driver version 2008-10-21
+[    5.230194] rmnet_init: SMD devices[8]
+[    5.237670] rmnet_init: SDIO devices[8]
+[    5.246276] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    5.252044] host driver registered w/ tranceiver
+[    5.256683] usbcore: registered new interface driver cdc_acm
+[    5.262084] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    5.270141] Initializing USB Mass Storage driver...
+[    5.274993] usbcore: registered new interface driver usb-storage
+[    5.280975] USB Mass Storage support registered.
+[    5.285583] usbcore: registered new interface driver ums-alauda
+[    5.291503] usbcore: registered new interface driver ums-cypress
+[    5.297454] usbcore: registered new interface driver ums-datafab
+[    5.303497] usbcore: registered new interface driver ums-freecom
+[    5.309448] usbcore: registered new interface driver ums-isd200
+[    5.315399] usbcore: registered new interface driver ums-jumpshot
+[    5.321411] usbcore: registered new interface driver ums-karma
+[    5.327301] usbcore: registered new interface driver ums-onetouch
+[    5.333312] usbcore: registered new interface driver ums-sddr09
+[    5.339294] usbcore: registered new interface driver ums-sddr55
+[    5.345123] usbcore: registered new interface driver ums-usbat
+[    5.350921] usbcore: registered new interface driver usb_ehset_test
+[    5.357513] peripheral driver registered w/ tranceiver
+[    5.365020] android_usb gadget: Mass Storage Function, version: 2009/09/11
+[    5.370971] android_usb gadget: Number of LUNs=2
+[    5.375579]  lun0: LUN: removable file: (no medium)
+[    5.380371]  lun1: LUN: removable file: (no medium)
+[    5.385711] usbnet_function_init usbnet init function!!!
+[    5.390594] pantech_obex_setup
+[    5.393768] android_usb gadget: android_usb ready
+[    5.399841] DIAG registered SDIO device
+[    5.402954] diagchar initialized now
+[    5.406494] mousedev: PS/2 mouse device common for all mice
+[    5.413024] input: ffa-keypad as /devices/platform/msm_ssbi.0/pm8058-core/pm8xxx-keypad/input/input0
+[    5.422576] Touch Power regulator_enable return:  0 
+[    5.426940] input: tki_input as /devices/virtual/input/input1
+[    5.433227] input: pmic8xxx_pwrkey as /devices/platform/msm_ssbi.0/pm8058-core/pm8xxx-pwrkey/input/input2
+[    5.457305] input: accelerometer as /devices/virtual/input/input3
+[    5.462677] i2c-core: driver [accelerometer] using legacy suspend method
+[    5.469177] i2c-core: driver [accelerometer] using legacy resume method
+[    5.476013] input: geomagnetic as /devices/platform/i2c-gpio.14/i2c-14/14-002e/input/input4
+[    5.484436] input: geomagnetic_raw as /devices/platform/i2c-gpio.14/i2c-14/14-002e/input/input5
+[    5.493072] i2c-core: driver [geomagnetic] using legacy suspend method
+[    5.499328] i2c-core: driver [geomagnetic] using legacy resume method
+[    5.506408] input: orientation as /devices/virtual/input/input6
+[    5.512451] apds9900_get_available : ret = 0 / id = 0x29
+[    5.517852] input: proximity as /devices/virtual/input/input7
+[    5.523681] input: light as /devices/virtual/input/input8
+[    5.529754] using rtc device, pm8xxx_rtc, for alarms
+[    5.533660] rtc-pm8xxx rtc-pm8xxx: rtc core: registered pm8xxx_rtc as rtc0
+[    5.540954] i2c /dev entries driver
+[    5.546295] lirc_dev: IR Remote Control driver registered, major 238 
+[    5.551757] IR NEC protocol handler initialized
+[    5.556304] IR RC5(x) protocol handler initialized
+[    5.561096] IR RC6 protocol handler initialized
+[    5.565582] IR JVC protocol handler initialized
+[    5.570129] IR Sony protocol handler initialized
+[    5.574676] IR RC5 (streamzap) protocol handler initialized
+[    5.580261] IR LIRC bridge handler initialized
+[    5.584716] [SKY CHG]Charging with 0mA current, charge_type 3
+[    5.590423] Linux video capture interface: v2.00
+[    5.599548] I2C radio driver for Qualcomm FM Radio Transceiver , Version 1.0.0
+[    5.608001] [MAX17040] Fuel-Gauge Ver 03
+[    5.611999] input: max17040 as /devices/virtual/input/input9
+[    5.617004] [MAX17040]max17040_probe...
+[    5.620635] i2c-core: driver [max17040] using legacy suspend method
+[    5.626800] i2c-core: driver [max17040] using legacy resume method
+[    5.633880] msm_adc successfully registered
+[    5.637695] tsens_tm_probe: OK
+[    5.674163] pmic8058_xoadc:The offset for AMUX calibrationwas -468
+[    5.684051] pm8xxx_tm_probe: OK
+[    5.686614] pm8xxx_tm_probe: OK
+[    5.689880] device-mapper: uevent: version 1.0.3
+[    5.694458] device-mapper: ioctl: 4.20.0-ioctl (2011-02-02) initialised: dm-devel@redhat.com
+[    5.702545] Bluetooth: HCI UART driver ver 2.2
+[    5.706817] Bluetooth: HCI H4 protocol initialized
+[    5.711608] Bluetooth: MSM Sleep Mode Driver Ver 1.1
+[    5.717132] ######## bthid_init: ########
+[    5.720733] ######## bthid_init: done ########
+[    5.725280] cpuidle: using governor ladder
+[    5.729003] cpuidle: using governor menu
+[    5.733276] mmc0: mci-version: 0
+[    5.736297] mmc0: No card detect facilities available
+[    5.741394] mmc0: Qualcomm MSM SDCC-core at 0x0000000012400000 irq 136,0 dma 18 dmacrcri 1
+[    5.749511] mmc0: 8 bit data mode enabled
+[    5.753417] mmc0: 4 bit data mode disabled
+[    5.757568] mmc0: polling status mode disabled
+[    5.761901] mmc0: MMC clock 400000 -> 48000000 Hz, PCLK 0 Hz
+[    5.767578] mmc0: Slot eject status = 0
+[    5.771423] mmc0: Power save feature enable = 1
+[    5.775909] mmc0: DM non-cached buffer at ffdc0000, dma_addr 0x68920000
+[    5.782531] mmc0: DM cmd busaddr 0x68920000, cmdptr busaddr 0x68937f40
+[    5.789245] mmc1: mci-version: 0
+[    5.792663] mmc1: Qualcomm MSM SDCC-core at 0x0000000012140000 irq 135,0 dma 19 dmacrcri 4
+[    5.805541] mmc1: 8 bit data mode enabled
+[    5.813659] mmc1: 4 bit data mode disabled
+[    5.816802] mmc1: polling status mode disabled
+[    5.826507] pz1945 - usb_connect_cb usb_manager_state_enabled: 0 
+[    5.836730] mmc1: MMC clock 400000 -> 48000000 Hz, PCLK 0 Hz
+[    5.846496] android_work: did not send uevent (0 0   (null))
+[    5.856231] mmc1: Slot eject status = 0
+[    5.859100] mmc1: Power save feature enable = 1
+[    5.863647] mmc1: DM non-cached buffer at ffda0000, dma_addr 0x68940000
+[    5.870208] mmc1: DM cmd busaddr 0x68940000, cmdptr busaddr 0x68957f40
+[    5.877044] mmc2: mci-version: 0
+[    5.913421] mmc0: new high speed MMC card at address 0001
+[    5.918243] mmcblk0: mmc0:0001 KYL00M 14.6 GiB 
+[    5.922515] mmcblk0boot0: mmc0:0001 KYL00M partition 1 512 KiB
+[    5.928405] mmcblk0boot1: mmc0:0001 KYL00M partition 2 512 KiB
+[    5.938751]  mmcblk0: p1 p2 p3 p4 < p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17 p18 p19 p20 p21 p22 p23 p24 p25 p26 p27 >
+[    5.953674]  mmcblk0boot1: unknown partition table
+[    5.959442]  mmcblk0boot0: unknown partition table
+[    6.384185] mmc2: Qualcomm MSM SDCC-core at 0x0000000012180000 irq 134,642 dma 20 dmacrcri 2
+[    6.391723] mmc2: 8 bit data mode disabled
+[    6.395751] mmc2: 4 bit data mode enabled
+[    6.399719] mmc2: polling status mode disabled
+[    6.404205] mmc2: MMC clock 400000 -> 48000000 Hz, PCLK 0 Hz
+[    6.409790] mmc2: Slot eject status = 0
+[    6.413665] mmc2: Power save feature enable = 1
+[    6.418151] mmc2: DM non-cached buffer at ffd80000, dma_addr 0x68960000
+[    6.424804] mmc2: DM cmd busaddr 0x68960000, cmdptr busaddr 0x68977f40
+[    6.431488] mmc3: mci-version: 0
+[    6.434783] mmc3: Qualcomm MSM SDCC-core at 0x00000000121c0000 irq 133,0 dma 21 dmacrcri 5
+[    6.442749] mmc3: 8 bit data mode disabled
+[    6.446838] mmc3: 4 bit data mode enabled
+[    6.450775] mmc3: polling status mode disabled
+[    6.455200] mmc3: MMC clock 400000 -> 48000000 Hz, PCLK 0 Hz
+[    6.460906] mmc3: Slot eject status = 1
+[    6.464660] mmc3: Power save feature enable = 1
+[    6.469238] mmc3: DM non-cached buffer at ffd60000, dma_addr 0x689a0000
+[    6.475769] mmc3: DM cmd busaddr 0x689a0000, cmdptr busaddr 0x689b7f40
+[    6.482574] mmc4: mci-version: 0
+[    6.485900] mmc4: Qualcomm MSM SDCC-core at 0x0000000012200000 irq 220,0 dma 21 dmacrcri 14
+[    6.493896] mmc4: 8 bit data mode disabled
+[    6.497924] mmc4: 4 bit data mode enabled
+[    6.501892] mmc4: polling status mode disabled
+[    6.506378] mmc4: MMC clock 400000 -> 48000000 Hz, PCLK 0 Hz
+[    6.511962] mmc4: Slot eject status = 0
+[    6.515869] mmc4: Power save feature enable = 1
+[    6.520294] mmc4: DM non-cached buffer at ffd40000, dma_addr 0x689c0000
+[    6.526977] mmc4: DM cmd busaddr 0x689c0000, cmdptr busaddr 0x689d7f40
+[    6.533905] leds-gpio: probe of leds-gpio failed with error -22
+[    6.541076] usbcore: registered new interface driver usbhid
+[    6.545715] usbhid: USB HID core driver
+[    6.550201] logger: created 256K log 'log_main'
+[    6.554199] logger: created 256K log 'log_events'
+[    6.558868] logger: created 256K log 'log_radio'
+[    6.563507] logger: created 256K log 'log_system'
+[    6.568756] zram: Created 1 device(s) ...
+[    6.572540] usbcore: registered new interface driver snd-usb-audio
+[    6.579132] msm-cpu-dai msm-cpu-dai.0: asoc_msm_cpu_probe: dev name msm-cpu-dai.0
+[    6.585937] msm-codec-dai msm-codec-dai.0: asoc_msm_codec_probe: dev name msm-codec-dai.0
+[    6.594055] msm-dsp-audio msm-dsp-audio.0: msm_pcm_probe: dev name msm-dsp-audio.0
+[    6.601806] mvs-cpu-dai mvs-cpu-dai.0: asoc_mvs_cpu_probe: dev name mvs-cpu-dai.0
+[    6.609100] mvs-codec-dai mvs-codec-dai.0: asoc_mvs_codec_probe: dev name mvs-codec-dai.0
+[    6.617248] msm-mvs-audio msm-mvs-audio.0: msm_pcm_probe: dev name msm-mvs-audio.0
+[    6.625366] asoc: msm-codec-dai <-> msm-cpu-dai.0 mapping ok
+[    6.630432] asoc: mvs-codec-dai <-> mvs-cpu-dai.0 mapping ok
+[    6.637695] ALSA device list:
+[    6.639678]   #0: msm-audio
+[    6.642547] Mirror/redirect action on
+[    6.646148] u32 classifier
+[    6.648803]     Actions configured
+[    6.652252] Netfilter messages via NETLINK v0.30.
+[    6.656951] nf_conntrack version 0.5.0 (12629 buckets, 50516 max)
+[    6.663452] ctnetlink v0.93: registering with nfnetlink.
+[    6.668304] NF_TPROXY: Transparent proxy support initialized, version 4.1.0
+[    6.675262] NF_TPROXY: Copyright (c) 2006-2007 BalaBit IT Ltd.
+[    6.681640] xt_time: kernel timezone is -0000
+[    6.685668] ip_tables: (C) 2000-2006 Netfilter Core Team
+[    6.690856] arp_tables: (C) 2002 David S. Miller
+[    6.695312] TCP cubic registered
+[    6.698516] Initializing XFRM netlink socket
+[    6.703186] NET: Registered protocol family 10
+[    6.708953] Mobile IPv6
+[    6.710510] ip6_tables: (C) 2000-2006 Netfilter Core Team
+[    6.716003] IPv6 over IPv4 tunneling driver
+[    6.721008] NET: Registered protocol family 17
+[    6.724517] NET: Registered protocol family 15
+[    6.729095] Bluetooth: RFCOMM TTY layer initialized
+[    6.733825] Bluetooth: RFCOMM socket layer initialized
+[    6.738891] Bluetooth: RFCOMM ver 1.11
+[    6.742614] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    6.747924] Bluetooth: BNEP filters: protocol multicast
+[    6.753112] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[    6.759185] L2TP core driver, V2.0
+[    6.762420] PPPoL2TP kernel driver, V2.0
+[    6.766387] L2TP IP encapsulation support (L2TPv3)
+[    6.771270] L2TP netlink interface
+[    6.774505] L2TP ethernet pseudowire support (L2TPv3)
+[    6.779571] Registering the dns_resolver key type
+[    6.784240] VFP support v0.3: implementor 51 architecture 64 part 2d variant 0 rev 0
+[    6.791992] Registering SWP/SWPB emulation handler
+[    6.807952] clock_late_init() disabled 193 unused clocks
+[    6.818176] MSM Watchdog Initialized
+[    6.823120] [QT602240]Touch Power regulator_enable return:  0 
+[    6.828735] [QT602240]8058_s3 regulator_enable return:  0 
+[    6.936889] input: qt602240_ts_input as /devices/virtual/input/input10
+[    6.946350] qup_i2c qup_i2c.3: QUP: I2C status flags :0x11100c8, irq:193
+[    6.952697] qup_i2c qup_i2c.3: I2C slave addr:0x24 not connected
+[    7.039794] msm_sdc3_get_wpswitch:Failed to request GPIO 251
+[    7.044555] mmc2: host does not support reading read-only switch. assuming write-enable.
+[    7.056274] mmc2: new high speed SDHC card at address aaaa
+[    7.061401] mmcblk1: mmc2:aaaa SL32G 28.7 GiB 
+[    7.071716]  mmcblk1: p1 p2
+[    7.265563] [QT602240]version=0x00000010
+[    7.272735] input: 8660_handset as /devices/platform/msm_ssbi.0/pm8058-core/pm8058-othc.1/input/input11
+[    7.285980] [earjack] pantech_earjack module init.
+[    7.290100] [earjack] regulator_enable hs_jack_l8 value => 0
+[    7.295715] input: pantech_earjack as /devices/virtual/input/input12
+[    7.302368] rtc-pm8xxx rtc-pm8xxx: setting system clock to 2009-01-02 18:12:23 UTC (1230919943)
+[    7.326507] pm8058_is_battery_present: batt_id is 454
+[    7.346466] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 450
+[    7.356994] msm-charger msm-charger: [SKY CHG]handle_event 0 from pm8058-usb
+[    7.363220] pm8058-charger pm8058-charger: pm8058_chg_determine_initial_state charger present
+[    7.373016] Freeing init memory: 268K
+[    7.378143] pm8058_is_battery_present: batt_id is 454
+[    7.394195] [earjack] currnet earjack->type: EARJACK_STATE_OFF
+[    7.770477] type=1403 audit(1230919943.960:2): policy loaded auid=4294967295 ses=4294967295
+[    7.778198] SELinux: Loaded policy from /sepolicy
+[    7.785186] SELinux: Loaded file_contexts from /file_contexts
+[   10.075958] SELinux:  Could not stat /sys/kernel/slab/L2TP/IP: No such file or directory.
+[   10.137268] init: /init.qcom.rc: 709: invalid command 'kill'
+[   10.141967] init: /init.qcom.rc: 711: invalid command 'kill'
+[   10.147705] init: /init.qcom.rc: 713: invalid command 'kill'
+[   10.153259] init: /init.qcom.rc: 715: invalid command 'kill'
+[   10.160064] init: init.target.rc: 121: invalid command 'user'
+[   10.164855] init: init.target.rc: 122: invalid command 'group'
+[   10.170867] init: init.presto.rc: 61: ignored duplicate definition of service 'mpdecision'
+[   10.179016] init: init.presto.rc: 69: user option requires a user id
+[   10.185424] init: init.presto.rc: 74: user option requires a user id
+[   10.191772] init: could not import file '/init.carrier.rc' from '/init.rc'
+[   10.198883] init: /init.target.rc: 60: ignored duplicate definition of service 'kickstart'
+[   10.206787] init: /init.target.rc: 75: ignored duplicate definition of service 'modem_link'
+[   10.215087] init: /init.target.rc: 81: ignored duplicate definition of service 'dcvsd0'
+[   10.223052] init: /init.target.rc: 86: ignored duplicate definition of service 'dcvsd1'
+[   10.231018] init: /init.target.rc: 91: ignored duplicate definition of service 'mpdecision'
+[   10.239379] init: /init.target.rc: 96: ignored duplicate definition of service 'qosmgrd'
+[   10.247467] init: /init.target.rc: 101: ignored duplicate definition of service 'thermald'
+[   10.255645] init: /init.target.rc: 106: ignored duplicate definition of service 'qseecomd'
+[   10.263946] init: /init.target.rc: 111: ignored duplicate definition of service 'qrngd'
+[   10.272125] init: /init.target.rc: 121: invalid command 'user'
+[   10.277740] init: /init.target.rc: 122: invalid command 'group'
+[   10.283660] init: /init.target.rc: 124: ignored duplicate definition of service 'time_daemon'
+[   10.292327] init (1): /proc/1/oom_adj is deprecated, please use /proc/1/oom_score_adj instead.
+[   10.301910] init: do_chown: Could not access /selinux/booleans
+[   10.312713] init: invalid uid 'fm_radio'
+[   10.316925] init: invalid uid 'fm_radio'
+[   10.803680] init: cannot open '/initlogo.rle'
+[   11.187072] EXT4-fs (mmcblk0p13): mounted filesystem with ordered data mode. Opts: barrier=1,errors=panic
+[   11.212982] EXT4-fs (mmcblk0p14): mounted filesystem with ordered data mode. Opts: nomblk_io_submit,errors=remount-ro
+[   11.275268] fs_mgr: Running /system/bin/e2fsck on /dev/block/platform/msm_sdcc.1/by-num/p14
+[   11.395629] e2fsck: e2fsck 1.41.14 (22-Dec-2010)
+[   11.399749] e2fsck: /dev/block/platform/msm_sdcc.1/by-num/p14: clean, 2589/65536 files, 149561/262140 blocks
+[   11.429046] EXT4-fs (mmcblk0p14): mounted filesystem with ordered data mode. Opts: noauto_da_alloc,errors=panic
+[   11.456604] EXT4-fs (mmcblk0p16): mounted filesystem with ordered data mode. Opts: nomblk_io_submit,errors=remount-ro
+[   11.515319] fs_mgr: Running /system/bin/e2fsck on /dev/block/platform/msm_sdcc.1/by-num/p16
+[   11.576843] e2fsck: e2fsck 1.41.14 (22-Dec-2010)
+[   11.580871] e2fsck: /dev/block/platform/msm_sdcc.1/by-num/p16: clean, 26/10880 files, 1781/43520 blocks
+[   11.607910] EXT4-fs (mmcblk0p16): mounted filesystem with ordered data mode. Opts: barrier=1
+[   11.622924] EXT4-fs (mmcblk0p15): warning: maximal mount count reached, running e2fsck is recommended
+[   11.636047] EXT4-fs (mmcblk0p15): mounted filesystem with ordered data mode. Opts: barrier=1
+[   11.656280] EXT4-fs (mmcblk0p17): warning: maximal mount count reached, running e2fsck is recommended
+[   11.671600] EXT4-fs (mmcblk0p17): mounted filesystem with ordered data mode. Opts: barrier=1
+[   11.684692] fs_mgr: Failed to mount an un-encryptable or wiped partition on/dev/block/platform/msm_sdcc.1/by-num/p13 at /system options: barrier=1,errors=panic error: Device or resource busy
+[   11.701843] init: fs_mgr_mount_all returned an error
+[   12.072937] type=1403 audit(1230919948.253:3): policy loaded auid=4294967295 ses=4294967295
+[   12.080566] SELinux: Loaded policy from /sepolicy
+[   12.088836] SELinux: Loaded file_contexts from /file_contexts
+[   12.094482] SELinux: Skipping restorecon_recursive(/data)
+[   12.294555] init: property 'ro.serialno' doesn't exist while expanding '${ro.serialno}'
+[   12.316070] EXT4-fs (mmcblk0p13): re-mounted. Opts: barrier=1
+[   12.477172] EXT4-fs (mmcblk0p13): re-mounted. Opts: barrier=0
+[   12.610778] EXT4-fs (mmcblk0p13): re-mounted. Opts: barrier=0
+[   12.999053] EXT4-fs (mmcblk0p13): re-mounted. Opts: barrier=1
+[   13.016021] healthd: wakealarm_init: timerfd_create failed
+[   13.036041] healthd: BatteryTemperaturePath not found
+[   13.174652] init: cannot find '/system/bin/cnd', disabling 'cnd'
+[   13.217681] init: cannot find '/system/bin/mm-pp-daemon', disabling 'ppd'
+[   13.223571] init: cannot find '/system/bin/ssr_diag', disabling 'ssr_diag'
+[   13.266754] warning: `rild' uses 32-bit capabilities (legacy support in use)
+[   14.260528] lcdc_samsung_panel_on
+[   14.391052] pil_qdsp6v3 pil_qdsp6v3: brought out of reset
+[   14.412261] EXT4-fs (mmcblk1p2): mounted filesystem with ordered data mode. Opts: data=ordered,barrier=1,noauto_da_alloc,errors=remount-ro
+[   14.433837] apr_tal:Q6 Is Up
+[   14.458099] mdp4_csc_config: Block type 10 isn't supported by CSC.
+[   14.463317] mdp4_csc_config: Block type 8 isn't supported by CSC.
+[   14.478027] lcdc_samsung_panel_on
+[   14.480407] [LIVED] reset_set_bl=9a247d59
+[   15.192108] auddev_cb_function, evt_id=64,
+[   15.195281] msm_reset_put:Resetting all devices
+[   15.199890] msm_clear_all_session:
+[   16.314331] pil_modem pil_modem: brought out of reset
+[   16.448364] Notify: smsm init
+[   16.450378] _smem_log_init: no power log or log_idx allocated
+[   16.503387] rpcrouter_smd_remote_notify: smd opened 0x  (null)
+[   16.513122] rmt_storage_get_ramfs: RAMFS entry: addr = 0x46100000, size = 0x00300000
+[   16.522155] rmt_storage_get_ramfs: RAMFS entry: addr = 0x42e00000, size = 0x00002000
+[   16.532531] rmt_storage_probe: Remote storage RPC client (0x300000a7)initialized
+[   16.545074] rmt_storage_event_open_cb: open callback received
+[   16.550048] open partition /boot/modem_fs1 handle=1
+[   16.558227] rmt_storage_event_user_data_cb: send user data callback received
+[   16.564971] rmt_storage_event_open_cb: open callback received
+[   16.570861] open partition /boot/modem_fs2 handle=2
+[   16.584564] rmt_storage_event_user_data_cb: send user data callback received
+[   16.591308] rmt_storage_event_open_cb: open callback received
+[   16.603485] open partition /boot/modem_fsg handle=3
+[   16.625823] rmt_storage_event_user_data_cb: send user data callback received
+[   16.635040] rmt_storage_event_alloc_rmt_buf_cb: Alloc rmt buf callback received
+[   16.646881] rmt_storage_event_read_iovec_cb: read iovec callback received
+[   16.654632] rmt_storage_ioctl: send status ioctl
+[   16.668762] rmt_storage_event_read_iovec_cb: read iovec callback received
+[   16.679199] rmt_storage_ioctl: send status ioctl
+[   16.690399] rmt_storage_event_read_iovec_cb: read iovec callback received
+[   16.777954] rmt_storage_ioctl: send status ioctl
+[   17.267456] msm8x60_multi_sdio_slot_status_irq: MDM2AP_SYNC Status = 1
+[   17.273010] msm8x60_multi_sdio_slot_status_irq: calling sdc2_status_notify_cb
+[   17.280212] msm8x60_multi_sdio_slot_status_irq: calling sdc5_status_notify_cb
+[   17.366119] mmc1: new high speed SDIO card at address 0002
+[   17.396850] mmc mmc1:0002: SDIO Card claimed.
+[   17.406158] sdio_al:setup bootloader on card 1
+[   17.410156] sdio_al: SDIOC BOOT SW version 0x30001
+[   17.414733] sdio_al:Bootloader Worker Started, wait for bootloader_done event..
+[   17.414764] sdio_al: sdio_dld_set_op_mode - FLASHLESS BOOT - Op_Mode is set to SDIO DLD NORMAL MODE
+[   17.414764] sdio_al: sdio_dld_set_op_mode - FLASHLESS BOOT - Op_Mode is set to SDIO DLD NORMAL MODE
+[   17.416625] sdio_al:In Flashless boot, waiting for its completion
+[   17.416656] sdio_al:free sdioc_boot_sw_header.
+[   17.476013] mmc4: new high speed SDIO card at address 0002
+[   17.484710] mmc mmc4:0002: SDIO Card claimed.
+[   17.488494] sdio_al:wait for bootloader completion on card 4
+[   17.494567] sdio_al:Bootloader Worker Started, wait for bootloader_done event..
+[   17.549621] init: cannot find '/system/bin/quipc_igsn', disabling 'quipc_igsn'
+[   17.564331] [enable_store]:val[0] prev[0]
+[   17.575256] android_usb: already disabled
+[   17.579223] init: cannot find '/system/bin/quipc_main', disabling 'quipc_main'
+[   17.585723] [idVendor_store]: value[1478]
+[   17.591003] [idProduct_store]: value[36921]
+[   17.594818] [functions_store] called[mtp,adb] pantech_module[0]
+[   17.601562] [enable_store]:val[1] prev[0]
+[   17.604614] xsemiyas:[enable_store] return
+[   17.620971] adb_open
+[   17.628906] mtp_bind_config
+[   17.630798] adb_bind_config
+[   17.872711] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   17.880462] android_work: sent uevent USB_STATE=CONNECTED
+[   18.016448] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.023803] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.030914] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.038299] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.047210] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.054321] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.062133] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.071014] android_usb gadget: high speed config #1: android
+[   18.076141] Xsemiyas[usb_interface_enum_cb] device_flag[0x8], g_device_flag[0x0]
+[   18.083831] Xsemiyas[usb_interface_enum_cb] device_flag[0xa], g_device_flag[0x0]
+[   18.091278] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.101135] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.110473] android_work: sent uevent USB_STATE=CONFIGURED
+[   18.285308] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.292419] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   18.626678] msm_hsusb msm_hsusb: [SKY CHG]usb_chg_detect 7, chg_type 0
+[   18.632904] [SKY CHG]Charging with 2mA current, charge_type 0
+[   18.646850] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   18.665008] pm8058_is_factory_cable: 10818
+[   18.688781] pm8058_is_battery_present: batt_id is 445
+[   18.693054] msm-charger msm-charger: [--------> CHG_ENUMERATED_EVENT CHG_READY_STATE
+[   18.700775] msm-charger msm-charger: handle_charger_ready: best charger = pm8058-usb
+[   18.708435] [SKY_CHG] pm_chg_imaxsel_set: 2
+[   18.712646] pm8058-charger pm8058-charger: pm_chg_imaxsel_set bad mA=2 asked to set
+[   18.721832] pm8058_start_system_current: failed to turn on system power err=-22
+[   18.728302] pm8058-charger pm8058-charger: pm8058_start_charging pm8058_start_charging : current 2 
+[   18.746429] lcdc_samsung_oled_set_backlight  bl_level = 3 
+[   18.755706] pm8058_is_factory_cable: 10319
+[   18.759094] pm8058-charger pm8058-charger: __pm8058_start_charging 2mA 512min
+[   18.766723] [SKY_CHG] pm_chg_imaxsel_set: 2
+[   18.770172] pm8058-charger pm8058-charger: pm_chg_imaxsel_set bad mA=2 asked to set
+[   18.777770] fail to pm_chg_imaxsel_set
+[   18.782501] msm-charger msm-charger: [SKY CHG]handle_event 4 from pm8058-usb
+[   18.786560] msm-charger msm-charger: [msm_charger] msm_start_charging():0 hw_chg_state:CHG_CHARGING_STATE
+[   18.786590] msm-charger msm-charger: handle_charger_ready: starting safety timer
+[   21.324096] sdio_al: sdio_dld_open, TTY DEVICE FOR FLASHLESS BOOT OPENED
+[   21.728607] mdp4_overlay_mdp_perf_upd mdp clk is changed [1] from 0 to 59080000
+[   24.579040] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - DURATION IN MSEC = 3250
+[   24.588134] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - BYTES WRITTEN ON SDIO BUS = 30728668...BYTES SENT BY TTY = 30728668
+[   24.600341] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - BYTES RECEIVED ON SDIO BUS = 1752...BYTES SENT TO TTY = 1752
+[   24.611816] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - THROUGHPUT=75 Mbit/Sec
+[   24.618621] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT DL_BUFFER_SIZE=16 KB..CLIENT UL_BUFFER=48 KB
+[   24.629241] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - HOST OUTGOING BUFFER_SIZE=48 KB
+[   24.637451] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT DL BUFFER ADDRESS = 0x4000
+[   24.645019] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT UP BUFFER ADDRESS = 0x8000
+[   24.653411] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT - UPLINK BUFFER - READ POINTER = 8668
+[   24.662994] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT - UPLINK BUFFER - WRITE POINTER = 8668
+[   24.672302] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT - DOWNLINK BUFFER - READ POINTER = 1752
+[   24.681854] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - CLIENT - DOWNLINK BUFFER - WRITE POINTER = 1752
+[   24.691497] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - HOST - OUTGOING BUFFER - READ POINTER = 8668
+[   24.700866] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - HOST - OUTGOING BUFFER - WRITE POINTER = 8668
+[   24.710327] sdio_al: sdio_dld_print_info, FLASHLESS BOOT - END DEBUG INFO
+[   24.717071] sdio_al:Got bootloader_done event..
+[   24.721862] sdio_al: sdio_dld_close - Freeing sdio_dld data structure, and  returning...
+[   24.721862] sdio_al:Got bootloader_done event..
+[   25.486846] sdio_al:user_irq enabled
+[   25.490875] sdio_al:SDIOC SW version 0x40202, sdio_al major 0x4 minor 0x202
+[   25.499176] sdio_al:Channel=SDIO_RPC, state=1
+[   25.502929] sdio_al:Channel=SDIO_QMI, state=1
+[   25.507446] sdio_al:Channel=SDIO_DIAG, state=1
+[   25.514068] sdio_al:Channel=SDIO_SMEM, state=1
+[   25.518188] sdio_al:Channel=, state=0
+[   25.521545] sdio_al:Channel=, state=0
+[   25.525787] sdio_al:sdio_al_setup for card 4
+[   25.536193] sdio_al:claim IRQ for card 4
+[   25.540618] rpcrouter_sdio_remote_probe Called
+[   25.554229] sdio_al:ch SDIO_RPC read_threshold=1, write_threshold=576, min_write_avail=544, max_rx_threshold=1088, max_tx_threshold=1152
+[   25.568695] sdio_al:sdio_open SDIO_RPC completed OK
+[   25.572875] sdio_al: setting channel SDIO_RPC as lpm_chan
+[   25.578704] rpcrouter_sdio_remote_probe Completed
+[   28.706756] sdio_al:ch SDIO_QMI read_threshold=1, write_threshold=4096, min_write_avail=4096, max_rx_threshold=8192, max_tx_threshold=8192
+[   28.719177] sdio_al:sdio_open SDIO_QMI completed OK
+[   28.724151] sdio_ctl_probe Begins
+[   28.743591] sdio_al:ch SDIO_DIAG read_threshold=1, write_threshold=4096, min_write_avail=4096, max_rx_threshold=24576, max_tx_threshold=8192
+[   28.756988] sdio_al:sdio_open SDIO_DIAG completed OK
+[   28.761230] DIAG opened SDIO channel
+[   28.784881] rmt_storage_probe: Remote storage RPC client (0x300100a7)initialized
+[   30.686523] mmc1: CMD53: Data timeout. DAT0 => 1
+[   30.690307] mmc1: SDCC PWR is ON
+[   30.693511] mmc1: SDCC clks are ON, MCLK rate=48000000
+[   30.698760] mmc1: SDCC irq is enabled
+[   30.702270] ===== SDCC-CORE: Register Dumps @base=0xea8a0000 =====
+[   30.708587] Reg=0x00: 0x00000001, 0x00009f00, 0x1420a004, 0x00001475
+[   30.714782] Reg=0x10: 0x00000035, 0x00001200, 0x00000000, 0x00000000
+[   30.721252] Reg=0x20: 0x00000000, 0x05b8d800, 0x00000004, 0x00000043
+[   30.727447] Reg=0x30: 0x00000004, 0x00000400, 0x00000000, 0x00a081ff
+[   30.733917] Reg=0x40: 0x00000000, 0x00000000, 0x00000000, 0x00000000
+[   30.740112] Reg=0x50: 0x00000000, 0x00000000, 0x00000000, 0x00000000
+[   30.746612] Reg=0x60: 0x00000000, 0x00000000, 0x00000000, 0x00000000
+[   30.752929] mmc1: MCI_TEST_INPUT = 0x000003fe
+[   30.757141] mmc1: PIO mode
+[   30.759826] mmc1: xfer_size=4, data_xfered=0, xfer_remain=4
+[   30.765533] mmc1: got_dataend=0, prog_enable=0, wait_for_auto_prog_done=0, got_auto_prog_done=0
+[   30.876586] sdio_al:user_irq enabled
+[   30.879821] sdio_al:SDIOC SW version 0x40202, sdio_al major 0x4 minor 0x202
+[   30.886260] sdio_al:Channel=SDIO_RMNT, state=1
+[   30.896179] sdio_al:Channel=SDIO_DUN, state=1
+[   30.900268] sdio_al:Channel=SDIO_CIQ, state=1
+[   30.906829] sdio_al:Channel=, state=0
+[   30.909881] sdio_al:Channel=, state=0
+[   30.913482] sdio_al:Channel=, state=0
+[   30.918548] sdio_al:sdio_al_setup for card 1
+[   30.934661] sdio_al:claim IRQ for card 1
+[   30.940063] sdio_al:ch SDIO_RMNT read_threshold=1, write_threshold=4096, min_write_avail=1600, max_rx_threshold=15360, max_tx_threshold=8192
+[   30.952636] sdio_al:sdio_open SDIO_RMNT completed OK
+[   30.957458] sdio_al: setting channel SDIO_RMNT as lpm_chan
+[   31.124176] msm_sdio_dmux_open: opened ch 0
+[   31.539764] tsens_tz_set_mode: mode: 0 --> 1
+[   31.633789] msm_sdio_dmux_open: opened ch 1
+[   31.638000] msm_sdio_dmux_open: opened ch 2
+[   31.642486] msm_sdio_dmux_open: opened ch 3
+[   31.646789] msm_sdio_dmux_open: opened ch 4
+[   31.650970] msm_sdio_dmux_open: opened ch 5
+[   31.654876] msm_sdio_dmux_open: opened ch 6
+[   31.660369] msm_sdio_dmux_open: opened ch 7
+[   34.937774] init: sys_prop: permission denied uid:1001  name:contact.pbm.session
+[   36.661407] SELinux:  Context u:object_r:app_library_file:s0 is not valid (left unmapped).
+[   47.456268] apr_tal:Modem Is Up
+[   68.219299] pm8058_is_battery_present: batt_id is 463
+[   68.239166] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 456
+[   68.250091] [SKY CHG][msm-charger] update_heartbeat batt_status(FAST_CHARGING)  charg_type(AC) batt_mvolts(4185) batt_temp(34)
+[   68.267303] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_DONE_EVENT
+[   68.274444] [SKY CHG][msm-charger] update_heartbeat CHG_TYPE_AC pm8058_chg_get_current= 2 mA, set_current_check = 0
+[   68.288055] [SKY CHG][msm-charger] update_heartbeat CHG_TYPE_AC pm8058_chg_get_current= 2 mA, set_current_check = 0
+[   78.156738] [SKY CHG]Charging with 0mA current, charge_type 0
+[   78.162628] adb_release
+[   78.165069] adb_open
+[   78.169677] mtp_bind_config
+[   78.171600] adb_bind_config
+[   78.173217] android_work: sent uevent USB_STATE=DISCONNECTED
+[   78.173278] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.190429] [SKY CHG]Charging with 500mA current, charge_type 0
+[   78.200805] pm8058_is_factory_cable: 10521
+[   78.204010] [SKY CHG]Charging with 0mA current, charge_type 0
+[   78.211212] [SKY CHG]Charging with 500mA current, charge_type 0
+[   78.219085] pm8058_is_battery_present: batt_id is 463
+[   78.223266] pm8058-charger pm8058-charger: pm8058_stop_charging stopping charging
+[   78.233947] pm8058-charger pm8058-charger: pm8058_stop_charging called when not fast-charging
+[   78.245544] msm-charger msm-charger: handle_charger_removed: no chargers
+[   78.253479] msm-charger msm-charger: handle_charger_removed: stopping safety timer work
+[   78.260711] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.283905] pm8058_is_factory_cable: 10234
+[   78.308807] pm8058_is_battery_present: batt_id is 453
+[   78.312927] msm-charger msm-charger: [--------> CHG_ENUMERATED_EVENT CHG_READY_STATE
+[   78.322814] msm-charger msm-charger: handle_charger_ready: best charger = pm8058-usb
+[   78.330078] [SKY_CHG] pm_chg_imaxsel_set: 500
+[   78.334197] pm8058-charger pm8058-charger: pm8058_start_charging pm8058_start_charging : current 500 
+[   78.358917] pm8058_is_factory_cable: 9992
+[   78.362091] pm8058-charger pm8058-charger: pm8058_start_charging begin veoc timer
+[   78.369659] pm8058-charger pm8058-charger: __pm8058_start_charging 450mA 512min
+[   78.397705] [SKY CHG]Charging with 0mA current, charge_type 0
+[   78.406494] msm-charger msm-charger: [msm_charger] msm_start_charging():0 hw_chg_state:CHG_CHARGING_STATE
+[   78.415527] msm-charger msm-charger: handle_charger_ready: starting safety timer
+[   78.422729] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.442047] pm8058_is_factory_cable: 9050
+[   78.458801] pm8058_is_battery_present: batt_id is 459
+[   78.463073] pm8058-charger pm8058-charger: pm8058_stop_charging stopping charging
+[   78.471069] pm8058-charger pm8058-charger: pm8058_stop_charging called when not fast-charging
+[   78.481414] msm-charger msm-charger: handle_charger_removed: no chargers
+[   78.487335] msm-charger msm-charger: handle_charger_removed: stopping safety timer work
+[   78.497528] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.516540] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.523071] android_work: sent uevent USB_STATE=CONNECTED
+[   78.528167] [SKY CHG]Charging with 0mA current, charge_type 0
+[   78.534057] pm8058_is_factory_cable: 9625
+[   78.558837] pm8058_is_battery_present: batt_id is 453
+[   78.563201] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.582550] pm8058_is_factory_cable: 9322
+[   78.599029] pm8058_is_battery_present: batt_id is 452
+[   78.604339] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.626342] pm8058_is_factory_cable: 9314
+[   78.649108] pm8058_is_battery_present: batt_id is 450
+[   78.660308] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.667907] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.675292] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.682037] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.689300] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.696441] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.703430] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.711303] android_usb gadget: high speed config #1: android
+[   78.716156] Xsemiyas[usb_interface_enum_cb] device_flag[0xa], g_device_flag[0x0]
+[   78.723602] Xsemiyas[usb_interface_enum_cb] device_flag[0xa], g_device_flag[0x0]
+[   78.731689] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.738677] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   78.745910] [SKY CHG]Charging with 2mA current, charge_type 0
+[   78.751586] android_work: sent uevent USB_STATE=CONFIGURED
+[   78.757629] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   78.776519] pm8058_is_factory_cable: 10238
+[   78.799163] pm8058_is_battery_present: batt_id is 452
+[   78.803375] msm-charger msm-charger: [--------> CHG_ENUMERATED_EVENT CHG_READY_STATE
+[   78.812805] msm-charger msm-charger: handle_charger_ready: best charger = pm8058-usb
+[   78.820800] [SKY_CHG] pm_chg_imaxsel_set: 2
+[   78.824096] pm8058-charger pm8058-charger: pm_chg_imaxsel_set bad mA=2 asked to set
+[   78.832763] pm8058_start_system_current: failed to turn on system power err=-22
+[   78.839263] pm8058-charger pm8058-charger: pm8058_start_charging pm8058_start_charging : current 2 
+[   78.861206] pm8058_is_factory_cable: 10127
+[   78.864532] pm8058-charger pm8058-charger: pm8058_start_charging begin veoc timer
+[   78.873138] pm8058-charger pm8058-charger: __pm8058_start_charging 2mA 512min
+[   78.906463] msm-charger msm-charger: [msm_charger] msm_start_charging():0 hw_chg_state:CHG_CHARGING_STATE
+[   78.917236] msm-charger msm-charger: handle_charger_ready: starting safety timer
+[   79.186706] msm_hsusb msm_hsusb: [SKY CHG]usb_chg_detect 7, chg_type 0
+[   79.192901] [SKY CHG]Charging with 2mA current, charge_type 0
+[   79.206909] msm-charger msm-charger: [SKY CHG]handle_event 1 from pm8058-usb
+[   79.226196] pm8058_is_factory_cable: 8522
+[   79.248992] pm8058_is_battery_present: batt_id is 458
+[   79.253143] msm-charger msm-charger: [--------> CHG_ENUMERATED_EVENT CHG_READY_STATE
+[   79.266387] msm-charger msm-charger: [-------->]handle_charger_ready CHG_CHARGING_STATE
+[   79.821472] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   79.829254] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[   82.086639] pm8058-charger pm8058-charger: chg_done_cleanup notify pm8058 charging completion
+[   82.094451] msm-charger msm-charger: [SKY CHG]handle_event 3 from pm8058-usb
+[   82.104583] pm8058-charger pm8058-charger: pm8058_stop_charging stopping charging
+[   82.111663] pm8058-charger pm8058-charger: pm8058_stop_charging called when not fast-charging
+[   82.123016] msm-charger msm-charger: handle_charging_done: stopping safety timer work
+[   87.096038] request_suspend_state: wakeup (3->0) at 87059672440 (2009-01-02 18:01:14.618095795 UTC)
+[   87.540283] lowmem_shrink: convert oom_adj to oom_score_adj:
+[   87.545104] oom_adj 0 => oom_score_adj 0
+[   87.549926] oom_adj 1 => oom_score_adj 58
+[   87.553497] oom_adj 2 => oom_score_adj 117
+[   87.559539] oom_adj 3 => oom_score_adj 176
+[   87.566040] oom_adj 9 => oom_score_adj 529
+[   87.570373] oom_adj 15 => oom_score_adj 1000
+[   89.341003] acc_open
+[   89.342315] acc_release
+[   90.227447] lcdc_samsung_oled_set_backlight  bl_level = 1 
+[   93.340423] init: untracked pid 417 exited
+[   93.859039] mtp_open
+[   94.940338] EXT4-fs (dm-0): mounted filesystem without journal. Opts: 
+[   95.982727] EXT4-fs (dm-0): re-mounted. Opts: 
+[   96.000640] EXT4-fs (dm-0): re-mounted. Opts: 
+[  105.037322] init: cannot find '/system/bin/qosmgr', disabling 'qosmgrd'
+[  105.055877] lowmem_shrink: convert oom_adj to oom_score_adj:
+[  105.060607] oom_adj 0 => oom_score_adj 0
+[  105.064514] oom_adj 1 => oom_score_adj 58
+[  105.068481] oom_adj 2 => oom_score_adj 117
+[  105.072509] oom_adj 4 => oom_score_adj 235
+[  105.077606] oom_adj 9 => oom_score_adj 529
+[  105.080749] oom_adj 12 => oom_score_adj 705
+[  105.328857] CPU1: Booted secondary processor
+[  117.328735] CPU1: Booted secondary processor
+[  118.971130] CT/CT_VPOFF level = f8 A2020_path = 00 /nbefore ct_DAC1_cmd = 00f8 /nafter ct_DAC1_cmd = 00f8 /n
+[  123.675354] init: untracked pid 1329 exited
+[  123.679809] init: untracked pid 1326 exited
+[  129.178833] pm8058_is_battery_present: batt_id is 455
+[  129.198822] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  129.211456] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(35)
+[  129.225128] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  132.928863] CPU1: Booted secondary processor
+[  142.853759] rmt_storage_event_open_cb: open callback received
+[  142.858703] open partition /q6_fs1_parti_id_0x59 handle=4
+[  142.876647] rmt_storage_event_alloc_rmt_buf_cb: Alloc rmt buf callback received
+[  142.897918] sdio_al:ch SDIO_SMEM read_threshold=1, write_threshold=2560, min_write_avail=1024, max_rx_threshold=20480, max_tx_threshold=5120
+[  142.933685] sdio_al:sdio_open SDIO_SMEM completed OK
+[  142.945373] rmt_storage_event_user_data_cb: send user data callback received
+[  142.967559] rmt_storage_event_open_cb: open callback received
+[  142.972412] open partition /q6_fs2_parti_id_0x5A handle=5
+[  143.001281] rmt_storage_event_user_data_cb: send user data callback received
+[  143.099304] rmt_storage_event_write_iovec_cb: write iovec callback received
+[  143.251464] rmt_storage_ioctl: send status ioctl
+[  144.329772] CPU1: Booted secondary processor
+[  149.629302] CPU1: Booted secondary processor
+[  151.569732] wifi_set_power = 1
+[  151.571868] wlan_power: 1
+[  151.736511] wifi_set_carddetect = 1
+[  151.739624] wlan_set_carddetect: 1
+[  151.742492] mmc3: Slot status change detected (0 -> 1)
+[  151.806182] mmc3: queuing unknown CIS tuple 0x91 (3 bytes)
+[  151.811492] mmc3: new SDIO card at address 0001
+[  151.821075] alloc static buf at e9bc0000!
+[  151.824707] dhdsdio_probe : no mutex held. set lock
+[  151.835205] F1 signature read @0x18000000=0x9944329
+[  151.844543] DHD: dongle ram size is set to 393216(orig 393216)
+[  151.861511] wl_create_event_handler thr:8f5 created
+[  151.868041] wl_create_event_handler thr:8f5 started
+[  151.874389] dhd_attach thr:8f6 created
+[  151.877410] dhd_attach thr:8f6 started
+[  151.881072] dhd_attach thr:8f7 created
+[  151.885223] dhd_attach thr:8f7 started
+[  151.889251] dhd_attach thr:8f8 created
+[  151.894927] dhd_attach thr:8f8 started
+[  151.898193] wifi_get_mac_addr
+[  151.921356] Broadcom Dongle Host Driver: register interface [wlan0] MAC: 00:90:4c:11:22:33
+[  151.961730] dhdsdio_probe : the lock is released.
+[  151.971160] 
+[  151.971160] Dongle Host Driver, version 1.28.19.9 (RC1_0107)
+[  151.971160] Compiled in drivers/net/wireless/bcmdhd_presto on Jun 11 2017 at 19:29:14
+[  151.986633] wifi_set_power = 0
+[  151.988739] wlan_power: 0
+[  152.084075] =========== WLAN placed in RESET ========
+[  152.345581] 
+[  152.345581] Dongle Host Driver, version 1.28.19.9 (RC1_0107)
+[  152.345581] Compiled in drivers/net/wireless/bcmdhd_presto on Jun 11 2017 at 19:29:14
+[  152.368316] wl_android_wifi_on in
+[  152.370758] wifi_set_power = 1
+[  152.373748] wlan_power: 1
+[  152.446990] =========== WLAN going back to live  ========
+[  152.652191] sdio_reset_comm():
+[  152.783630] mmc3: Data CRC error
+[  152.785919] msmsdcc_data_err: opcode 0x00000035
+[  152.790496] msmsdcc_data_err: blksz 4, blocks 1
+[  152.795135] mmc3: Data CRC error
+[  152.798156] msmsdcc_data_err: opcode 0x00000035
+[  152.802764] msmsdcc_data_err: blksz 4, blocks 1
+[  152.824432] CFGP2P-INFO2) wl_cfgp2p_supported : wl p2p error -23
+[  152.973297] CFG80211-INFO2) wl_update_wiphybands : error get mimo_bw_cap (-23)
+[  153.274902] WLDEV-ERROR) wldev_set_country : wldev_set_country: get country failed = -23
+[  153.283172] WLDEV-ERROR) wldev_set_country : wldev_set_country: set country for US as US rev -1 failed
+[  153.295471] CFG80211-INFO2) wl_update_wiphybands : error get mimo_bw_cap (-23)
+[  154.173400] wl_bss_connect_done succeeded with b0:c5:54:c0:5e:f0
+[  154.250518] wl_bss_connect_done succeeded with b0:c5:54:c0:5e:f0
+[  158.928924] CPU1: Booted secondary processor
+[  161.558258] net_ratelimit: 14 callbacks suppressed
+[  161.566925] wlan0: set promisc 0 failed
+[  179.428924] CPU1: Booted secondary processor
+[  185.828857] CPU1: Booted secondary processor
+[  189.179443] pm8058_is_battery_present: batt_id is 457
+[  189.199584] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 453
+[  189.211151] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4143) batt_temp(35)
+[  189.224639] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  209.229522] CPU1: Booted secondary processor
+[  210.629455] CPU1: Booted secondary processor
+[  213.932312] CPU1: Booted secondary processor
+[  215.307769] init: untracked pid 2717 exited
+[  215.311981] init: untracked pid 2710 exited
+[  215.327087] init: untracked pid 2728 exited
+[  217.729461] CPU1: Booted secondary processor
+[  218.429595] CPU1: Booted secondary processor
+[  219.529479] CPU1: Booted secondary processor
+[  220.929504] CPU1: Booted secondary processor
+[  227.829620] CPU1: Booted secondary processor
+[  230.029510] CPU1: Booted secondary processor
+[  231.731597] CPU1: Booted secondary processor
+[  233.233673] CPU1: Booted secondary processor
+[  235.429626] CPU1: Booted secondary processor
+[  238.149444] CPU1: Booted secondary processor
+[  244.599639] CPU1: Booted secondary processor
+[  246.349334] CPU1: Booted secondary processor
+[  247.849731] CPU1: Booted secondary processor
+[  249.179748] pm8058_is_battery_present: batt_id is 459
+[  249.199554] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  249.209899] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4140) batt_temp(35)
+[  249.227081] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  249.549530] CPU1: Booted secondary processor
+[  250.649444] CPU1: Booted secondary processor
+[  252.583312] init: untracked pid 3515 exited
+[  252.588104] init: untracked pid 3512 exited
+[  252.649475] CPU1: Booted secondary processor
+[  256.069580] CPU1: Booted secondary processor
+[  270.540100] CPU1: Booted secondary processor
+[  276.273345] init: untracked pid 2720 exited
+[  284.639495] CPU1: Booted secondary processor
+[  285.629547] CPU1: Booted secondary processor
+[  286.429565] CPU1: Booted secondary processor
+[  288.729492] CPU1: Booted secondary processor
+[  289.729492] CPU1: Booted secondary processor
+[  289.915557] [pcm_out.c:pcm_out_open] open
+[  289.924774] apr_tal: SMD_EVENT_OPEN
+[  289.933380] BUG: spinlock bad magic on CPU#0, swapper/0
+[  289.937652]  lock: cc75bf50, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+[  289.945037] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c03c3ad8>] (do_raw_spin_lock+0x24/0x1a4)
+[  289.954223] [<c03c3ad8>] (do_raw_spin_lock+0x24/0x1a4) from [<c07c35c4>] (_raw_spin_lock_irqsave+0x28/0x30)
+[  289.963958] [<c07c35c4>] (_raw_spin_lock_irqsave+0x28/0x30) from [<c014a8b8>] (pcm_out_cb+0x18/0x7c)
+[  289.973052] [<c014a8b8>] (pcm_out_cb+0x18/0x7c) from [<c0614dfc>] (q6asm_callback+0x790/0x850)
+[  289.981597] [<c0614dfc>] (q6asm_callback+0x790/0x850) from [<c0155b6c>] (apr_cb_func+0x3b0/0x428)
+[  289.990509] [<c0155b6c>] (apr_cb_func+0x3b0/0x428) from [<c0156d5c>] (apr_tal_notify+0x170/0x214)
+[  289.999359] [<c0156d5c>] (apr_tal_notify+0x170/0x214) from [<c0130eac>] (handle_smd_irq.isra.18+0xc0/0x10c)
+[  290.009094] [<c0130eac>] (handle_smd_irq.isra.18+0xc0/0x10c) from [<c0130f54>] (smd_dsp_irq_handler+0xc/0x1c)
+[  290.018981] [<c0130f54>] (smd_dsp_irq_handler+0xc/0x1c) from [<c01d474c>] (handle_irq_event_percpu+0x84/0x250)
+[  290.028961] [<c01d474c>] (handle_irq_event_percpu+0x84/0x250) from [<c01d4954>] (handle_irq_event+0x3c/0x5c)
+[  290.038696] [<c01d4954>] (handle_irq_event+0x3c/0x5c) from [<c01d73c0>] (handle_fasteoi_irq+0xd8/0x124)
+[  290.048156] [<c01d73c0>] (handle_fasteoi_irq+0xd8/0x124) from [<c01d4138>] (generic_handle_irq+0x20/0x30)
+[  290.057708] [<c01d4138>] (generic_handle_irq+0x20/0x30) from [<c0106b60>] (handle_IRQ+0x7c/0xc0)
+[  290.066467] [<c0106b60>] (handle_IRQ+0x7c/0xc0) from [<c0100320>] (gic_handle_irq+0x74/0xa0)
+[  290.074890] [<c0100320>] (gic_handle_irq+0x74/0xa0) from [<c07c3954>] (__irq_svc+0x54/0x80)
+[  290.083129] Exception stack(0xc0c01f38 to 0xc0c01f80)
+[  290.088256] 1f20:                                                       00000000 00000002
+[  290.096405] 1f40: 00000000 00000043 000014be c2104ba0 c2104ba0 00000000 00000000 510f02d2
+[  290.104492] 1f60: 0000001f 00000000 00000001 c0c01f80 c07c333c c016eee8 60000013 ffffffff
+[  290.112731] [<c07c3954>] (__irq_svc+0x54/0x80) from [<c016eee8>] (msm_cpuidle_enter+0x28/0x30)
+[  290.121337] [<c016eee8>] (msm_cpuidle_enter+0x28/0x30) from [<c05b1464>] (cpuidle_idle_call+0x188/0x360)
+[  290.130798] [<c05b1464>] (cpuidle_idle_call+0x188/0x360) from [<c01070a4>] (cpu_idle+0x84/0xe8)
+[  290.139404] [<c01070a4>] (cpu_idle+0x84/0xe8) from [<c07a3a44>] (rest_init+0xa0/0xb8)
+[  290.147277] [<c07a3a44>] (rest_init+0xa0/0xb8) from [<c00088e4>] (start_kernel+0x2d4/0x334)
+[  290.155609] [<c00088e4>] (start_kernel+0x2d4/0x334) from [<40208040>] (0x40208040)
+[  290.163787] [pcm_out.c:pcm_out_open] open session id[1]
+[  290.204895] msm_device_put:device speaker_stereo_rx set 1
+[  290.209411] msm_device_put:device freq =48000
+[  290.237365] afe_open: 0 48000
+[  290.265472] [fab2200] @@@POWER ON 
+[  290.268737] @#@#snd_subsystem_sp_input_system...........preGain : 0x88[fab2200] snd_subsystem_get_Startgain_index....... start_gain_index : 59 
+[  290.284729] [fab2200]COMMON SYSTEM(en:1, reg_value:0, status:0)
+[  290.289916] [fab2200]snd_subsystem_sp_poweron (status:0)
+[  290.316833] pcm_out_ioctl: AUDIO_START
+[  295.088592] msm_device_put:device speaker_stereo_rx set 0
+[  295.095458] [fab2200]COMMON SYSTEM(en:0, reg_value:0, status:0)
+[  295.101989] [fab2200] ###POWER OFF 
+[  295.104675] [fab2200] Sound Power Down (status:0)
+[  295.126403] msm_device_put:device speaker_mono_tx set 0
+[  295.130981] [pcm_out.c:pcm_out_release] release session id[1]
+[  300.169616] CPU1: Booted secondary processor
+[  301.769378] CPU1: Booted secondary processor
+[  306.939575] CPU1: Booted secondary processor
+[  309.179473] pm8058_is_battery_present: batt_id is 459
+[  309.199493] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  309.209808] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(35)
+[  309.221862] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  312.150360] CPU1: Booted secondary processor
+[  312.680419] init: untracked pid 3519 exited
+[  316.149383] CPU1: Booted secondary processor
+[  318.449493] CPU1: Booted secondary processor
+[  325.599395] CPU1: Booted secondary processor
+[  327.399932] CPU1: Booted secondary processor
+[  328.203643] CPU1: Booted secondary processor
+[  335.182159] CPU1: Booted secondary processor
+[  338.579467] CPU1: Booted secondary processor
+[  342.079498] CPU1: Booted secondary processor
+[  343.979461] CPU1: Booted secondary processor
+[  345.419433] CPU1: Booted secondary processor
+[  347.849487] CPU1: Booted secondary processor
+[  348.549468] CPU1: Booted secondary processor
+[  355.859497] CPU1: Booted secondary processor
+[  369.179962] pm8058_is_battery_present: batt_id is 459
+[  369.199707] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  369.210540] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(36)
+[  369.223144] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  369.421600] CPU1: Booted secondary processor
+[  370.069580] CPU1: Booted secondary processor
+[  374.029541] CPU1: Booted secondary processor
+[  375.449462] CPU1: Booted secondary processor
+[  377.169372] CPU1: Booted secondary processor
+[  378.169494] CPU1: Booted secondary processor
+[  382.949493] CPU1: Booted secondary processor
+[  416.132202] CPU1: Booted secondary processor
+[  429.179870] pm8058_is_battery_present: batt_id is 459
+[  429.199737] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  429.210571] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(35)
+[  429.222503] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  435.184417] lcdc_samsung_oled_set_backlight  bl_level = 0 
+[  435.268463] mdp4_mixer_blend_setup: Error: no bg_pipe at mixer=0
+[  435.268493] lcdc_samsung_panel_off
+[  435.397521] display_common_power(off): success
+[  435.400909] [LIVED] reset_set_bl=1b93214e
+[  435.421081] request_suspend_state: sleep (0->3) at 435384099952 (2017-06-12 04:12:35.028052025 UTC)
+[  435.430297] vreg_set_voltage: 8058_l19: request v=[0, 0] is outside possible v=[750000, 4900000]
+[  435.448547] Touch Power regulator_disable return:  0 
+[  435.569366] CPU1: Booted secondary processor
+[  435.893371] dhd_set_suspend: force extra Suspend setting
+[  435.922241] dhd_get_suspend_bcn_li_dtim bcn_li_dtim=3 DTIM=3 Listen=10
+[  437.669372] CPU1: Booted secondary processor
+[  489.179809] pm8058_is_battery_present: batt_id is 459
+[  489.199676] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 454
+[  489.210266] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4146) batt_temp(35)
+[  489.222320] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  495.899475] CPU1: Booted secondary processor
+[  497.799346] CPU1: Booted secondary processor
+[  498.499359] CPU1: Booted secondary processor
+[  549.179473] pm8058_is_battery_present: batt_id is 459
+[  549.199401] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 454
+[  549.209564] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4146) batt_temp(34)
+[  549.221038] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  558.249359] CPU1: Booted secondary processor
+[  609.179473] pm8058_is_battery_present: batt_id is 459
+[  609.199401] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 454
+[  609.209594] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4146) batt_temp(34)
+[  609.221069] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  616.639404] CPU1: Booted secondary processor
+[  617.819305] init: untracked pid 5746 exited
+[  619.994567] init: untracked pid 434 exited
+[  621.003417] rmt_storage_event_write_iovec_cb: write iovec callback received
+[  621.639343] CPU1: Booted secondary processor
+[  621.976440] rmt_storage_ioctl: send status ioctl
+[  622.639312] CPU1: Booted secondary processor
+[  626.841278] CPU1: Booted secondary processor
+[  628.039398] CPU1: Booted secondary processor
+[  632.979339] CPU1: Booted secondary processor
+[  633.579345] CPU1: Booted secondary processor
+[  634.536743] init: untracked pid 5749 exited
+[  640.979827] CPU1: Booted secondary processor
+[  644.379364] CPU1: Booted secondary processor
+[  652.159332] CPU1: Booted secondary processor
+[  652.454650] request_suspend_state: wakeup (3->0) at 652417638786 (2017-06-12 04:16:12.061590859 UTC)
+[  652.520233] display_common_power(on): success
+[  652.520263] lcdc_samsung_panel_on
+[  652.638885] Touch Power regulator_enable return:  0 
+[  652.659362] CPU1: Booted secondary processor
+[  652.692230] mdp4_csc_config: Block type 10 isn't supported by CSC.
+[  652.692230] mdp4_csc_config: Block type 8 isn't supported by CSC.
+[  652.698608] lcdc_samsung_panel_on
+[  652.698669] [LIVED] reset_set_bl=9a247d59
+[  652.774627] mdp4_overlay_mdp_perf_upd mdp clk is changed [1] from 0 to 59080000
+[  652.817016] lcdc_samsung_oled_set_backlight  bl_level = 1 
+[  652.854125] dhd_set_suspend: Remove extra suspend setting
+[  654.059356] CPU1: Booted secondary processor
+[  660.279907] CPU1: Booted secondary processor
+[  660.979339] CPU1: Booted secondary processor
+[  661.979675] CPU1: Booted secondary processor
+[  669.179687] pm8058_is_battery_present: batt_id is 459
+[  669.199462] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  669.210662] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4137) batt_temp(35)
+[  669.231323] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  669.579589] CPU1: Booted secondary processor
+[  671.517944] Adding 262140k swap on /dev/block/zram0.  Priority:-1 extents:1 across:262140k SS
+[  677.489471] CPU1: Booted secondary processor
+[  679.369354] CPU1: Booted secondary processor
+[  684.699401] CPU1: Booted secondary processor
+[  685.399536] CPU1: Booted secondary processor
+[  686.199371] CPU1: Booted secondary processor
+[  686.899383] CPU1: Booted secondary processor
+[  687.699462] CPU1: Booted secondary processor
+[  689.799560] CPU1: Booted secondary processor
+[  692.299499] CPU1: Booted secondary processor
+[  693.599395] CPU1: Booted secondary processor
+[  694.919525] CPU1: Booted secondary processor
+[  696.319396] CPU1: Booted secondary processor
+[  696.919464] CPU1: Booted secondary processor
+[  698.019622] CPU1: Booted secondary processor
+[  698.819488] CPU1: Booted secondary processor
+[  700.219390] CPU1: Booted secondary processor
+[  703.919464] CPU1: Booted secondary processor
+[  705.819458] CPU1: Booted secondary processor
+[  707.119354] CPU1: Booted secondary processor
+[  710.019500] CPU1: Booted secondary processor
+[  723.243560] CPU1: Booted secondary processor
+[  729.189910] pm8058_is_battery_present: batt_id is 459
+[  729.209777] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  729.220611] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(35)
+[  729.232513] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  754.439453] CPU1: Booted secondary processor
+[  755.839599] CPU1: Booted secondary processor
+[  756.539428] CPU1: Booted secondary processor
+[  760.839599] CPU1: Booted secondary processor
+[  762.139587] CPU1: Booted secondary processor
+[  767.579437] CPU1: Booted secondary processor
+[  772.669433] CPU1: Booted secondary processor
+[  782.529449] CPU1: Booted secondary processor
+[  789.179534] pm8058_is_battery_present: batt_id is 459
+[  789.199432] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  789.210845] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4141) batt_temp(35)
+[  789.227539] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  793.679595] CPU1: Booted secondary processor
+[  794.379608] CPU1: Booted secondary processor
+[  798.809783] CPU1: Booted secondary processor
+[  799.409606] CPU1: Booted secondary processor
+[  800.821563] CPU1: Booted secondary processor
+[  804.819763] CPU1: Booted secondary processor
+[  806.819641] CPU1: Booted secondary processor
+[  808.719360] CPU1: Booted secondary processor
+[  810.119384] CPU1: Booted secondary processor
+[  810.719635] CPU1: Booted secondary processor
+[  811.519470] CPU1: Booted secondary processor
+[  814.719421] CPU1: Booted secondary processor
+[  821.729949] CPU1: Booted secondary processor
+[  822.430938] CPU1: Booted secondary processor
+[  834.169433] CPU1: Booted secondary processor
+[  841.479461] CPU1: Booted secondary processor
+[  842.980438] CPU1: Booted secondary processor
+[  844.079528] CPU1: Booted secondary processor
+[  847.479797] CPU1: Booted secondary processor
+[  848.679504] CPU1: Booted secondary processor
+[  849.179473] pm8058_is_battery_present: batt_id is 459
+[  849.199584] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  849.210021] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(35)
+[  849.226379] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  850.179504] CPU1: Booted secondary processor
+[  851.779510] CPU1: Booted secondary processor
+[  852.679473] CPU1: Booted secondary processor
+[  855.012084] CPU1: Booted secondary processor
+[  857.399353] CPU1: Booted secondary processor
+[  864.799499] CPU1: Booted secondary processor
+[  874.039550] CPU1: Booted secondary processor
+[  881.640136] CPU1: Booted secondary processor
+[  883.639495] CPU1: Booted secondary processor
+[  884.139465] CPU1: Booted secondary processor
+[  909.179962] pm8058_is_battery_present: batt_id is 459
+[  909.199798] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  909.210723] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(36)
+[  909.227294] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  909.360137] CPU1: Booted secondary processor
+[  940.209411] CPU1: Booted secondary processor
+[  942.309661] CPU1: Booted secondary processor
+[  947.519927] CPU1: Booted secondary processor
+[  951.019439] CPU1: Booted secondary processor
+[  951.619384] CPU1: Booted secondary processor
+[  954.419403] CPU1: Booted secondary processor
+[  956.219726] CPU1: Booted secondary processor
+[  966.419586] CPU1: Booted secondary processor
+[  968.220153] CPU1: Booted secondary processor
+[  969.179412] pm8058_is_battery_present: batt_id is 457
+[  969.199401] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[  969.211212] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(36)
+[  969.227569] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[  972.119506] CPU1: Booted secondary processor
+[  975.519500] CPU1: Booted secondary processor
+[  978.719543] CPU1: Booted secondary processor
+[  980.819366] CPU1: Booted secondary processor
+[  984.651519] CPU1: Booted secondary processor
+[  985.652008] CPU1: Booted secondary processor
+[  989.054595] CPU1: Booted secondary processor
+[  992.052185] CPU1: Booted secondary processor
+[  994.269348] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[  994.276275] Xsemiyas[usb_data_transfer_callback] data_transfer[1] get_desc[1]
+[ 1003.329528] CPU1: Booted secondary processor
+[ 1004.384735] CPU1: Booted secondary processor
+[ 1004.983306] CPU1: Booted secondary processor
+[ 1022.066375] CPU1: Booted secondary processor
+[ 1027.009490] CPU1: Booted secondary processor
+[ 1029.179473] pm8058_is_battery_present: batt_id is 459
+[ 1029.199920] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 455
+[ 1029.210754] [SKY CHG][msm-charger] update_heartbeat batt_status(JUST_FINISHED_CHARGING)  charg_type(AC) batt_mvolts(4145) batt_temp(36)
+[ 1029.222778] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_REMOVED_EVENT
+[ 1033.250976] CPU1: Booted secondary processor
+[ 1034.049346] CPU1: Booted secondary processor
+[ 1037.089599] CPU1: Booted secondary processor
+[ 1037.989471] CPU1: Booted secondary processor
+[ 1054.029327] CPU1: Booted secondary processor
+[ 1054.629455] CPU1: Booted secondary processor
+[ 1058.597137] BUG: spinlock lockup on CPU#0, Binder_1/769, dc5dc2dc
+[ 1058.602355] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c03c3bc0>] (do_raw_spin_lock+0x10c/0x1a4)
+[ 1058.611663] [<c03c3bc0>] (do_raw_spin_lock+0x10c/0x1a4) from [<c0226aac>] (swap_info_get+0x5c/0xc4)
+[ 1058.620605] [<c0226aac>] (swap_info_get+0x5c/0xc4) from [<c0228910>] (mem_cgroup_count_swap_user+0x30/0x68)
+[ 1058.630401] [<c0228910>] (mem_cgroup_count_swap_user+0x30/0x68) from [<c0234710>] (is_target_pte_for_mc+0x110/0x2c0)
+[ 1058.640899] [<c0234710>] (is_target_pte_for_mc+0x110/0x2c0) from [<c023491c>] (mem_cgroup_count_precharge_pte_range+0x5c/0xa4)
+[ 1058.652282] [<c023491c>] (mem_cgroup_count_precharge_pte_range+0x5c/0xa4) from [<c0224a68>] (walk_page_range+0x15c/0x1e4)
+[ 1058.663208] [<c0224a68>] (walk_page_range+0x15c/0x1e4) from [<c0236ec4>] (mem_cgroup_can_attach+0xb8/0x11c)
+[ 1058.672943] [<c0236ec4>] (mem_cgroup_can_attach+0xb8/0x11c) from [<c01cd5d8>] (cgroup_attach_task+0x60/0x1c4)
+[ 1058.682830] [<c01cd5d8>] (cgroup_attach_task+0x60/0x1c4) from [<c01cde38>] (attach_task_by_pid+0x174/0x1c8)
+[ 1058.692535] [<c01cde38>] (attach_task_by_pid+0x174/0x1c8) from [<c01cded0>] (cgroup_tasks_write+0x10/0x14)
+[ 1058.702178] [<c01cded0>] (cgroup_tasks_write+0x10/0x14) from [<c01cb72c>] (cgroup_file_write+0x160/0x29c)
+[ 1058.711730] [<c01cb72c>] (cgroup_file_write+0x160/0x29c) from [<c023a624>] (vfs_write+0xa8/0x130)
+[ 1058.720520] [<c023a624>] (vfs_write+0xa8/0x130) from [<c023a874>] (sys_write+0x34/0x68)
+[ 1058.728576] [<c023a874>] (sys_write+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1058.736968] Backtrace for cpu 0 (current):
+[ 1058.740997] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0)
+[ 1058.751068] [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0) from [<c03c3bc4>] (do_raw_spin_lock+0x110/0x1a4)
+[ 1058.761199] [<c03c3bc4>] (do_raw_spin_lock+0x110/0x1a4) from [<c0226aac>] (swap_info_get+0x5c/0xc4)
+[ 1058.770233] [<c0226aac>] (swap_info_get+0x5c/0xc4) from [<c0228910>] (mem_cgroup_count_swap_user+0x30/0x68)
+[ 1058.779968] [<c0228910>] (mem_cgroup_count_swap_user+0x30/0x68) from [<c0234710>] (is_target_pte_for_mc+0x110/0x2c0)
+[ 1058.790466] [<c0234710>] (is_target_pte_for_mc+0x110/0x2c0) from [<c023491c>] (mem_cgroup_count_precharge_pte_range+0x5c/0xa4)
+[ 1058.801849] [<c023491c>] (mem_cgroup_count_precharge_pte_range+0x5c/0xa4) from [<c0224a68>] (walk_page_range+0x15c/0x1e4)
+[ 1058.812774] [<c0224a68>] (walk_page_range+0x15c/0x1e4) from [<c0236ec4>] (mem_cgroup_can_attach+0xb8/0x11c)
+[ 1058.822418] [<c0236ec4>] (mem_cgroup_can_attach+0xb8/0x11c) from [<c01cd5d8>] (cgroup_attach_task+0x60/0x1c4)
+[ 1058.832397] [<c01cd5d8>] (cgroup_attach_task+0x60/0x1c4) from [<c01cde38>] (attach_task_by_pid+0x174/0x1c8)
+[ 1058.842132] [<c01cde38>] (attach_task_by_pid+0x174/0x1c8) from [<c01cded0>] (cgroup_tasks_write+0x10/0x14)
+[ 1058.851745] [<c01cded0>] (cgroup_tasks_write+0x10/0x14) from [<c01cb72c>] (cgroup_file_write+0x160/0x29c)
+[ 1058.861297] [<c01cb72c>] (cgroup_file_write+0x160/0x29c) from [<c023a624>] (vfs_write+0xa8/0x130)
+[ 1058.870147] [<c023a624>] (vfs_write+0xa8/0x130) from [<c023a874>] (sys_write+0x34/0x68)
+[ 1058.878082] [<c023a874>] (sys_write+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1058.886535] 
+[ 1058.886535] sending IPI to all other CPUs:
+[ 1058.892120] IPI backtrace for cpu 1
+[ 1058.895538] 
+[ 1058.897003] Pid: 36, comm:              kswapd0
+[ 1058.901519] CPU: 1    Not tainted  (3.0.101-cyanogenmod-gc99b04f-dirty #6)
+[ 1058.908477] PC is at read_current_timer_delay_loop+0x10/0x30
+[ 1058.914123] LR is at read_current_timer+0x14/0x24
+[ 1058.918731] pc : [<c03b2c9c>]    lr : [<c011655c>]    psr: 80000013
+[ 1058.918731] sp : e9cbdd50  ip : c0c2f320  fp : e9cbc000
+[ 1058.930267] r10: dc5dc2dc  r9 : 00000000  r8 : 00000001
+[ 1058.935394] r7 : 00000000  r6 : 00673838  r5 : 00000000  r4 : 00000001
+[ 1058.941986] r3 : aa036c0b  r2 : aa036c0b  r1 : c0c2f320  r0 : 00000000
+[ 1058.948486] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment kernel
+[ 1058.955688] Control: 10c5787d  Table: 4281006a  DAC: 00000015
+[ 1058.961517] 
+[ 1058.961517] PC: 0xc03b2c1c:
+[ 1058.965667] 2c1c  e4904004 e1a05004 e4c15001 e0b33c04 e1a05424 eaffff47 e2500001 8afffffd
+[ 1058.973846] 2c3c  e12fff1e e92d4008 e59f3008 e5931000 e12fff31 e8bd8008 c0c76910 e59f3018
+[ 1058.982025] 2c5c  e1a00720 e5931000 e1a02521 e00c0092 e1b0032c 012fff1e eafffff1 c0c2d790
+[ 1058.990142] 2c7c  e59f3004 e0000093 eafffff3 0001a36e e92d4013 e1a04000 e1a0000d ebf58e2a
+[ 1058.998321] 2c9c  e28d0004 ebf58e28 e59d3000 e59d2004 e0630002 e1500004 3afffff8 e8bd801c
+[ 1059.006469] 2cbc  e59f3004 e5830000 e12fff1e c0c76910 e254c001 9a000033 e11c0004 0a000028
+[ 1059.014617] 2cdc  e1510004 e3a03000 3a00000b e16f2f14 e16fcf11 e042200c e3a0c001 e1a0c21c
+[ 1059.022796] 2cfc  e1a02214 e1510002 2183300c 20511002 11b0c0ac e1a020a2 1afffff9 e3510000
+[ 1059.030944] 
+[ 1059.030944] LR: 0xc01164dc:
+[ 1059.035217] 64dc  e1a0c23c e594201c e5943010 e59f5050 f57ff05f e5947008 e594600c f57ff05f
+[ 1059.043365] 64fc  e594e014 e153000e 1afffff6 e0630000 e000c00c e081019c eb0a74d4 e285c030
+[ 1059.051513] 651c  e0972000 e0a63001 e1bc0f9f e1ac0f92 e3300000 1afffffb e1a00002 e1a01003
+[ 1059.059692] 653c  e8bd80f8 c0cf09b8 c0c2f220 e92d4010 e3a01001 e1a04000 e59f000c ebfffce6
+[ 1059.067840] 655c  e5840000 e3a00000 e8bd8010 c0c2f320 e92d4010 e1a04000 e5903038 e1a01004
+[ 1059.076019] 657c  e3a00000 e12fff33 e594004c e8bd4010 ea02ff0d e92d4038 e1a04000 e5903014
+[ 1059.084167] 659c  e3530000 1a000006 e5900010 e3500000 1a000005 e594500c e2955000 13a05001
+[ 1059.092315] 65bc  ea000002 e3a05003 ea000000 e3a05002 e5941018 e1550001 0a000006 e5942004
+[ 1059.100494] 
+[ 1059.100494] SP: 0xe9cbdcd0:
+[ 1059.104736] dcd0  00000001 c010ac8c 00000007 c0c23958 e9cbdd3c fa001000 e9cbdd08 c010033c
+[ 1059.112884] dcf0  80000013 00ffffff e9cbdd3c 00673838 00000002 c07c3954 00000000 c0c2f320
+[ 1059.121063] dd10  aa036c0b aa036c0b 00000001 00000000 00673838 00000000 00000001 00000000
+[ 1059.129211] dd30  dc5dc2dc e9cbc000 c0c2f320 e9cbdd50 c011655c c03b2c9c 80000013 ffffffff
+[ 1059.137390] dd50  aa036c0b aa036c0b 005f5dd8 c03b2c50 00000001 c03c3c24 e9882d10 00000017
+[ 1059.145538] dd70  00000001 00000001 00000000 dc5dc280 00000041 00005157 c0c6a2f0 e9cbc000
+[ 1059.153686] dd90  e9cbde80 00000004 00000009 c0226aac 00090009 00005157 c18b46e0 c0227eb4
+[ 1059.161865] ddb0  c18b46e0 c0c6a300 00005157 c0207aec c18b46f8 c18b46e0 e9cbdf68 c020a018
+[ 1059.170013] 
+[ 1059.170013] IP: 0xc0c2f2a0:
+[ 1059.174346] f2a0  70c00000 00003427 c098cdf7 c0c2f3ac c0c66108 000000c8 00000000 00000000
+[ 1059.182434] f2c0  00000000 00000021 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1059.190582] f2e0  00000011 fa016004 00008000 00000000 00000000 00000009 00000000 00000000
+[ 1059.198760] f300  00000000 00000000 00000400 c004d520 00000000 00000000 00000000 00000000
+[ 1059.206939] f320  00000000 c0115ed8 00000000 00000000 e38e4cd2 0000008a 00000785 00000000
+[ 1059.215087] f340  01ba5e35 00000020 00000000 00000002 00000000 00000000 c0115c5c 00000000
+[ 1059.223236] f360  00000000 c098ce00 00000064 00000010 c07eb634 c0c2f274 c210b094 00000000
+[ 1059.231384] f380  c01159a0 00000000 00000000 00000000 ffffffff 00000000 9425ed09 00000018
+[ 1059.239562] 
+[ 1059.239562] FP: 0xe9cbbf80:
+[ 1059.243804] bf80  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c040 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 1059.251953] bfa0  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 1059.260131] bfc0  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 1059.268280] bfe0  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 1059.276458] c000  00000002 00000004 00000000 e9cb8000 c0c638c0 00000001 00000015 c210cf40
+[ 1059.284606] c020  e9cb8000 e9a42300 dcf62a80 c0049f40 00000000 0001270a e9cbde7c e9cbdde0
+[ 1059.292755] c040  c07c0bc0 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1059.300933] c060  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1059.309082] 
+[ 1059.309082] R1: 0xc0c2f2a0:
+[ 1059.313323] f2a0  70c00000 00003427 c098cdf7 c0c2f3ac c0c66108 000000c8 00000000 00000000
+[ 1059.321502] f2c0  00000000 00000021 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1059.329650] f2e0  00000011 fa016004 00008000 00000000 00000000 00000009 00000000 00000000
+[ 1059.337829] f300  00000000 00000000 00000400 c004d520 00000000 00000000 00000000 00000000
+[ 1059.345977] f320  00000000 c0115ed8 00000000 00000000 e38e4cd2 0000008a 00000785 00000000
+[ 1059.354125] f340  01ba5e35 00000020 00000000 00000002 00000000 00000000 c0115c5c 00000000
+[ 1059.362304] f360  00000000 c098ce00 00000064 00000010 c07eb634 c0c2f274 c210b094 00000000
+[ 1059.370452] f380  c01159a0 00000000 00000000 00000000 ffffffff 00000000 9425ed09 00000018
+[ 1059.378631] 
+[ 1059.378631] R10: 0xdc5dc25c:
+[ 1059.382965] c25c  dc5dc25c dc5dc25c 00000000 625f7872 73657479 00001000 00000000 00000000
+[ 1059.391113] c27c  00000000 00000053 ff00ffff 00010000 eb101000 00000002 0000ffff 0000ffff
+[ 1059.399291] c29c  000076df 00005158 000000a9 00000000 00000000 dc5dc2b8 00000000 dc5dc2b8
+[ 1059.407440] c2bc  dc5dc2b8 00000000 00010000 00000000 00000000 e989e720 db06d900 00001000
+[ 1059.415588] c2dc  e081e082 dead4ead 00000000 e5d31880 00000000 00000000 00000000 00000000
+[ 1059.423767] c2fc  00000000 f00007fc 0000000a dc5dc368 00018124 00000000 00000000 00000000
+[ 1059.431945] c31c  00000000 c07ff2e0 c07ff260 dc5dc200 dc5dc500 00000000 e5a51220 c067d26c
+[ 1059.440063] c33c  00000000 00000001 00000000 00000000 dead4ead ffffffff ffffffff 00000000
+[ 1059.740142] BUG: spinlock lockup on CPU#1, kswapd0/36, dc5dc2dc
+[ 1059.745208] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c03c3bc0>] (do_raw_spin_lock+0x10c/0x1a4)
+[ 1059.754425] [<c03c3bc0>] (do_raw_spin_lock+0x10c/0x1a4) from [<c0226aac>] (swap_info_get+0x5c/0xc4)
+[ 1059.763519] [<c0226aac>] (swap_info_get+0x5c/0xc4) from [<c0227eb4>] (swapcache_free+0x10/0x50)
+[ 1059.772216] [<c0227eb4>] (swapcache_free+0x10/0x50) from [<c0207aec>] (__remove_mapping+0xe0/0x134)
+[ 1059.781250] [<c0207aec>] (__remove_mapping+0xe0/0x134) from [<c020a018>] (shrink_page_list+0x620/0x8b4)
+[ 1059.790618] [<c020a018>] (shrink_page_list+0x620/0x8b4) from [<c020a690>] (shrink_inactive_list+0x228/0x45c)
+[ 1059.800354] [<c020a690>] (shrink_inactive_list+0x228/0x45c) from [<c020acdc>] (shrink_zone+0x418/0x574)
+[ 1059.809814] [<c020acdc>] (shrink_zone+0x418/0x574) from [<c020b470>] (kswapd+0x638/0x9e8)
+[ 1059.817962] [<c020b470>] (kswapd+0x638/0x9e8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1059.825592] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1059.833831] Backtrace for cpu 1 (current):
+[ 1059.838012] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0)
+[ 1059.847991] [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0) from [<c03c3bc4>] (do_raw_spin_lock+0x110/0x1a4)
+[ 1059.858154] [<c03c3bc4>] (do_raw_spin_lock+0x110/0x1a4) from [<c0226aac>] (swap_info_get+0x5c/0xc4)
+[ 1059.867095] [<c0226aac>] (swap_info_get+0x5c/0xc4) from [<c0227eb4>] (swapcache_free+0x10/0x50)
+[ 1059.875854] [<c0227eb4>] (swapcache_free+0x10/0x50) from [<c0207aec>] (__remove_mapping+0xe0/0x134)
+[ 1059.884887] [<c0207aec>] (__remove_mapping+0xe0/0x134) from [<c020a018>] (shrink_page_list+0x620/0x8b4)
+[ 1059.894256] [<c020a018>] (shrink_page_list+0x620/0x8b4) from [<c020a690>] (shrink_inactive_list+0x228/0x45c)
+[ 1059.904083] [<c020a690>] (shrink_inactive_list+0x228/0x45c) from [<c020acdc>] (shrink_zone+0x418/0x574)
+[ 1059.913360] [<c020acdc>] (shrink_zone+0x418/0x574) from [<c020b470>] (kswapd+0x638/0x9e8)
+[ 1059.921508] [<c020b470>] (kswapd+0x638/0x9e8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1059.929260] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1059.937561] 
+[ 1059.937561] sending IPI to all other CPUs:
+[ 1059.943023] IPI backtrace for cpu 0
+[ 1059.946472] 
+[ 1059.947998] Pid: 769, comm:             Binder_1
+[ 1059.952545] CPU: 0    Not tainted  (3.0.101-cyanogenmod-gc99b04f-dirty #6)
+[ 1059.959472] PC is at read_current_timer_delay_loop+0x10/0x30
+[ 1059.965057] LR is at read_current_timer+0x14/0x24
+[ 1059.969726] pc : [<c03b2c9c>]    lr : [<c011655c>]    psr: 80000013
+[ 1059.969726] sp : e5d3dd90  ip : c0c2f320  fp : e5d3c000
+[ 1059.981262] r10: dc5dc2dc  r9 : 00000000  r8 : 00000001
+[ 1059.986389] r7 : 00000000  r6 : 00673838  r5 : 00000000  r4 : 00000001
+[ 1059.992980] r3 : aa6fa919  r2 : aa6fa919  r1 : c0c2f320  r0 : 00000000
+[ 1059.999420] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+[ 1060.006591] Control: 10c5787d  Table: 6669806a  DAC: 00000015
+[ 1060.012268] 
+[ 1060.012268] PC: 0xc03b2c1c:
+[ 1060.016571] 2c1c  e4904004 e1a05004 e4c15001 e0b33c04 e1a05424 eaffff47 e2500001 8afffffd
+[ 1060.024688] 2c3c  e12fff1e e92d4008 e59f3008 e5931000 e12fff31 e8bd8008 c0c76910 e59f3018
+[ 1060.032836] 2c5c  e1a00720 e5931000 e1a02521 e00c0092 e1b0032c 012fff1e eafffff1 c0c2d790
+[ 1060.041015] 2c7c  e59f3004 e0000093 eafffff3 0001a36e e92d4013 e1a04000 e1a0000d ebf58e2a
+[ 1060.049163] 2c9c  e28d0004 ebf58e28 e59d3000 e59d2004 e0630002 e1500004 3afffff8 e8bd801c
+[ 1060.057312] 2cbc  e59f3004 e5830000 e12fff1e c0c76910 e254c001 9a000033 e11c0004 0a000028
+[ 1060.065490] 2cdc  e1510004 e3a03000 3a00000b e16f2f14 e16fcf11 e042200c e3a0c001 e1a0c21c
+[ 1060.073638] 2cfc  e1a02214 e1510002 2183300c 20511002 11b0c0ac e1a020a2 1afffff9 e3510000
+[ 1060.081817] 
+[ 1060.081817] LR: 0xc01164dc:
+[ 1060.086059] 64dc  e1a0c23c e594201c e5943010 e59f5050 f57ff05f e5947008 e594600c f57ff05f
+[ 1060.094207] 64fc  e594e014 e153000e 1afffff6 e0630000 e000c00c e081019c eb0a74d4 e285c030
+[ 1060.102386] 651c  e0972000 e0a63001 e1bc0f9f e1ac0f92 e3300000 1afffffb e1a00002 e1a01003
+[ 1060.110534] 653c  e8bd80f8 c0cf09b8 c0c2f220 e92d4010 e3a01001 e1a04000 e59f000c ebfffce6
+[ 1060.118682] 655c  e5840000 e3a00000 e8bd8010 c0c2f320 e92d4010 e1a04000 e5903038 e1a01004
+[ 1060.126861] 657c  e3a00000 e12fff33 e594004c e8bd4010 ea02ff0d e92d4038 e1a04000 e5903014
+[ 1060.135009] 659c  e3530000 1a000006 e5900010 e3500000 1a000005 e594500c e2955000 13a05001
+[ 1060.143188] 65bc  ea000002 e3a05003 ea000000 e3a05002 e5941018 e1550001 0a000006 e5942004
+[ 1060.151336] 
+[ 1060.151336] SP: 0xe5d3dd10:
+[ 1060.155578] dd10  00000000 c010ac8c 00000007 c0c23958 e5d3dd7c fa001000 e5d3dd48 c010033c
+[ 1060.163757] dd30  80000013 00ffffff e5d3dd7c 00673838 00000003 c07c3954 00000000 c0c2f320
+[ 1060.171905] dd50  aa6fa919 aa6fa919 00000001 00000000 00673838 00000000 00000001 00000000
+[ 1060.180084] dd70  dc5dc2dc e5d3c000 c0c2f320 e5d3dd90 c011655c c03b2c9c 80000013 ffffffff
+[ 1060.188232] dd90  aa6fa919 aa6fa919 000faa0b c03b2c50 00000000 c03c3c24 dc5dc2dc 00000000
+[ 1060.196380] ddb0  00000001 00000000 00000000 dc5dc280 00000047 c1931840 e5d3de08 c0c6aaa0
+[ 1060.204559] ddd0  e7b52018 01200000 5f11197c c0226aac c0c6aaa0 00000000 0000dc92 c0228910
+[ 1060.212707] ddf0  c0c6aaa0 e830a4d0 01127000 0000dc92 00000000 c0234710 00000000 01127000
+[ 1060.220886] 
+[ 1060.220886] IP: 0xc0c2f2a0:
+[ 1060.225128] f2a0  70c00000 00003427 c098cdf7 c0c2f3ac c0c66108 000000c8 00000000 00000000
+[ 1060.233276] f2c0  00000000 00000021 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1060.241455] f2e0  00000011 fa016004 00008000 00000000 00000000 00000009 00000000 00000000
+[ 1060.249603] f300  00000000 00000000 00000400 c004d520 00000000 00000000 00000000 00000000
+[ 1060.257751] f320  00000000 c0115ed8 00000000 00000000 e38e4cd2 0000008a 00000785 00000000
+[ 1060.265930] f340  01ba5e35 00000020 00000000 00000002 00000000 00000000 c0115c5c 00000000
+[ 1060.274078] f360  00000000 c098ce00 00000064 00000010 c07eb634 c0c2f274 c210b094 00000000
+[ 1060.282257] f380  c01159a0 00000000 00000000 00000000 ffffffff 00000000 9425ed09 00000018
+[ 1060.290405] 
+[ 1060.290405] FP: 0xe5d3bf80:
+[ 1060.294647] bf80  015fd000 0111d4fc 0111d4f8 fffffe34 000000f0 c0105e08 e5d3a000 00000000
+[ 1060.302825] bfa0  00000000 c0105c60 0111d4fc 0111d4f8 0111d4fc 00000080 fffffe34 00000000
+[ 1060.310974] bfc0  0111d4fc 0111d4f8 fffffe34 000000f0 415c01e0 415c01e0 0111d4f0 00000000
+[ 1060.319122] bfe0  00000000 5b40cd40 4017003c 40182a38 600f0010 0111d4fc 00740063 00650053
+[ 1060.327301] c000  00000002 00000005 00000000 e5d31880 c0c638c0 00000000 00000015 c2104f40
+[ 1060.335449] c020  e5d31880 cf3cca80 e7d06000 c0049f40 e7c121c0 00000000 e5d3dda4 e5d3dd08
+[ 1060.343627] c040  c07c0bc0 00000000 00000000 00000000 00000000 00000000 01010000 00000000
+[ 1060.351776] c060  5f111dd0 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1060.359924] 
+[ 1060.359924] R1: 0xc0c2f2a0:
+[ 1060.364257] f2a0  70c00000 00003427 c098cdf7 c0c2f3ac c0c66108 000000c8 00000000 00000000
+[ 1060.372344] f2c0  00000000 00000021 00000000 00000000 00000000 00000000 00000000 00000000
+[ 1060.380523] f2e0  00000011 fa016004 00008000 00000000 00000000 00000009 00000000 00000000
+[ 1060.388671] f300  00000000 00000000 00000400 c004d520 00000000 00000000 00000000 00000000
+[ 1060.396820] f320  00000000 c0115ed8 00000000 00000000 e38e4cd2 0000008a 00000785 00000000
+[ 1060.404998] f340  01ba5e35 00000020 00000000 00000002 00000000 00000000 c0115c5c 00000000
+[ 1060.413146] f360  00000000 c098ce00 00000064 00000010 c07eb634 c0c2f274 c210b094 00000000
+[ 1060.421295] f380  c01159a0 00000000 00000000 00000000 ffffffff 00000000 9425ed09 00000018
+[ 1060.429473] 
+[ 1060.429473] R10: 0xdc5dc25c:
+[ 1060.433868] c25c  dc5dc25c dc5dc25c 00000000 625f7872 73657479 00001000 00000000 00000000
+[ 1060.441955] c27c  00000000 00000053 ff00ffff 00010000 eb101000 00000002 0000ffff 0000ffff
+[ 1060.450134] c29c  000076df 00005158 000000a9 00000000 00000000 dc5dc2b8 00000000 dc5dc2b8
+[ 1060.458282] c2bc  dc5dc2b8 00000000 00010000 00000000 00000000 e989e720 db06d900 00001000
+[ 1060.466461] c2dc  e081e082 dead4ead 00000000 e5d31880 00000000 00000000 00000000 00000000
+[ 1060.474609] c2fc  00000000 f00007fc 0000000a dc5dc368 00018124 00000000 00000000 00000000
+[ 1060.482757] c31c  00000000 c07ff2e0 c07ff260 dc5dc200 dc5dc500 00000000 e5a51220 c067d26c
+[ 1060.490936] c33c  00000000 00000001 00000000 00000000 dead4ead ffffffff ffffffff 00000000
+[ 1068.857208] Watchdog bark! Now = 1068.857208
+[ 1068.860504] Watchdog last pet at 1046.827117
+[ 1068.864746] Stack trace dump:
+[ 1068.867767] 
+[ 1068.867767] PID: 1, Name: init
+[ 1068.872253] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1068.882354] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1068.893218] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024b134>] (do_sys_poll+0x2bc/0x378)
+[ 1068.902496] [<c024b134>] (do_sys_poll+0x2bc/0x378) from [<c024b290>] (sys_poll+0x5c/0xbc)
+[ 1068.910614] [<c024b290>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1068.918975] 
+[ 1068.918975] PID: 2, Name: kthreadd
+[ 1068.923858] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01adabc>] (kthreadd+0x7c/0x100)
+[ 1068.931945] [<c01adabc>] (kthreadd+0x7c/0x100) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1068.940521] 
+[ 1068.940521] PID: 3, Name: ksoftirqd/0
+[ 1068.945587] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0196c9c>] (run_ksoftirqd+0x78/0x1e0)
+[ 1068.954223] [<c0196c9c>] (run_ksoftirqd+0x78/0x1e0) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1068.962402] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1068.970733] 
+[ 1068.970733] PID: 5, Name: kworker/u:0
+[ 1068.975799] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0139dc4>] (rr_read+0x128/0x14c)
+[ 1068.984008] [<c0139dc4>] (rr_read+0x128/0x14c) from [<c013a960>] (do_read_data+0x20/0xd0c)
+[ 1068.992248] [<c013a960>] (do_read_data+0x20/0xd0c) from [<c01a9898>] (process_one_work+0x228/0x434)
+[ 1069.001220] [<c01a9898>] (process_one_work+0x228/0x434) from [<c01a9e00>] (worker_thread+0x19c/0x2bc)
+[ 1069.010498] [<c01a9e00>] (worker_thread+0x19c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.018737] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.027069] 
+[ 1069.027069] PID: 6, Name: migration/0
+[ 1069.032135] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01cf5a0>] (cpu_stopper_thread+0x134/0x14c)
+[ 1069.041290] [<c01cf5a0>] (cpu_stopper_thread+0x134/0x14c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.049987] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.058258] 
+[ 1069.058258] PID: 7, Name: watchdog/0
+[ 1069.063293] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d3e08>] (watchdog+0x84/0xd4)
+[ 1069.071411] [<c01d3e08>] (watchdog+0x84/0xd4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.079010] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.087402] 
+[ 1069.087402] PID: 12, Name: khelper
+[ 1069.092193] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.101013] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.109344] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.117675] 
+[ 1069.117675] PID: 13, Name: suspend_sys_syn
+[ 1069.123199] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.132019] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.140350] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.148620] 
+[ 1069.148620] PID: 14, Name: suspend
+[ 1069.153472] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.162292] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.170593] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.178985] 
+[ 1069.178985] PID: 15, Name: sync_supers
+[ 1069.184204] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02138a0>] (bdi_sync_supers+0x34/0x4c)
+[ 1069.192810] [<c02138a0>] (bdi_sync_supers+0x34/0x4c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.201110] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.209442] 
+[ 1069.209442] PID: 16, Name: bdi-default
+[ 1069.214599] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c13e8>] (schedule_timeout+0x270/0x30c)
+[ 1069.223602] [<c07c13e8>] (schedule_timeout+0x270/0x30c) from [<c0214950>] (bdi_forker_thread+0x350/0x3e0)
+[ 1069.233154] [<c0214950>] (bdi_forker_thread+0x350/0x3e0) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.241729] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.250000] 
+[ 1069.250000] PID: 17, Name: kblockd
+[ 1069.254882] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.263702] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.271972] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.280364] 
+[ 1069.280364] PID: 18, Name: khubd
+[ 1069.285064] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c04c61d0>] (hub_thread+0x11dc/0x12dc)
+[ 1069.293609] [<c04c61d0>] (hub_thread+0x11dc/0x12dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.301818] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.310150] 
+[ 1069.310150] PID: 19, Name: l2cap
+[ 1069.314788] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.323608] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.331939] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.340209] 
+[ 1069.340209] PID: 20, Name: a2mp
+[ 1069.344818] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.353637] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.361907] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.370300] 
+[ 1069.370300] PID: 21, Name: kworker/0:1
+[ 1069.375518] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1069.384124] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.392425] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.400756] 
+[ 1069.400787] PID: 22, Name: cfg80211
+[ 1069.405670] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.414489] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.422821] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.431152] 
+[ 1069.431152] PID: 23, Name: cfinteractive
+[ 1069.436492] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05ae70c>] (cpufreq_interactive_speedchange_task+0x50/0x21c)
+[ 1069.447143] [<c05ae70c>] (cpufreq_interactive_speedchange_task+0x50/0x21c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.457275] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.465606] 
+[ 1069.465606] PID: 24, Name: rpciod
+[ 1069.470336] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.479156] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.487487] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.495758] 
+[ 1069.495758] PID: 25, Name: modem_notifier
+[ 1069.501312] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.510070] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.518341] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.526733] 
+[ 1069.526733] PID: 26, Name: smd_channel_clo
+[ 1069.532287] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.540985] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.549377] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.557708] 
+[ 1069.557708] PID: 27, Name: smsm_cb_wq
+[ 1069.562774] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.571624] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.579956] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.588195] 
+[ 1069.588226] PID: 28, Name: kworker/u:1
+[ 1069.593414] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0139dc4>] (rr_read+0x128/0x14c)
+[ 1069.601654] [<c0139dc4>] (rr_read+0x128/0x14c) from [<c013a960>] (do_read_data+0x20/0xd0c)
+[ 1069.609832] [<c013a960>] (do_read_data+0x20/0xd0c) from [<c01a9898>] (process_one_work+0x228/0x434)
+[ 1069.618927] [<c01a9898>] (process_one_work+0x228/0x434) from [<c01a9e00>] (worker_thread+0x19c/0x2bc)
+[ 1069.628112] [<c01a9e00>] (worker_thread+0x19c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.636383] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.644653] 
+[ 1069.644653] PID: 29, Name: rpcrouter
+[ 1069.649688] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.658508] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.666778] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.675170] 
+[ 1069.675170] PID: 30, Name: reset_device
+[ 1069.680480] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.689178] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.697570] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.705902] 
+[ 1069.705902] PID: 31, Name: apr_driver
+[ 1069.710968] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.719787] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.728118] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.736450] 
+[ 1069.736450] PID: 32, Name: charm_queue
+[ 1069.741607] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.750427] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.758758] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.767028] 
+[ 1069.767028] PID: 33, Name: irq/390-charm s
+[ 1069.772674] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1069.781097] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.789001] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.797393] 
+[ 1069.797393] PID: 34, Name: rmt_storage
+[ 1069.802551] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.811309] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.819702] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.828033] 
+[ 1069.828033] PID: 35, Name: khungtaskd
+[ 1069.833099] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1069.842010] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c01d3628>] (watchdog+0x44/0x264)
+[ 1069.850616] [<c01d3628>] (watchdog+0x44/0x264) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.858276] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.866668] 
+[ 1069.866668] PID: 36, Name: kswapd0
+[ 1069.871520] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<00000000>] (  (null))
+[ 1069.878662] 
+[ 1069.878662] PID: 37, Name: ksmd
+[ 1069.883331] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c13e8>] (schedule_timeout+0x270/0x30c)
+[ 1069.892242] [<c07c13e8>] (schedule_timeout+0x270/0x30c) from [<c022da28>] (ksm_scan_thread+0x92c/0xb50)
+[ 1069.901672] [<c022da28>] (ksm_scan_thread+0x92c/0xb50) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.910064] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.918395] 
+[ 1069.918395] PID: 38, Name: fsnotify_mark
+[ 1069.923736] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c026c46c>] (fsnotify_mark_destroy+0x128/0x14c)
+[ 1069.933166] [<c026c46c>] (fsnotify_mark_destroy+0x128/0x14c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.942108] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.950439] 
+[ 1069.950439] PID: 39, Name: ecryptfs-kthrea
+[ 1069.955963] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0302054>] (ecryptfs_threadfn+0xe8/0x288)
+[ 1069.964935] [<c0302054>] (ecryptfs_threadfn+0xe8/0x288) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1069.973449] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1069.981719] 
+[ 1069.981719] PID: 40, Name: nfsiod
+[ 1069.986511] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1069.995300] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.003601] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.011993] 
+[ 1070.011993] PID: 41, Name: crypto
+[ 1070.016693] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.025482] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.033874] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.042205] 
+[ 1070.042205] PID: 60, Name: mdp_dma_wq
+[ 1070.047271] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.056091] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.064422] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.072692] 
+[ 1070.072692] PID: 61, Name: mdp_vsync_wq
+[ 1070.078002] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.086822] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.095092] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.103485] 
+[ 1070.103485] PID: 62, Name: mdp_pipe_ctrl_w
+[ 1070.109039] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.117736] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.126129] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.134460] 
+[ 1070.134460] PID: 63, Name: mdp_cursor_ctrl
+[ 1070.139984] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.148803] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.157135] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.165466] 
+[ 1070.165466] PID: 64, Name: msmfb_commit_th
+[ 1070.170959] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c03dae30>] (msm_fb_commit_thread+0xc0/0x40c)
+[ 1070.180236] [<c03dae30>] (msm_fb_commit_thread+0xc0/0x40c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.188995] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.197326] 
+[ 1070.197326] PID: 65, Name: vidc_worker_que
+[ 1070.202819] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.211639] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.219970] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.228240] 
+[ 1070.228240] PID: 66, Name: vidc_timer_wq
+[ 1070.233703] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.242462] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.250732] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.259124] 
+[ 1070.259124] PID: 67, Name: kgsl-3d0
+[ 1070.264007] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.272857] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.281188] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.289520] 
+[ 1070.289520] PID: 68, Name: kgsl-2d0
+[ 1070.294403] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.303222] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.311553] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.319824] 
+[ 1070.319824] PID: 69, Name: kgsl-2d1
+[ 1070.324798] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.333618] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.341888] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.350280] 
+[ 1070.350280] PID: 70, Name: irq/505-pm8058_
+[ 1070.355834] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1070.364196] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.372253] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.380584] 
+[ 1070.380584] PID: 78, Name: k_rmnet_mux_wor
+[ 1070.386077] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.394897] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.403228] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.411560] 
+[ 1070.411560] PID: 79, Name: f_mtp
+[ 1070.416198] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.425018] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.433288] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.441680] 
+[ 1070.441680] PID: 80, Name: file-storage
+[ 1070.446990] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c04fec30>] (sleep_thread+0x60/0x8c)
+[ 1070.455352] [<c04fec30>] (sleep_thread+0x60/0x8c) from [<c050cbfc>] (fsg_main_thread+0xa0/0x16e8)
+[ 1070.464263] [<c050cbfc>] (fsg_main_thread+0xa0/0x16e8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.472686] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.481018] 
+[ 1070.481018] PID: 82, Name: diag_wq
+[ 1070.485809] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.494628] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.502960] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.511230] 
+[ 1070.511260] PID: 83, Name: diag_cntl_wq
+[ 1070.516540] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.525360] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.533630] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.542022] 
+[ 1070.542022] PID: 84, Name: diag_sdio_wq
+[ 1070.547332] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.556030] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.564422] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.572753] 
+[ 1070.572753] PID: 85, Name: kpsmoused
+[ 1070.577758] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.586578] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.594909] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.603240] 
+[ 1070.603240] PID: 86, Name: tki_wq
+[ 1070.607940] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.616790] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.625061] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.633422] 
+[ 1070.633453] PID: 87, Name: msm_charger_eve
+[ 1070.639007] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.647705] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.656097] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.664428] 
+[ 1070.664428] PID: 88, Name: msm_adc
+[ 1070.669250] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.678070] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.686401] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.694732] 
+[ 1070.694732] PID: 89, Name: irq/210-tsens
+[ 1070.700073] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1070.708526] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.716522] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.724792] 
+[ 1070.724792] PID: 90, Name: dbs_sync/0
+[ 1070.729980] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05acd04>] (dbs_sync_thread+0x9c/0x1e8)
+[ 1070.738739] [<c05acd04>] (dbs_sync_thread+0x9c/0x1e8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.747009] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.755401] 
+[ 1070.755401] PID: 91, Name: dbs_sync/1
+[ 1070.760467] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05acd04>] (dbs_sync_thread+0x9c/0x1e8)
+[ 1070.769287] [<c05acd04>] (dbs_sync_thread+0x9c/0x1e8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.777648] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.785949] 
+[ 1070.785949] PID: 92, Name: irq/642-msm-sdc
+[ 1070.791473] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1070.799957] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.807922] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.816192] 
+[ 1070.816192] PID: 93, Name: mmcqd/0
+[ 1070.821075] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1070.829986] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c0378>] (io_schedule_timeout+0x78/0xa8)
+[ 1070.839385] [<c07c0378>] (io_schedule_timeout+0x78/0xa8) from [<c07c0480>] (wait_for_common+0xd8/0x198)
+[ 1070.848754] [<c07c0480>] (wait_for_common+0xd8/0x198) from [<c05b33d0>] (mmc_wait_for_req+0x258/0x28c)
+[ 1070.858123] [<c05b33d0>] (mmc_wait_for_req+0x258/0x28c) from [<c05bed9c>] (mmc_blk_issue_rw_rq+0x288/0x694)
+[ 1070.867828] [<c05bed9c>] (mmc_blk_issue_rw_rq+0x288/0x694) from [<c05bf470>] (mmc_blk_issue_rq+0x2c8/0x2f4)
+[ 1070.877563] [<c05bf470>] (mmc_blk_issue_rq+0x2c8/0x2f4) from [<c05bfa64>] (mmc_queue_thread+0x1a4/0x1c8)
+[ 1070.887023] [<c05bfa64>] (mmc_queue_thread+0x1a4/0x1c8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.895446] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.903778] 
+[ 1070.903778] PID: 94, Name: mmcqd/0boot0
+[ 1070.909149] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05bf954>] (mmc_queue_thread+0x94/0x1c8)
+[ 1070.917938] [<c05bf954>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.926422] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.934753] 
+[ 1070.934753] PID: 95, Name: mmcqd/0boot1
+[ 1070.940002] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05bf954>] (mmc_queue_thread+0x94/0x1c8)
+[ 1070.948913] [<c05bf954>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.957336] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.965667] 
+[ 1070.965667] PID: 97, Name: binder
+[ 1070.970367] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1070.979217] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1070.987548] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1070.995788] 
+[ 1070.995819] PID: 99, Name: kworker/u:3
+[ 1071.001007] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1071.009765] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.017944] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.026336] 
+[ 1071.026336] PID: 100, Name: krfcommd
+[ 1071.031372] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0759334>] (rfcomm_run+0x168/0x1840)
+[ 1071.039825] [<c0759334>] (rfcomm_run+0x168/0x1840) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.047943] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.056274] 
+[ 1071.056274] PID: 101, Name: msm-cpufreq
+[ 1071.061523] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.070343] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.078674] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.086944] 
+[ 1071.086944] PID: 102, Name: rq_stats
+[ 1071.091979] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.100830] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.109100] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.117492] 
+[ 1071.117492] PID: 103, Name: qt602240_wq
+[ 1071.122772] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.131500] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.139892] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.148193] 
+[ 1071.148193] PID: 104, Name: mmcqd/2
+[ 1071.153106] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1071.162017] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c0378>] (io_schedule_timeout+0x78/0xa8)
+[ 1071.171478] [<c07c0378>] (io_schedule_timeout+0x78/0xa8) from [<c07c0480>] (wait_for_common+0xd8/0x198)
+[ 1071.180847] [<c07c0480>] (wait_for_common+0xd8/0x198) from [<c05b33d0>] (mmc_wait_for_req+0x258/0x28c)
+[ 1071.190155] [<c05b33d0>] (mmc_wait_for_req+0x258/0x28c) from [<c05bed9c>] (mmc_blk_issue_rw_rq+0x288/0x694)
+[ 1071.199859] [<c05bed9c>] (mmc_blk_issue_rw_rq+0x288/0x694) from [<c05bf470>] (mmc_blk_issue_rq+0x2c8/0x2f4)
+[ 1071.209533] [<c05bf470>] (mmc_blk_issue_rq+0x2c8/0x2f4) from [<c05bfa64>] (mmc_queue_thread+0x1a4/0x1c8)
+[ 1071.219055] [<c05bfa64>] (mmc_queue_thread+0x1a4/0x1c8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.227569] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.235900] 
+[ 1071.235900] PID: 105, Name: irq/317-qt60224
+[ 1071.241485] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.249969] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.257934] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.266204] 
+[ 1071.266204] PID: 106, Name: irq/487-pm8058_
+[ 1071.271850] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.280334] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.288269] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.296661] 
+[ 1071.296661] PID: 107, Name: irq/488-pm8058_
+[ 1071.302307] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.310668] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.318695] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.327026] 
+[ 1071.327026] PID: 108, Name: irq/444-CHGVAL
+[ 1071.332550] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.341033] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.348999] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.357269] 
+[ 1071.357269] PID: 109, Name: irq/443-CHGINVA
+[ 1071.362915] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.371398] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.379333] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.387725] 
+[ 1071.387725] PID: 110, Name: irq/474-VBATDET
+[ 1071.393371] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.401733] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.409759] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.418090] 
+[ 1071.418090] PID: 111, Name: irq/564-BATT_ID
+[ 1071.423675] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d53b4>] (irq_thread+0x18c/0x1dc)
+[ 1071.432159] [<c01d53b4>] (irq_thread+0x18c/0x1dc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.440155] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.448486] 
+[ 1071.448486] PID: 112, Name: ueventd
+[ 1071.453369] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1071.463500] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1071.474365] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024b134>] (do_sys_poll+0x2bc/0x378)
+[ 1071.483642] [<c024b134>] (do_sys_poll+0x2bc/0x378) from [<c024b290>] (sys_poll+0x5c/0xbc)
+[ 1071.491729] [<c024b290>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1071.500122] 
+[ 1071.500122] PID: 114, Name: jbd2/mmcblk0p13
+[ 1071.505798] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1071.514129] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.522186] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.530517] 
+[ 1071.530517] PID: 115, Name: ext4-dio-unwrit
+[ 1071.536102] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.544921] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.553253] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.561584] 
+[ 1071.561584] PID: 118, Name: flush-179:0
+[ 1071.566833] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 1071.576171] [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.585021] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.593292] 
+[ 1071.593292] PID: 120, Name: jbd2/mmcblk0p14
+[ 1071.598937] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1071.607421] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.615356] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.623748] 
+[ 1071.623748] PID: 121, Name: ext4-dio-unwrit
+[ 1071.629394] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.638092] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.646484] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.654815] 
+[ 1071.654815] PID: 125, Name: jbd2/mmcblk0p16
+[ 1071.660400] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1071.668884] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.676879] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.685211] 
+[ 1071.685211] PID: 126, Name: ext4-dio-unwrit
+[ 1071.690795] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.699615] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.707946] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.716217] 
+[ 1071.716217] PID: 127, Name: jbd2/mmcblk0p15
+[ 1071.721923] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1071.730346] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.738281] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.746673] 
+[ 1071.746673] PID: 128, Name: ext4-dio-unwrit
+[ 1071.752319] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.761016] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.769409] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.777740] 
+[ 1071.777740] PID: 129, Name: jbd2/mmcblk0p17
+[ 1071.783325] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1071.791809] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.799804] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.808135] 
+[ 1071.808135] PID: 130, Name: ext4-dio-unwrit
+[ 1071.813720] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1071.822540] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1071.830871] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1071.839141] 
+[ 1071.839141] PID: 233, Name: healthd
+[ 1071.844146] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1071.854217] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1071.864654] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1071.873596] 
+[ 1071.873596] PID: 234, Name: servicemanager
+[ 1071.879241] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05d9710>] (binder_thread_read+0x2b0/0xb5c)
+[ 1071.888336] [<c05d9710>] (binder_thread_read+0x2b0/0xb5c) from [<c05da204>] (binder_ioctl+0x248/0x5fc)
+[ 1071.897583] [<c05da204>] (binder_ioctl+0x248/0x5fc) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1071.905975] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1071.914306] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1071.922637] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1071.930999] 
+[ 1071.930999] PID: 235, Name: vold
+[ 1071.935668] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2750>] (do_nanosleep+0x74/0xd0)
+[ 1071.944152] [<c07c2750>] (do_nanosleep+0x74/0xd0) from [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114)
+[ 1071.953033] [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b23ac>] (sys_nanosleep+0x9c/0xa4)
+[ 1071.962127] [<c01b23ac>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1071.970886] 
+[ 1071.970886] PID: 239, Name: skytestserver
+[ 1071.976318] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0)
+[ 1071.985412] [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd970>] (futex_wait+0xdc/0x1f8)
+[ 1071.994323] [<c01bd970>] (futex_wait+0xdc/0x1f8) from [<c01bee14>] (do_futex+0xc8/0x95c)
+[ 1072.002410] [<c01bee14>] (do_futex+0xc8/0x95c) from [<c01bf7cc>] (sys_futex+0x124/0x16c)
+[ 1072.010406] [<c01bf7cc>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.019073] 
+[ 1072.019073] PID: 240, Name: orientationd
+[ 1072.024475] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0)
+[ 1072.033477] [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd970>] (futex_wait+0xdc/0x1f8)
+[ 1072.042358] [<c01bd970>] (futex_wait+0xdc/0x1f8) from [<c01bee14>] (do_futex+0xc8/0x95c)
+[ 1072.050506] [<c01bee14>] (do_futex+0xc8/0x95c) from [<c01bf7cc>] (sys_futex+0x124/0x16c)
+[ 1072.058563] [<c01bf7cc>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.067169] 
+[ 1072.067169] PID: 241, Name: geomagneticd
+[ 1072.072479] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0529480>] (evdev_read+0xe8/0x1fc)
+[ 1072.080871] [<c0529480>] (evdev_read+0xe8/0x1fc) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1072.088897] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1072.096771] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.105102] 
+[ 1072.105102] PID: 242, Name: auditd
+[ 1072.109893] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1072.120025] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1072.130889] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024b134>] (do_sys_poll+0x2bc/0x378)
+[ 1072.140167] [<c024b134>] (do_sys_poll+0x2bc/0x378) from [<c024b290>] (sys_poll+0x5c/0xbc)
+[ 1072.148345] [<c024b290>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.156616] 
+[ 1072.156616] PID: 244, Name: netd
+[ 1072.161285] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2750>] (do_nanosleep+0x74/0xd0)
+[ 1072.169769] [<c07c2750>] (do_nanosleep+0x74/0xd0) from [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114)
+[ 1072.178649] [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b23ac>] (sys_nanosleep+0x9c/0xa4)
+[ 1072.187744] [<c01b23ac>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.196502] 
+[ 1072.196502] PID: 245, Name: debuggerd
+[ 1072.201568] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1072.210479] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c062be94>] (__skb_recv_datagram+0x20c/0x280)
+[ 1072.220123] [<c062be94>] (__skb_recv_datagram+0x20c/0x280) from [<c062bf24>] (skb_recv_datagram+0x1c/0x20)
+[ 1072.229766] [<c062bf24>] (skb_recv_datagram+0x1c/0x20) from [<c06e0cb4>] (unix_accept+0x4c/0xe8)
+[ 1072.238525] [<c06e0cb4>] (unix_accept+0x4c/0xe8) from [<c06221e0>] (sys_accept4+0x17c/0x264)
+[ 1072.246887] [<c06221e0>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.255645] 
+[ 1072.255645] PID: 247, Name: rild
+[ 1072.260406] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2750>] (do_nanosleep+0x74/0xd0)
+[ 1072.268768] [<c07c2750>] (do_nanosleep+0x74/0xd0) from [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114)
+[ 1072.277770] [<c01b2288>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b23ac>] (sys_nanosleep+0x9c/0xa4)
+[ 1072.286804] [<c01b23ac>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.295562] 
+[ 1072.295562] PID: 249, Name: surfaceflinger
+[ 1072.301055] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1072.311187] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1072.321594] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.330627] 
+[ 1072.330627] PID: 250, Name: zygote
+[ 1072.335418] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1072.345550] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1072.356414] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1072.365539] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1072.374298] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1072.383056] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.391601] 
+[ 1072.391601] PID: 251, Name: drmserver
+[ 1072.396789] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05d9710>] (binder_thread_read+0x2b0/0xb5c)
+[ 1072.405883] [<c05d9710>] (binder_thread_read+0x2b0/0xb5c) from [<c05da204>] (binder_ioctl+0x248/0x5fc)
+[ 1072.415130] [<c05da204>] (binder_ioctl+0x248/0x5fc) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1072.423522] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1072.431854] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1072.440185] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.448547] 
+[ 1072.448547] PID: 252, Name: mediaserver
+[ 1072.453826] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05d9710>] (binder_thread_read+0x2b0/0xb5c)
+[ 1072.463012] [<c05d9710>] (binder_thread_read+0x2b0/0xb5c) from [<c05da204>] (binder_ioctl+0x248/0x5fc)
+[ 1072.472290] [<c05da204>] (binder_ioctl+0x248/0x5fc) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1072.480560] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1072.488952] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1072.497283] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.505706] 
+[ 1072.505706] PID: 253, Name: installd
+[ 1072.510711] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0)
+[ 1072.519775] [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd970>] (futex_wait+0xdc/0x1f8)
+[ 1072.528717] [<c01bd970>] (futex_wait+0xdc/0x1f8) from [<c01bee14>] (do_futex+0xc8/0x95c)
+[ 1072.536743] [<c01bee14>] (do_futex+0xc8/0x95c) from [<c01bf7cc>] (sys_futex+0x124/0x16c)
+[ 1072.544860] [<c01bf7cc>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.553466] 
+[ 1072.553466] PID: 255, Name: kauditd
+[ 1072.558349] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d0094>] (kauditd_thread+0x124/0x178)
+[ 1072.567169] [<c01d0094>] (kauditd_thread+0x124/0x178) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1072.575531] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1072.583770] 
+[ 1072.583770] PID: 260, Name: keystore
+[ 1072.588836] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05d9710>] (binder_thread_read+0x2b0/0xb5c)
+[ 1072.597991] [<c05d9710>] (binder_thread_read+0x2b0/0xb5c) from [<c05da204>] (binder_ioctl+0x248/0x5fc)
+[ 1072.607299] [<c05da204>] (binder_ioctl+0x248/0x5fc) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1072.615570] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1072.623962] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1072.632293] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.640655] 
+[ 1072.640655] PID: 293, Name: qrngd
+[ 1072.645416] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1072.655548] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1072.666412] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024b134>] (do_sys_poll+0x2bc/0x378)
+[ 1072.675689] [<c024b134>] (do_sys_poll+0x2bc/0x378) from [<c024b290>] (sys_poll+0x5c/0xbc)
+[ 1072.683776] [<c024b290>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.692169] 
+[ 1072.692169] PID: 294, Name: time_daemon
+[ 1072.697479] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1072.706268] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c062be94>] (__skb_recv_datagram+0x20c/0x280)
+[ 1072.715972] [<c062be94>] (__skb_recv_datagram+0x20c/0x280) from [<c062bf24>] (skb_recv_datagram+0x1c/0x20)
+[ 1072.725585] [<c062bf24>] (skb_recv_datagram+0x1c/0x20) from [<c06e0cb4>] (unix_accept+0x4c/0xe8)
+[ 1072.734375] [<c06e0cb4>] (unix_accept+0x4c/0xe8) from [<c06221e0>] (sys_accept4+0x17c/0x264)
+[ 1072.742797] [<c06221e0>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.751495] 
+[ 1072.751495] PID: 295, Name: sh
+[ 1072.756072] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1072.764953] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c0420b50>] (n_tty_read+0x338/0x6bc)
+[ 1072.773712] [<c0420b50>] (n_tty_read+0x338/0x6bc) from [<c041bf3c>] (tty_read+0x80/0xc4)
+[ 1072.781860] [<c041bf3c>] (tty_read+0x80/0xc4) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1072.789672] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1072.797424] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.805816] 
+[ 1072.805816] PID: 299, Name: qmuxd
+[ 1072.810607] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1072.820587] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1072.831512] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1072.840637] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1072.849395] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1072.858154] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.866760] 
+[ 1072.866760] PID: 301, Name: rmt_storage
+[ 1072.872009] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0174010>] (rmt_storage_ioctl+0x200/0x494)
+[ 1072.881072] [<c0174010>] (rmt_storage_ioctl+0x200/0x494) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1072.889831] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1072.898132] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1072.906524] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.914916] 
+[ 1072.914916] PID: 308, Name: qcks
+[ 1072.919555] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1072.928466] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c048c>] (wait_for_common+0xe4/0x198)
+[ 1072.937683] [<c07c048c>] (wait_for_common+0xe4/0x198) from [<c07c05ac>] (wait_for_completion_interruptible+0x18/0x24)
+[ 1072.948272] [<c07c05ac>] (wait_for_completion_interruptible+0x18/0x24) from [<c0172db8>] (charm_modem_ioctl+0x1c4/0x244)
+[ 1072.959106] [<c0172db8>] (charm_modem_ioctl+0x1c4/0x244) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1072.967895] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1072.976165] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1072.984558] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1072.992980] 
+[ 1072.992980] PID: 309, Name: qmiproxy
+[ 1072.997955] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1073.008087] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1073.018920] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1073.028045] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1073.036804] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1073.045593] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1073.054107] 
+[ 1073.054107] PID: 409, Name: jbd2/mmcblk1p2-
+[ 1073.059814] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c02ec2fc>] (kjournald2+0x184/0x204)
+[ 1073.068237] [<c02ec2fc>] (kjournald2+0x184/0x204) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.076171] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.084564] 
+[ 1073.084564] PID: 410, Name: ext4-dio-unwrit
+[ 1073.090148] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.098968] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.107299] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.115631] 
+[ 1073.115631] PID: 586, Name: rpcrotuer_smd_x
+[ 1073.121215] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.130035] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.138366] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.146636] 
+[ 1073.146636] PID: 587, Name: krpcserversd
+[ 1073.152038] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c013da94>] (rpc_servers_thread+0xf0/0x358)
+[ 1073.161132] [<c013da94>] (rpc_servers_thread+0xf0/0x358) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.169708] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.177978] 
+[ 1073.177978] PID: 609, Name: krmt_storagecln
+[ 1073.183685] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c013bf34>] (__msm_rpc_read+0x11c/0x7c4)
+[ 1073.192443] [<c013bf34>] (__msm_rpc_read+0x11c/0x7c4) from [<c013c5ec>] (msm_rpc_read+0x10/0x74)
+[ 1073.201171] [<c013c5ec>] (msm_rpc_read+0x10/0x74) from [<c013eb48>] (rpc_clients_thread+0x2c/0x1d8)
+[ 1073.210266] [<c013eb48>] (rpc_clients_thread+0x2c/0x1d8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.218841] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.227172] 
+[ 1073.227172] PID: 610, Name: krmt_storagecln
+[ 1073.232757] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c013ea00>] (rpc_clients_cb_thread+0x70/0x18c)
+[ 1073.242126] [<c013ea00>] (rpc_clients_cb_thread+0x70/0x18c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.250976] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.259246] 
+[ 1073.259246] PID: 677, Name: sdio_al_wq
+[ 1073.264465] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.273284] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.281555] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.289947] 
+[ 1073.289947] PID: 685, Name: flush-179:96
+[ 1073.295318] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 1073.304565] [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.313415] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.321807] 
+[ 1073.321807] PID: 686, Name: kworker/u:4
+[ 1073.327056] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c011e88c>] (worker+0xf8/0x1ec)
+[ 1073.335083] [<c011e88c>] (worker+0xf8/0x1ec) from [<c01a9898>] (process_one_work+0x228/0x434)
+[ 1073.343597] [<c01a9898>] (process_one_work+0x228/0x434) from [<c01a9e00>] (worker_thread+0x19c/0x2bc)
+[ 1073.352783] [<c01a9e00>] (worker_thread+0x19c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.361053] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.369293] 
+[ 1073.369323] PID: 687, Name: sdio_al_wq
+[ 1073.374572] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.383300] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.391693] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.399993] 
+[ 1073.400024] PID: 688, Name: kworker/u:5
+[ 1073.405242] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1073.414001] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.422241] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.430572] 
+[ 1073.430572] PID: 691, Name: su
+[ 1073.435028] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1073.443939] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c062be94>] (__skb_recv_datagram+0x20c/0x280)
+[ 1073.453582] [<c062be94>] (__skb_recv_datagram+0x20c/0x280) from [<c062bf24>] (skb_recv_datagram+0x1c/0x20)
+[ 1073.463226] [<c062bf24>] (skb_recv_datagram+0x1c/0x20) from [<c06e0cb4>] (unix_accept+0x4c/0xe8)
+[ 1073.471923] [<c06e0cb4>] (unix_accept+0x4c/0xe8) from [<c06221e0>] (sys_accept4+0x17c/0x264)
+[ 1073.480407] [<c06221e0>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1073.489166] 
+[ 1073.489166] PID: 692, Name: netmgrd
+[ 1073.494049] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0)
+[ 1073.503143] [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd970>] (futex_wait+0xdc/0x1f8)
+[ 1073.512084] [<c01bd970>] (futex_wait+0xdc/0x1f8) from [<c01bee14>] (do_futex+0xc8/0x95c)
+[ 1073.520141] [<c01bee14>] (do_futex+0xc8/0x95c) from [<c01bf7cc>] (sys_futex+0x124/0x16c)
+[ 1073.528167] [<c01bf7cc>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1073.536804] 
+[ 1073.536834] PID: 696, Name: adbd
+[ 1073.541503] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1073.551513] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1073.562438] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1073.571533] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1073.580322] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1073.589080] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1073.597656] 
+[ 1073.597686] PID: 750, Name: ksdioirqd/mmc4
+[ 1073.603179] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1073.612091] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c05bd238>] (sdio_irq_thread+0x22c/0x2d0)
+[ 1073.621368] [<c05bd238>] (sdio_irq_thread+0x22c/0x2d0) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.629730] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.638122] 
+[ 1073.638122] PID: 751, Name: sdio_xprt
+[ 1073.643249] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.651947] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.660339] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.668670] 
+[ 1073.668670] PID: 754, Name: rpcrotuer_sdio_
+[ 1073.674255] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.683074] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.691436] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.699768] 
+[ 1073.699768] PID: 755, Name: sdio_cmux
+[ 1073.704833] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.713653] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.721984] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.730255] 
+[ 1073.730255] PID: 756, Name: sdio_cdemux
+[ 1073.735626] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.744384] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.752655] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.761047] 
+[ 1073.761047] PID: 758, Name: system_server
+[ 1073.766510] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1073.776519] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1073.787017] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1073.796020] 
+[ 1073.796020] PID: 797, Name: krmt_storagecln
+[ 1073.801666] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c013bf34>] (__msm_rpc_read+0x11c/0x7c4)
+[ 1073.810394] [<c013bf34>] (__msm_rpc_read+0x11c/0x7c4) from [<c013c5ec>] (msm_rpc_read+0x10/0x74)
+[ 1073.819213] [<c013c5ec>] (msm_rpc_read+0x10/0x74) from [<c013eb48>] (rpc_clients_thread+0x2c/0x1d8)
+[ 1073.828247] [<c013eb48>] (rpc_clients_thread+0x2c/0x1d8) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.836822] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.845153] 
+[ 1073.845153] PID: 798, Name: krmt_storagecln
+[ 1073.850738] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c013ea00>] (rpc_clients_cb_thread+0x70/0x18c)
+[ 1073.860076] [<c013ea00>] (rpc_clients_cb_thread+0x70/0x18c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.868957] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.877227] 
+[ 1073.877227] PID: 838, Name: kworker/u:7
+[ 1073.882537] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c011e88c>] (worker+0xf8/0x1ec)
+[ 1073.890563] [<c011e88c>] (worker+0xf8/0x1ec) from [<c01a9898>] (process_one_work+0x228/0x434)
+[ 1073.899017] [<c01a9898>] (process_one_work+0x228/0x434) from [<c01a9e00>] (worker_thread+0x19c/0x2bc)
+[ 1073.908264] [<c01a9e00>] (worker_thread+0x19c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.916534] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.924865] 
+[ 1073.924865] PID: 845, Name: ksdioirqd/mmc1
+[ 1073.930358] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1073.939270] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c05bd238>] (sdio_irq_thread+0x22c/0x2d0)
+[ 1073.948547] [<c05bd238>] (sdio_irq_thread+0x22c/0x2d0) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.956909] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.965301] 
+[ 1073.965301] PID: 846, Name: sdio_dmux
+[ 1073.970428] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1073.979125] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1073.987518] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1073.995849] 
+[ 1073.995849] PID: 971, Name: ndroid.systemui
+[ 1074.001464] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.011566] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.022003] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.031005] 
+[ 1074.031005] PID: 1049, Name: d.process.media
+[ 1074.036743] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.046752] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.057250] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.066253] 
+[ 1074.066253] PID: 1061, Name: sdcard
+[ 1074.071228] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c026d980>] (inotify_read+0x2e8/0x344)
+[ 1074.079742] [<c026d980>] (inotify_read+0x2e8/0x344) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1074.088134] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1074.095947] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.104278] 
+[ 1074.104278] PID: 1068, Name: sdcard
+[ 1074.109191] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c026d980>] (inotify_read+0x2e8/0x344)
+[ 1074.117828] [<c026d980>] (inotify_read+0x2e8/0x344) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1074.126098] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1074.133972] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.142303] 
+[ 1074.142303] PID: 1079, Name: tion.pckeyboard
+[ 1074.147979] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.158111] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.168518] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.177551] 
+[ 1074.177551] PID: 1125, Name: m.android.phone
+[ 1074.183288] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.193298] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.203765] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.212799] 
+[ 1074.212799] PID: 1130, Name: roid.dspmanager
+[ 1074.218536] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.228607] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.239013] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.247985] 
+[ 1074.247985] PID: 1135, Name: ndroid.incallui
+[ 1074.253784] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.263854] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.274261] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.283233] 
+[ 1074.283233] PID: 1166, Name: coilsw.launcher
+[ 1074.288970] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1074.299072] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.309509] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.318511] 
+[ 1074.318511] PID: 1186, Name: loop0
+[ 1074.323333] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0479660>] (loop_thread+0xb8/0x440)
+[ 1074.331817] [<c0479660>] (loop_thread+0xb8/0x440) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.339752] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.348114] 
+[ 1074.348114] PID: 1187, Name: kdmflush
+[ 1074.353271] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1074.361968] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.370361] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.378692] 
+[ 1074.378692] PID: 1202, Name: kcryptd_io
+[ 1074.383941] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1074.392761] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.401092] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.409423] 
+[ 1074.409423] PID: 1203, Name: kcryptd
+[ 1074.414398] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1074.423217] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.431549] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.439819] 
+[ 1074.439819] PID: 1204, Name: ext4-dio-unwrit
+[ 1074.445617] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1074.454376] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.462646] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.471038] 
+[ 1074.471038] PID: 1295, Name: android.smspush
+[ 1074.476776] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.486846] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.497222] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.506286] 
+[ 1074.506286] PID: 1401, Name: rocess.location
+[ 1074.512023] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.522094] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.532501] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.541473] 
+[ 1074.541473] PID: 1453, Name: mpdecision
+[ 1074.546783] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0)
+[ 1074.555877] [<c01bcf74>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd970>] (futex_wait+0xdc/0x1f8)
+[ 1074.564758] [<c01bd970>] (futex_wait+0xdc/0x1f8) from [<c01bee14>] (do_futex+0xc8/0x95c)
+[ 1074.572875] [<c01bee14>] (do_futex+0xc8/0x95c) from [<c01bf7cc>] (sys_futex+0x124/0x16c)
+[ 1074.580963] [<c01bf7cc>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.589538] 
+[ 1074.589538] PID: 1476, Name: kworker/0:3
+[ 1074.594879] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1074.603607] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.611846] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.620117] 
+[ 1074.620117] PID: 1639, Name: m.facebook.orca
+[ 1074.625915] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1074.635986] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1074.646392] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.655364] 
+[ 1074.655364] PID: 2077, Name: sh
+[ 1074.659973] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 1074.668640] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.677429] 
+[ 1074.677429] PID: 2139, Name: su
+[ 1074.682037] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0193380>] (do_wait+0x1ac/0x244)
+[ 1074.690246] [<c0193380>] (do_wait+0x1ac/0x244) from [<c01945c8>] (sys_wait4+0xa0/0xc0)
+[ 1074.698089] [<c01945c8>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.706542] 
+[ 1074.706542] PID: 2140, Name: su
+[ 1074.711090] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1074.720031] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c0420b50>] (n_tty_read+0x338/0x6bc)
+[ 1074.728851] [<c0420b50>] (n_tty_read+0x338/0x6bc) from [<c041bf3c>] (tty_read+0x80/0xc4)
+[ 1074.736938] [<c041bf3c>] (tty_read+0x80/0xc4) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1074.744689] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1074.752563] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.760894] 
+[ 1074.760894] PID: 2143, Name: su
+[ 1074.765441] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0193380>] (do_wait+0x1ac/0x244)
+[ 1074.773651] [<c0193380>] (do_wait+0x1ac/0x244) from [<c01945c8>] (sys_wait4+0xa0/0xc0)
+[ 1074.781555] [<c01945c8>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.789916] 
+[ 1074.789916] PID: 2145, Name: su
+[ 1074.794525] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0193380>] (do_wait+0x1ac/0x244)
+[ 1074.802734] [<c0193380>] (do_wait+0x1ac/0x244) from [<c01945c8>] (sys_wait4+0xa0/0xc0)
+[ 1074.810577] [<c01945c8>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.819061] 
+[ 1074.819061] PID: 2146, Name: sh
+[ 1074.823608] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 1074.832244] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1074.841094] 
+[ 1074.841125] PID: 2164, Name: sdio_smem
+[ 1074.846252] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9c54>] (rescuer_thread+0x184/0x194)
+[ 1074.855102] [<c01a9c54>] (rescuer_thread+0x184/0x194) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1074.863433] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.871765] 
+[ 1074.871765] PID: 2293, Name: dhd_cfg80211_ev
+[ 1074.877441] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1074.886352] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c2acc>] (__down_interruptible+0x70/0xd0)
+[ 1074.895904] [<c07c2acc>] (__down_interruptible+0x70/0xd0) from [<c01b2adc>] (down_interruptible+0x30/0x48)
+[ 1074.905670] [<c01b2adc>] (down_interruptible+0x30/0x48) from [<bf02e54c>] (wl_event_handler+0x1f4/0x280 [bcmdhd])
+[ 1074.915924] [<bf02e54c>] (wl_event_handler+0x1f4/0x280 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.925781] 
+[ 1074.925781] PID: 2294, Name: dhd_watchdog
+[ 1074.931243] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1074.940155] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c2acc>] (__down_interruptible+0x70/0xd0)
+[ 1074.949707] [<c07c2acc>] (__down_interruptible+0x70/0xd0) from [<c01b2adc>] (down_interruptible+0x30/0x48)
+[ 1074.959320] [<c01b2adc>] (down_interruptible+0x30/0x48) from [<bf006a50>] (dhd_watchdog_thread+0x7c/0x148 [bcmdhd])
+[ 1074.969879] [<bf006a50>] (dhd_watchdog_thread+0x7c/0x148 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1074.980010] 
+[ 1074.980010] PID: 2295, Name: dhd_dpc
+[ 1074.985046] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1074.993896] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c2acc>] (__down_interruptible+0x70/0xd0)
+[ 1075.003387] [<c07c2acc>] (__down_interruptible+0x70/0xd0) from [<c01b2adc>] (down_interruptible+0x30/0x48)
+[ 1075.013122] [<c01b2adc>] (down_interruptible+0x30/0x48) from [<bf006960>] (dhd_dpc_thread+0x74/0xe8 [bcmdhd])
+[ 1075.023071] [<bf006960>] (dhd_dpc_thread+0x74/0xe8 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1075.032684] 
+[ 1075.032684] PID: 2296, Name: dhd_sysioc
+[ 1075.037933] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1075.046844] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c07c2acc>] (__down_interruptible+0x70/0xd0)
+[ 1075.056396] [<c07c2acc>] (__down_interruptible+0x70/0xd0) from [<c01b2adc>] (down_interruptible+0x30/0x48)
+[ 1075.066070] [<c01b2adc>] (down_interruptible+0x30/0x48) from [<bf00681c>] (_dhd_sysioc_thread+0x500/0x570 [bcmdhd])
+[ 1075.076568] [<bf00681c>] (_dhd_sysioc_thread+0x500/0x570 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1075.086700] 
+[ 1075.086700] PID: 2300, Name: wpa_supplicant
+[ 1075.092285] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.102416] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1075.113250] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1075.122375] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1075.131134] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1075.139892] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.148437] 
+[ 1075.148437] PID: 2357, Name: dhcpcd
+[ 1075.153442] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.163513] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1075.174377] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024b134>] (do_sys_poll+0x2bc/0x378)
+[ 1075.183593] [<c024b134>] (do_sys_poll+0x2bc/0x378) from [<c024b290>] (sys_poll+0x5c/0xbc)
+[ 1075.191802] [<c024b290>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.200134] 
+[ 1075.200134] PID: 2929, Name: mozilla.firefox
+[ 1075.205810] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.215942] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.226379] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.235382] 
+[ 1075.235382] PID: 3112, Name: reenify:service
+[ 1075.241119] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.251129] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.261627] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.270629] 
+[ 1075.270629] PID: 3134, Name: sh
+[ 1075.275238] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 1075.283782] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.292694] 
+[ 1075.292694] PID: 3139, Name: logcat
+[ 1075.297637] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.307647] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1075.318542] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1075.327667] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1075.336425] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1075.345214] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.353790] 
+[ 1075.353790] PID: 3425, Name: s.messaging:rcs
+[ 1075.359466] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.369598] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.380004] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.389038] 
+[ 1075.389038] PID: 4575, Name: le.android.keep
+[ 1075.394714] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.404846] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.415252] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.424285] 
+[ 1075.424285] PID: 5601, Name: kworker/u:2
+[ 1075.429626] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1075.438354] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1075.446594] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1075.454925] 
+[ 1075.454925] PID: 5801, Name: .gms.persistent
+[ 1075.460601] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.470733] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.481140] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.490173] 
+[ 1075.490173] PID: 5826, Name: e.process.gapps
+[ 1075.495849] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.505981] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.516387] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.525421] 
+[ 1075.525421] PID: 5927, Name: earchbox:search
+[ 1075.531097] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.541229] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.551635] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.560668] 
+[ 1075.560668] PID: 5944, Name: gle.android.gms
+[ 1075.566345] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.576477] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.586883] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.595916] 
+[ 1075.595916] PID: 6057, Name: android.vending
+[ 1075.601654] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.611663] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.622131] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.631164] 
+[ 1075.631164] PID: 6109, Name: ndroid.settings
+[ 1075.636871] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.646942] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.657379] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.666320] 
+[ 1075.666320] PID: 6179, Name: oid.apps.photos
+[ 1075.672119] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.682189] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.692596] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.701568] 
+[ 1075.701568] PID: 6225, Name: putmethod.latin
+[ 1075.707305] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.717437] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.727844] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.736877] 
+[ 1075.736877] PID: 6256, Name: .android.chrome
+[ 1075.742553] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 1075.752685] [<c07c28ec>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.763092] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.772125] 
+[ 1075.772125] PID: 6281, Name: id.gms.feedback
+[ 1075.777801] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.787933] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.798339] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.807373] 
+[ 1075.807373] PID: 6348, Name: ileged_process0
+[ 1075.813049] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.823181] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.833587] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.842620] 
+[ 1075.842620] PID: 6405, Name: .bitspin.timely
+[ 1075.848297] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.858367] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.868835] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.877868] 
+[ 1075.877868] PID: 6471, Name: droid.deskclock
+[ 1075.883605] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.893646] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.904022] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.913085] 
+[ 1075.913116] PID: 6499, Name: m.zulip.android
+[ 1075.918823] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.928894] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.939331] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.948272] 
+[ 1075.948272] PID: 6555, Name: putmethod.latin
+[ 1075.954010] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.964141] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1075.974578] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1075.983581] 
+[ 1075.983581] PID: 6586, Name: ransitapp.droid
+[ 1075.989257] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1075.999389] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.009796] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.018829] 
+[ 1076.018829] PID: 6639, Name: android.weather
+[ 1076.024505] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.034637] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.045043] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.054077] 
+[ 1076.054077] PID: 6869, Name: .android.gms.ui
+[ 1076.059753] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.069885] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.080291] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.089324] 
+[ 1076.089324] PID: 6926, Name: kworker/0:2
+[ 1076.094665] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1076.103393] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.111633] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.119964] 
+[ 1076.119964] PID: 7036, Name: dboxed_process0
+[ 1076.125640] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.135772] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.146179] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.155212] 
+[ 1076.155212] PID: 7188, Name: dboxed_process1
+[ 1076.160888] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.171020] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.181427] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.190460] 
+[ 1076.190460] PID: 7300, Name: gle.android.tts
+[ 1076.196136] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.206268] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.216674] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.225708] 
+[ 1076.225708] PID: 7341, Name: logcat
+[ 1076.230590] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.240722] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249f8c>] (poll_schedule_timeout+0x38/0x58)
+[ 1076.251556] [<c0249f8c>] (poll_schedule_timeout+0x38/0x58) from [<c024a76c>] (do_select+0x44c/0x484)
+[ 1076.260681] [<c024a76c>] (do_select+0x44c/0x484) from [<c024a9cc>] (core_sys_select+0x228/0x338)
+[ 1076.269439] [<c024a9cc>] (core_sys_select+0x228/0x338) from [<c024abb0>] (sys_select+0xd4/0x104)
+[ 1076.278228] [<c024abb0>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.286743] 
+[ 1076.286743] PID: 7368, Name: sh
+[ 1076.291351] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c1194>] (schedule_timeout+0x1c/0x30c)
+[ 1076.300262] [<c07c1194>] (schedule_timeout+0x1c/0x30c) from [<c0420b50>] (n_tty_read+0x338/0x6bc)
+[ 1076.309051] [<c0420b50>] (n_tty_read+0x338/0x6bc) from [<c041bf3c>] (tty_read+0x80/0xc4)
+[ 1076.317199] [<c041bf3c>] (tty_read+0x80/0xc4) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1076.325012] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1076.332824] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.341094] 
+[ 1076.341094] PID: 7427, Name: dboxed_process2
+[ 1076.346893] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.356964] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.367370] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.376342] 
+[ 1076.376342] PID: 7475, Name: dboxed_process3
+[ 1076.382080] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.392211] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.402618] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.411651] 
+[ 1076.411651] PID: 7706, Name: flush-0:20
+[ 1076.416870] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 1076.426239] [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.435089] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.443359] 
+[ 1076.443359] PID: 7707, Name: flush-0:21
+[ 1076.448638] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 1076.458007] [<c025c3bc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.466796] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.475189] 
+[ 1076.475189] PID: 7718, Name: kworker/0:0
+[ 1076.480560] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1076.489196] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.497497] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.505828] 
+[ 1076.505828] PID: 7724, Name: oid.documentsui
+[ 1076.511505] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.521636] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.532043] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.541076] 
+[ 1076.541076] PID: 7742, Name: externalstorage
+[ 1076.546813] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.556823] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.567291] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.576324] 
+[ 1076.576324] PID: 7765, Name: droid.apps.docs
+[ 1076.582061] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c05d97c0>] (binder_thread_read+0x360/0xb5c)
+[ 1076.591156] [<c05d97c0>] (binder_thread_read+0x360/0xb5c) from [<c05da204>] (binder_ioctl+0x248/0x5fc)
+[ 1076.600402] [<c05da204>] (binder_ioctl+0x248/0x5fc) from [<c0248c6c>] (vfs_ioctl+0x20/0x3c)
+[ 1076.608795] [<c0248c6c>] (vfs_ioctl+0x20/0x3c) from [<c0249724>] (do_vfs_ioctl+0x4c4/0x518)
+[ 1076.617126] [<c0249724>] (do_vfs_ioctl+0x4c4/0x518) from [<c02497c0>] (sys_ioctl+0x48/0x70)
+[ 1076.625457] [<c02497c0>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.633819] 
+[ 1076.633819] PID: 7821, Name: system:ui
+[ 1076.639068] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 1076.649139] [<c07c2860>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026f604>] (sys_epoll_wait+0x1b0/0x32c)
+[ 1076.659576] [<c026f604>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.668518] 
+[ 1076.668518] PID: 7850, Name: droid.apps.docs
+[ 1076.674255] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c07c0f58>] (io_schedule+0x70/0xa0)
+[ 1076.682647] [<c07c0f58>] (io_schedule+0x70/0xa0) from [<c01fa9d4>] (sleep_on_page_killable+0x8/0x38)
+[ 1076.691711] [<c01fa9d4>] (sleep_on_page_killable+0x8/0x38) from [<c07c1650>] (__wait_on_bit_lock+0x54/0x9c)
+[ 1076.701507] [<c07c1650>] (__wait_on_bit_lock+0x54/0x9c) from [<c01fa93c>] (__lock_page_killable+0x60/0x70)
+[ 1076.711120] [<c01fa93c>] (__lock_page_killable+0x60/0x70) from [<c01fc6ec>] (generic_file_aio_read+0x4d8/0x750)
+[ 1076.721191] [<c01fc6ec>] (generic_file_aio_read+0x4d8/0x750) from [<c0239ffc>] (do_sync_read+0x98/0xd4)
+[ 1076.730590] [<c0239ffc>] (do_sync_read+0x98/0xd4) from [<c023a750>] (vfs_read+0xa4/0x12c)
+[ 1076.738739] [<c023a750>] (vfs_read+0xa4/0x12c) from [<c023a80c>] (sys_read+0x34/0x68)
+[ 1076.746490] [<c023a80c>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 1076.754882] 
+[ 1076.754882] PID: 7863, Name: migration/1
+[ 1076.760253] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01cf5a0>] (cpu_stopper_thread+0x134/0x14c)
+[ 1076.769317] [<c01cf5a0>] (cpu_stopper_thread+0x134/0x14c) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.778045] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.786376] 
+[ 1076.786376] PID: 7864, Name: kworker/1:0
+[ 1076.791717] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1076.800445] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.808715] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.817016] 
+[ 1076.817047] PID: 7865, Name: ksoftirqd/1
+[ 1076.822357] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c0196c9c>] (run_ksoftirqd+0x78/0x1e0)
+[ 1076.831024] [<c0196c9c>] (run_ksoftirqd+0x78/0x1e0) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.839172] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.847442] 
+[ 1076.847442] PID: 7866, Name: watchdog/1
+[ 1076.852813] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01d3e08>] (watchdog+0x84/0xd4)
+[ 1076.860809] [<c01d3e08>] (watchdog+0x84/0xd4) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.868499] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.876831] 
+[ 1076.876831] PID: 7868, Name: kworker/1:1
+[ 1076.882171] [<c07c0bc0>] (__schedule+0x5b8/0x76c) from [<c01a9ee0>] (worker_thread+0x27c/0x2bc)
+[ 1076.890899] [<c01a9ee0>] (worker_thread+0x27c/0x2bc) from [<c01ad758>] (kthread+0x7c/0x88)
+[ 1076.899169] [<c01ad758>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 1076.907470] Kernel panic - not syncing: Apps watchdog bark received!
+[ 1076.913757] In panic from Apps watchdog bark 
+[ 1076.918182] CPU1: stopping
+[ 1076.920837] In panic from Apps watchdog bark 
+[ 1077.025329] subsystem-fatal-8x60: Q6 NMI was sent.
+[ 1077.029235] BUG: scheduling while atomic: Binder_1/769/0x00010005
+[ 1077.035217] Modules linked in: bcmdhd
+[ 1077.038848] In panic from Apps watchdog bark 
+[ 1077.043304] cpufreq: cpu 1 is not active.
+[ 1080.366973] BUG: spinlock lockup on CPU#0, Error dump: sys/7840, dc5dc2dc
+[ 1080.372863] In panic from Apps watchdog bark 
+[ 1080.377136] Backtrace for cpu 0 (current):
+[ 1080.381286] In panic from Apps watchdog bark 
+[ 1080.385559] 
+[ 1080.385559] sending IPI to all other CPUs:
+
+No errors detected

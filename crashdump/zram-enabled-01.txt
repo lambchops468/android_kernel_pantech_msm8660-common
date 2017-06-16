@@ -1,0 +1,1494 @@
+[ 2699.363006] CPU1: Booted secondary processor
+[ 2700.860046] CPU1: Booted secondary processor
+[ 2704.670532] CPU1: Booted secondary processor
+[ 2710.140502] pm8058_is_battery_present: batt_id is 464
+[ 2710.160491] pm8058-charger pm8058-charger: pm8058_is_battery_id_valid : CHANNEL_ADC_BATT_ID = 459
+[ 2710.172973] [SKY CHG][msm-charger] update_heartbeat batt_status(TRKL_CHARGING)  charg_type(AC) batt_mvolts(4190) batt_temp(38)
+[ 2710.191467] [SKY CHG][msm-charger] update_heartbeat hw_chg_state = CHG_DONE_EVENT
+[ 2710.200958] [SKY CHG][msm-charger] update_heartbeat CHG_TYPE_AC pm8058_chg_get_current= 2 mA, set_current_check = 0
+[ 2710.210937] [SKY CHG][msm-charger] update_heartbeat CHG_TYPE_AC pm8058_chg_get_current= 2 mA, set_current_check = 0
+[ 2712.990020] CPU1: Booted secondary processor
+[ 2716.500213] BUG: spinlock lockup on CPU#0, Binder_A/1210, e898eb5c
+[ 2716.505493] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c03c21a0>] (do_raw_spin_lock+0x10c/0x1a4)
+[ 2716.514801] [<c03c21a0>] (do_raw_spin_lock+0x10c/0x1a4) from [<c02262d0>] (swap_info_get+0x5c/0xc4)
+[ 2716.523742] [<c02262d0>] (swap_info_get+0x5c/0xc4) from [<c02280cc>] (mem_cgroup_count_swap_user+0x30/0x68)
+[ 2716.533538] [<c02280cc>] (mem_cgroup_count_swap_user+0x30/0x68) from [<c0233cb4>] (is_target_pte_for_mc+0x110/0x2c0)
+[ 2716.544036] [<c0233cb4>] (is_target_pte_for_mc+0x110/0x2c0) from [<c0233ec0>] (mem_cgroup_count_precharge_pte_range+0x5c/0x90)
+[ 2716.555419] [<c0233ec0>] (mem_cgroup_count_precharge_pte_range+0x5c/0x90) from [<c02242a0>] (walk_page_range+0x15c/0x1e4)
+[ 2716.566345] [<c02242a0>] (walk_page_range+0x15c/0x1e4) from [<c0236400>] (mem_cgroup_can_attach+0xb8/0x11c)
+[ 2716.576080] [<c0236400>] (mem_cgroup_can_attach+0xb8/0x11c) from [<c01cd2d8>] (cgroup_attach_task+0x60/0x1c4)
+[ 2716.585968] [<c01cd2d8>] (cgroup_attach_task+0x60/0x1c4) from [<c01cdb38>] (attach_task_by_pid+0x174/0x1c8)
+[ 2716.595672] [<c01cdb38>] (attach_task_by_pid+0x174/0x1c8) from [<c01cdbd0>] (cgroup_tasks_write+0x10/0x14)
+[ 2716.605316] [<c01cdbd0>] (cgroup_tasks_write+0x10/0x14) from [<c01cb440>] (cgroup_file_write+0x160/0x29c)
+[ 2716.614807] [<c01cb440>] (cgroup_file_write+0x160/0x29c) from [<c0239b60>] (vfs_write+0xa8/0x130)
+[ 2716.616699] BUG: spinlock lockup on CPU#1, kswapd0/36, c0c6a538
+[ 2716.616729] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c03c21a0>] (do_raw_spin_lock+0x10c/0x1a4)
+[ 2716.616729] [<c03c21a0>] (do_raw_spin_lock+0x10c/0x1a4) from [<c0227e0c>] (get_swap_page+0x10/0x1b4)
+[ 2716.616760] [<c0227e0c>] (get_swap_page+0x10/0x1b4) from [<c0225a08>] (add_to_swap+0x20/0x6c)
+[ 2716.616760] [<c0225a08>] (add_to_swap+0x20/0x6c) from [<c02096e8>] (shrink_page_list+0x228/0x87c)
+[ 2716.616790] [<c02096e8>] (shrink_page_list+0x228/0x87c) from [<c020a120>] (shrink_inactive_list+0x228/0x45c)
+[ 2716.616790] [<c020a120>] (shrink_inactive_list+0x228/0x45c) from [<c020a76c>] (shrink_zone+0x418/0x574)
+[ 2716.616790] [<c020a76c>] (shrink_zone+0x418/0x574) from [<c020af00>] (kswapd+0x638/0x9d4)
+[ 2716.616821] [<c020af00>] (kswapd+0x638/0x9d4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2716.616851] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2716.616851] Backtrace for cpu 1 (current):
+[ 2716.616851] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0)
+[ 2716.616882] [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0) from [<c03c21a4>] (do_raw_spin_lock+0x110/0x1a4)
+[ 2716.616882] [<c03c21a4>] (do_raw_spin_lock+0x110/0x1a4) from [<c0227e0c>] (get_swap_page+0x10/0x1b4)
+[ 2716.616912] [<c0227e0c>] (get_swap_page+0x10/0x1b4) from [<c0225a08>] (add_to_swap+0x20/0x6c)
+[ 2716.616912] [<c0225a08>] (add_to_swap+0x20/0x6c) from [<c02096e8>] (shrink_page_list+0x228/0x87c)
+[ 2716.616912] [<c02096e8>] (shrink_page_list+0x228/0x87c) from [<c020a120>] (shrink_inactive_list+0x228/0x45c)
+[ 2716.616943] [<c020a120>] (shrink_inactive_list+0x228/0x45c) from [<c020a76c>] (shrink_zone+0x418/0x574)
+[ 2716.616943] [<c020a76c>] (shrink_zone+0x418/0x574) from [<c020af00>] (kswapd+0x638/0x9d4)
+[ 2716.616973] [<c020af00>] (kswapd+0x638/0x9d4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2716.616973] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2716.616973] 
+[ 2716.616973] sending IPI to all other CPUs:
+[ 2716.808258] IPI backtrace for cpu 0
+[ 2716.811676] 
+[ 2716.813140] Pid: 1210, comm:             Binder_A
+[ 2716.817901] CPU: 0    Tainted: G        W    (3.0.101-cyanogenmod-gc99b04f-dirty #3)
+[ 2716.825561] PC is at vprintk+0x3b0/0x43c
+[ 2716.829528] LR is at console_unlock+0x1b4/0x1cc
+[ 2716.833984] pc : [<c01910bc>]    lr : [<c0190bdc>]    psr: 60000013
+[ 2716.833984] sp : e0da1c38  ip : 00000003  fp : c11250d4
+[ 2716.845428] r10: 00000000  r9 : c0c63990  r8 : c112512b
+[ 2716.850646] r7 : 00000003  r6 : 00000068  r5 : 0000000f  r4 : 00000001
+[ 2716.857208] r3 : 00000002  r2 : 60000013  r1 : 5b3e363c  r0 : c0c63a28
+[ 2716.863739] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+[ 2716.870788] Control: 10c5787d  Table: 665cc06a  DAC: 00000015
+[ 2716.876586] 
+[ 2716.876586] PC: 0xc019103c:
+[ 2716.880767] 103c  e287201f a1a02007 e207701f e59c3000 e1a0e2c2 e793010e e1a07730 e3170001
+[ 2716.888916] 105c  059f00b0 05904000 0a000006 ea000008 e1d422b8 e202e010 e6bfc07e e35c0000
+[ 2716.897094] 107c  1a000003 e5944034 e3540000 1afffff7 ea000015 e3a04001 e59f0070 e3e03000
+[ 2716.905242] 109c  e58030a4 e2800078 eb18bfdf e3540000 0a000000 ebfffe5c e59d2004 e121f002
+[ 2716.913421] 10bc  e1a0c00d e3cc0d7f e3c0303f e5931004 e2412001 e5832004 e593c000 e31c0002
+[ 2716.921569] 10dc  0a000006 eb18b667 ea000004 e59f1024 e59f0050 e5814020 eb0085ae eaffffe5
+[ 2716.929718] 10fc  e1a00006 e28dd04c e8bd8ff0 c0c24420 c0c63990 066665b0 c1125028 c0c02080
+[ 2716.937896] 111c  dead4ead c09aec69 c11254dc c07e914c c11250d4 36b4a597 89705f41 3b9aca00
+[ 2716.946044] 
+[ 2716.946044] LR: 0xc0190b5c:
+[ 2716.950286] 0b5c  e59920a0 ebfffe49 e1560007 e58950a0 1affffca ea000006 e5946004 e5940000
+[ 2716.958465] 0b7c  e246c001 e1a06005 e1560007 1affffe7 e1a06005 e1a00006 e1a01007 e59420a0
+[ 2716.966613] 0b9c  ebfffe3a e121f008 eaffffaa e5901004 e3a0c000 e580c020 e151000c 1580c004
+[ 2716.974792] 0bbc  e59f0020 eb0086fb e59f0020 e1a01008 eb18c122 e35a0000 0a000000 ebffff77
+[ 2716.982940] 0bdc  e8bd8ffe c1125028 c0c639e8 c0c63990 c0c63a08 c0c63a30 e92d4038 e1a04000
+[ 2716.991088] 0bfc  ebfffe95 e59f3088 e5932000 e1520004 05942034 05832000 0a000007 e3520000
+[ 2716.999267] 0c1c  15923034 1a000008 ea000009 e1530004 1a000003 e5940034 e5820034 e3a05000
+[ 2717.007415] 0c3c  ea000004 e1a02003 e5933034 e3530000 1afffff5 e3a05001 e59f1034 e591c000
+[ 2717.015594] 
+[ 2717.015594] SP: 0xe0da1bb8:
+[ 2717.019836] 1bb8  00000000 c010ac8c 00000007 c0c23958 e0da1c24 fa001000 e0da1bf0 c010033c
+[ 2717.027984] 1bd8  60000013 00ffffff e0da1c24 00000068 00000004 c07c14d4 c0c63a28 5b3e363c
+[ 2717.036163] 1bf8  60000013 00000002 00000001 0000000f 00000068 00000003 c112512b c0c63990
+[ 2717.044311] 1c18  00000000 c11250d4 00000003 e0da1c38 c0190bdc c01910bc 60000013 ffffffff
+[ 2717.052459] 1c38  e0da1c5d 60000013 f484fff0 f4812000 00000004 205b000c 36313732 3431362e
+[ 2717.060638] 1c58  5d373038 00000020 008400e8 00090048 004500fc 006400fc 006800c9 00fa0048
+[ 2717.068786] 1c78  00da00d1 00cf00d9 0000000a c01cb440 e0da1ce0 e0da1f5c c0239b60 e0da1ce0
+[ 2717.076965] 1c98  00000000 e898eb5c e0da1da4 c07b922c c0986eef e0da1cbc c01cb440 c01097a8
+[ 2717.085113] 
+[ 2717.085113] FP: 0xc1125054:
+[ 2717.089416] 5054  00000000 c20fe130 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.097534] 5074  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.105682] 5094  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.113861] 50b4  00000000 00000000 00000000 00000000 00000000 00000000 00000001 00000000
+[ 2717.122009] 50d4  34643035 33303334 35320034 3a343530 5420000a 656c6261 3636203a 30636335
+[ 2717.130157] 50f4  20206136 3a434144 30303020 31303030 20000a35 67655320 746e656d 65737520
+[ 2717.138336] 5114  33000a72 69202038 203a2070 30303030 33303030 70662020 63203a20 35323131
+[ 2717.146484] 5134  0a346430 302f0000 34653178 39000a29 000a2930 37000a29 0a31343a 353d6400
+[ 2717.154632] 
+[ 2717.154663] R0: 0xc0c639a8:
+[ 2717.158905] 39a8  ffffffff c0c639ac c0c639ac 00030003 dead4ead ffffffff ffffffff 000001f4
+[ 2717.167053] 39c8  0000000a 00000001 00000000 00000000 0000000f 00000004 00000001 00000007
+[ 2717.175231] 39e8  5d1d5d1d dead4ead ffffffff ffffffff 00000001 c0c639fc c0c639fc 00000000
+[ 2717.183380] 3a08  75817581 dead4ead ffffffff ffffffff 00000000 dead4ead ffffffff ffffffff
+[ 2717.191528] 3a28  c0c63a28 c0c63a28 00000004 ffffffff 00000000 00000001 ffffffff 00000000
+[ 2717.199707] 3a48  00030003 dead4ead ffffffff ffffffff c0cc0568 c0191ea8 c0c2fd34 00000000
+[ 2717.207855] 3a68  00000000 00000001 07aa07aa dead4ead ffffffff ffffffff c0c63a80 c0c63a80
+[ 2717.216033] 3a88  dd9ec380 00000000 c0c63a6c 00000000 00000001 07420742 dead4ead ffffffff
+[ 2717.224182] 
+[ 2717.224182] R8: 0xc11250ab:
+[ 2717.228424] 50a8  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.236602] 50c8  00000000 00000001 00000000 30303020 32303330 35320030 3a626130 5420000a
+[ 2717.244750] 50e8  656c6261 3636203a 30636335 20206136 3a434144 30303020 31303030 20000a35
+[ 2717.252929] 5108  67655320 746e656d 65737520 33000a72 69202038 203a2070 30303030 33303030
+[ 2717.261077] 5128  70662020 63203a20 35323131 0a346430 302f0000 34653178 39000a29 000a2930
+[ 2717.269226] 5148  37000a29 0a31343a 353d6400 0a303231 3d726500 72652c31 73726f72 6e61703d
+[ 2717.277404] 5168  65206369 726f7272 6544203a 65636976 20726f20 6f736572 65637275 73756220
+[ 2717.285552] 5188  20000a79 76202020 6c6c616d 3a20636f 66783020 30303834 20303030 7830202d
+[ 2717.293701] 51a8  30306166 30303030 28202020 38382020 29424d20 2020200a 776f6c20 206d656d
+[ 2717.301879] 
+[ 2717.301879] R9: 0xc0c63910:
+[ 2717.306121] 3910  00000009 0000000a 0000000b 0000000c 0000000d 0000000e 0000000f 00000010
+[ 2717.314300] 3930  00000011 00000012 00000013 00000014 00000015 00000016 00000017 00000018
+[ 2717.322448] 3950  00000019 0000001a 0000001b 0000001c 0000001d 0000001e 0000001f 00080008
+[ 2717.330596] 3970  dead4ead ffffffff ffffffff c0c67b48 00000000 dead4ead ffffffff ffffffff
+[ 2717.338775] 3990  c11254e4 00020000 00000001 00000000 dead4ead ffffffff ffffffff c0c639ac
+[ 2717.346923] 39b0  c0c639ac 00030003 dead4ead ffffffff ffffffff 000001f4 0000000a 00000001
+[ 2717.355072] 39d0  00000000 00000000 0000000f 00000004 00000001 00000007 5ed15ed1 dead4ead
+[ 2717.363250] 39f0  ffffffff ffffffff 00000001 c0c639fc c0c639fc 00000000 780f780f dead4ead
+[ 2717.371459] [<c0239b60>] (vfs_write+0xa8/0x130) from [<c0239db0>] (sys_write+0x34/0x68)
+[ 2717.379425] [<c0239db0>] (sys_write+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2717.387878] Backtrace for cpu 0 (current):
+[ 2717.391967] [<c010c558>] (unwind_backtrace+0x0/0x11c) from [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0)
+[ 2717.401885] [<c010aac0>] (smp_send_all_cpu_backtrace+0x58/0xc0) from [<c03c21a4>] (do_raw_spin_lock+0x110/0x1a4)
+[ 2717.412109] [<c03c21a4>] (do_raw_spin_lock+0x110/0x1a4) from [<c02262d0>] (swap_info_get+0x5c/0xc4)
+[ 2717.421142] [<c02262d0>] (swap_info_get+0x5c/0xc4) from [<c02280cc>] (mem_cgroup_count_swap_user+0x30/0x68)
+[ 2717.430847] [<c02280cc>] (mem_cgroup_count_swap_user+0x30/0x68) from [<c0233cb4>] (is_target_pte_for_mc+0x110/0x2c0)
+[ 2717.441375] [<c0233cb4>] (is_target_pte_for_mc+0x110/0x2c0) from [<c0233ec0>] (mem_cgroup_count_precharge_pte_range+0x5c/0x90)
+[ 2717.452728] [<c0233ec0>] (mem_cgroup_count_precharge_pte_range+0x5c/0x90) from [<c02242a0>] (walk_page_range+0x15c/0x1e4)
+[ 2717.463684] [<c02242a0>] (walk_page_range+0x15c/0x1e4) from [<c0236400>] (mem_cgroup_can_attach+0xb8/0x11c)
+[ 2717.473388] [<c0236400>] (mem_cgroup_can_attach+0xb8/0x11c) from [<c01cd2d8>] (cgroup_attach_task+0x60/0x1c4)
+[ 2717.483306] [<c01cd2d8>] (cgroup_attach_task+0x60/0x1c4) from [<c01cdb38>] (attach_task_by_pid+0x174/0x1c8)
+[ 2717.493011] [<c01cdb38>] (attach_task_by_pid+0x174/0x1c8) from [<c01cdbd0>] (cgroup_tasks_write+0x10/0x14)
+[ 2717.502593] [<c01cdbd0>] (cgroup_tasks_write+0x10/0x14) from [<c01cb440>] (cgroup_file_write+0x160/0x29c)
+[ 2717.512207] [<c01cb440>] (cgroup_file_write+0x160/0x29c) from [<c0239b60>] (vfs_write+0xa8/0x130)
+[ 2717.521057] [<c0239b60>] (vfs_write+0xa8/0x130) from [<c0239db0>] (sys_write+0x34/0x68)
+[ 2717.529052] [<c0239db0>] (sys_write+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2717.537445] 
+[ 2717.537445] sending IPI to all other CPUs:
+[ 2717.542938] IPI backtrace for cpu 1
+[ 2717.546417] 
+[ 2717.547882] Pid: 36, comm:              kswapd0
+[ 2717.552459] CPU: 1    Tainted: G        W    (3.0.101-cyanogenmod-gc99b04f-dirty #3)
+[ 2717.560180] PC is at msm_read_timer_count+0x14/0xa8
+[ 2717.565002] LR is at read_current_timer+0x14/0x24
+[ 2717.569671] pc : [<c01158cc>]    lr : [<c011651c>]    psr: 60000013
+[ 2717.569671] sp : f336dd28  ip : c0c2f320  fp : f336c000
+[ 2717.581146] r10: c0c6a538  r9 : 00000000  r8 : 00000001
+[ 2717.586395] r7 : 00000000  r6 : 006737d4  r5 : 00000000  r4 : f336dd4c
+[ 2717.592864] r3 : c0cf09b8  r2 : 00000000  r1 : 00000001  r0 : 00001000
+[ 2717.599426] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment kernel
+[ 2717.606719] Control: 10c5787d  Table: 71ee806a  DAC: 00000015
+[ 2717.612396] 
+[ 2717.612396] PC: 0xc011584c:
+[ 2717.616699] 584c  e2860060 e5961060 e12fff31 e59620cc e3e03000 e1a05000 e5940010 e060c005
+[ 2717.624786] 586c  e5940018 e00c1233 e594201c e0810091 eb0a7172 e1c420d8 e0922000 e0a33001
+[ 2717.632965] 588c  e10fc000 f10c0080 e5845010 f57ff05f e1c420f8 f57ff05f e5845014 e121f00c
+[ 2717.641113] 58ac  e8bd8070 c0cf09b8 c0c2f220 e59f3098 e1a0c000 e92d4037 e5930020 e59c20d0
+[ 2717.649261] 58cc  e59c30c4 e0010190 e3120001 e2811004 e0830001 07930001 0a00001a e7932001
+[ 2717.657440] 58ec  e7933001 e0621003 e3510001 9a000014 e3a01005 e5902000 e5903000 e5904000
+[ 2717.665588] 590c  e0635004 e3550001 9a00000b e0625003 e3550001 9a00000a e1540003 21530002
+[ 2717.673767] 592c  2a000007 e2511001 1afffff1 e58d4000 e59f0018 e59c1044 eb1a8e32 e1a00004
+[ 2717.681915] 
+[ 2717.681915] LR: 0xc011649c:
+[ 2717.686218] 649c  e1a0c23c e594201c e5943010 e59f5050 f57ff05f e5947008 e594600c f57ff05f
+[ 2717.694335] 64bc  e594e014 e153000e 1afffff6 e0630000 e000c00c e081019c eb0a6e5c e285c030
+[ 2717.702484] 64dc  e0972000 e0a63001 e1bc0f9f e1ac0f92 e3300000 1afffffb e1a00002 e1a01003
+[ 2717.710662] 64fc  e8bd80f8 c0cf09b8 c0c2f220 e92d4010 e3a01001 e1a04000 e59f000c ebfffce6
+[ 2717.718811] 651c  e5840000 e3a00000 e8bd8010 c0c2f320 e92d4010 e1a04000 e5903038 e1a01004
+[ 2717.726959] 653c  e3a00000 e12fff33 e594004c e8bd4010 ea02fe51 e92d4038 e1a04000 e5903014
+[ 2717.735137] 655c  e3530000 1a000006 e5900010 e3500000 1a000005 e594500c e2955000 13a05001
+[ 2717.743286] 657c  ea000002 e3a05003 ea000000 e3a05002 e5941018 e1550001 0a000006 e5942004
+[ 2717.751464] 
+[ 2717.751464] SP: 0xf336dca8:
+[ 2717.755706] dca8  00000001 c010ac8c 00000007 c0c23958 f336dd14 fa001000 f336dce0 c010033c
+[ 2717.763854] dcc8  60000013 00ffffff f336dd14 006737d4 00000002 c07c14d4 00001000 00000001
+[ 2717.772033] dce8  00000000 c0cf09b8 f336dd4c 00000000 006737d4 00000000 00000001 00000000
+[ 2717.780181] dd08  c0c6a538 f336c000 c0c2f320 f336dd28 c011651c c01158cc 60000013 ffffffff
+[ 2717.788330] dd28  c0c2f320 00000001 00000001 f336dd4c 00000000 c011651c 00000001 c03b1284
+[ 2717.796508] dd48  45526934 c03b126c 000569e9 c03b1230 00000000 c03c2204 c0c6a538 00000000
+[ 2717.804656] dd68  00000001 00000000 f336ddec c16fc960 c16fc960 f336df68 00000000 c0c6a4f8
+[ 2717.812835] dd88  f336de80 00000000 00000001 c0227e0c 00080009 c16fc960 c16fc960 f336df68
+[ 2717.820983] 
+[ 2717.820983] IP: 0xc0c2f2a0:
+[ 2717.825225] f2a0  70c00000 00003427 c098a8d7 c0c2f3ac c0c66108 000000c8 00000000 00000000
+[ 2717.833404] f2c0  00000000 00000021 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.841552] f2e0  00000011 fa016004 00008000 00000000 00000000 00000009 00000000 00000000
+[ 2717.849731] f300  00000000 00000000 00000400 c004d520 00000000 00000000 00000000 00000000
+[ 2717.857879] f320  00000000 c0115e98 00000000 00000000 e38e4cd2 0000008a 00000785 00000000
+[ 2717.866027] f340  01ba5e35 00000020 00000000 00000002 00000000 00000000 c0115c1c 00000000
+[ 2717.874206] f360  00000000 c098a8e0 00000064 00000010 c07e9194 c0c2f274 c2109094 00000000
+[ 2717.882354] f380  c0115960 00000000 00000000 00000000 ffffffff 00000000 9425ed09 00000018
+[ 2717.890502] 
+[ 2717.890502] FP: 0xf336bf80:
+[ 2717.894775] bf80  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 2717.902923] bfa0  c040c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 2717.911102] bfc0  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 2717.919250] bfe0  c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0 c0c0c0c0
+[ 2717.927398] c000  00000002 00000004 00000000 f3368000 c0c638c0 00000001 00000015 c2102f40
+[ 2717.935577] c020  f3368000 f26a3480 d2c1f340 c0049f40 00000000 0003aea3 f336de7c f336dde0
+[ 2717.943725] c040  c07be834 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.951904] c060  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.960052] 
+[ 2717.960052] R3: 0xc0cf0938:
+[ 2717.964294] 0938  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.972473] 0958  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.980621] 0978  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.988769] 0998  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2717.996948] 09b8  00000000 00000000 00000000 00000000 00000002 00000002 ee6b2800 00000011
+[ 2718.005096] 09d8  00001000 00000000 00000000 00000000 d5ba6ff3 00000278 00000001 00000000
+[ 2718.013275] 09f8  dead4ead ffffffff ffffffff c0cf0a04 c0cf0a04 00000000 00000000 c0cf09f0
+[ 2718.021423] 0a18  00000000 c004dccc 00000001 00000000 dead4ead ffffffff ffffffff c0cf0a34
+[ 2718.029571] 
+[ 2718.029571] R4: 0xf336dccc:
+[ 2718.033905] dccc  00ffffff f336dd14 006737d4 00000002 c07c14d4 00001000 00000001 00000000
+[ 2718.041992] dcec  c0cf09b8 f336dd4c 00000000 006737d4 00000000 00000001 00000000 c0c6a538
+[ 2718.050140] dd0c  f336c000 c0c2f320 f336dd28 c011651c c01158cc 60000013 ffffffff c0c2f320
+[ 2718.058319] dd2c  00000001 00000001 f336dd4c 00000000 c011651c 00000001 c03b1284 45526934
+[ 2718.066467] dd4c  c03b126c 000569e9 c03b1230 00000000 c03c2204 c0c6a538 00000000 00000001
+[ 2718.074645] dd6c  00000000 f336ddec c16fc960 c16fc960 f336df68 00000000 c0c6a4f8 f336de80
+[ 2718.082794] dd8c  00000000 00000001 c0227e0c 00080009 c16fc960 c16fc960 f336df68 00000000
+[ 2718.090942] ddac  f336c000 f336de80 00000000 00000001 c0225a08 00000000 c16fc978 c16fc960
+[ 2718.099121] 
+[ 2718.099121] R10: 0xc0c6a4b8:
+[ 2718.103454] a4b8  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2718.111602] a4d8  00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[ 2718.119781] a4f8  00010001 dead4ead ffffffff ffffffff c0c6a508 c0c6a508 00000001 000e000e
+[ 2718.127929] a518  dead4ead ffffffff ffffffff c0c6a524 c0c6a524 d80e7480 00000000 c0c6a510
+[ 2718.136108] a538  0e400e3f dead4ead ffffffff ffffffff 00000000 00000000 ffffffff 53da53da
+[ 2718.144256] a558  dead4ead ffffffff ffffffff 00000001 00020002 dead4ead ffffffff ffffffff
+[ 2718.152404] a578  c0c6a578 c0c6a578 00000000 00000000 c0c6a564 c09bac3d 00000124 c0229484
+[ 2718.160583] a598  00000000 00000061 c09bace4 c0c6a608 c0c60830 c0c6ee98 00000000 f3364a00
+[ 2728.657897] Watchdog bark! Now = 2728.657897
+[ 2728.661193] Watchdog last pet at 2646.657806
+[ 2728.665435] Stack trace dump:
+[ 2728.668457] 
+[ 2728.668457] PID: 1, Name: init
+[ 2728.672943] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2728.683044] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2728.693908] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c024a5b8>] (do_sys_poll+0x2bc/0x378)
+[ 2728.703186] [<c024a5b8>] (do_sys_poll+0x2bc/0x378) from [<c024a714>] (sys_poll+0x5c/0xbc)
+[ 2728.711273] [<c024a714>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2728.719665] 
+[ 2728.719665] PID: 2, Name: kthreadd
+[ 2728.724548] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01ad860>] (kthreadd+0x7c/0x100)
+[ 2728.732635] [<c01ad860>] (kthreadd+0x7c/0x100) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.741210] 
+[ 2728.741210] PID: 3, Name: ksoftirqd/0
+[ 2728.746337] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0196aa8>] (run_ksoftirqd+0x78/0x1cc)
+[ 2728.754852] [<c0196aa8>] (run_ksoftirqd+0x78/0x1cc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.763092] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.771423] 
+[ 2728.771423] PID: 6, Name: migration/0
+[ 2728.776489] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01cf2a0>] (cpu_stopper_thread+0x134/0x14c)
+[ 2728.785644] [<c01cf2a0>] (cpu_stopper_thread+0x134/0x14c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.794342] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.802673] 
+[ 2728.802673] PID: 7, Name: watchdog/0
+[ 2728.807647] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d3af0>] (watchdog+0x84/0xd4)
+[ 2728.815765] [<c01d3af0>] (watchdog+0x84/0xd4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.823364] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.831726] 
+[ 2728.831726] PID: 12, Name: khelper
+[ 2728.836608] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2728.845306] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.853698] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.862030] 
+[ 2728.862030] PID: 13, Name: suspend_sys_syn
+[ 2728.867553] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2728.876373] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.884704] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.893035] 
+[ 2728.893035] PID: 14, Name: suspend
+[ 2728.897827] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2728.906646] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.914947] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.923278] 
+[ 2728.923278] PID: 15, Name: sync_supers
+[ 2728.928527] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0213288>] (bdi_sync_supers+0x34/0x4c)
+[ 2728.937164] [<c0213288>] (bdi_sync_supers+0x34/0x4c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.945465] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.953796] 
+[ 2728.953796] PID: 16, Name: bdi-default
+[ 2728.958953] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bf040>] (schedule_timeout+0x270/0x30c)
+[ 2728.967956] [<c07bf040>] (schedule_timeout+0x270/0x30c) from [<c0214320>] (bdi_forker_thread+0x350/0x3e0)
+[ 2728.977508] [<c0214320>] (bdi_forker_thread+0x350/0x3e0) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2728.986083] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2728.994415] 
+[ 2728.994415] PID: 17, Name: kblockd
+[ 2728.999237] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.008056] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.016326] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.024658] 
+[ 2729.024658] PID: 18, Name: khubd
+[ 2729.029418] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c04c40f8>] (hub_thread+0x11dc/0x12dc)
+[ 2729.037933] [<c04c40f8>] (hub_thread+0x11dc/0x12dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.046173] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.054504] 
+[ 2729.054504] PID: 19, Name: l2cap
+[ 2729.059112] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.067962] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.076293] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.084594] 
+[ 2729.084625] PID: 20, Name: a2mp
+[ 2729.089172] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.097991] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.106262] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.114654] 
+[ 2729.114654] PID: 22, Name: cfg80211
+[ 2729.119598] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.128295] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.136688] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.145019] 
+[ 2729.145019] PID: 23, Name: cfinteractive
+[ 2729.150360] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05ac58c>] (cpufreq_interactive_speedchange_task+0x50/0x21c)
+[ 2729.161010] [<c05ac58c>] (cpufreq_interactive_speedchange_task+0x50/0x21c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.171173] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.179504] 
+[ 2729.179504] PID: 24, Name: rpciod
+[ 2729.184204] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.193023] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.201354] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.209686] 
+[ 2729.209716] PID: 25, Name: modem_notifier
+[ 2729.215118] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.223937] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.232269] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.240539] 
+[ 2729.240539] PID: 26, Name: smd_channel_clo
+[ 2729.246093] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.254943] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.263214] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.271606] 
+[ 2729.271606] PID: 27, Name: smsm_cb_wq
+[ 2729.276733] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.285430] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.293823] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.302154] 
+[ 2729.302154] PID: 28, Name: kworker/u:1
+[ 2729.307312] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0139d84>] (rr_read+0x128/0x14c)
+[ 2729.315521] [<c0139d84>] (rr_read+0x128/0x14c) from [<c013a920>] (do_read_data+0x20/0xd0c)
+[ 2729.323760] [<c013a920>] (do_read_data+0x20/0xd0c) from [<c01a9654>] (process_one_work+0x228/0x434)
+[ 2729.332794] [<c01a9654>] (process_one_work+0x228/0x434) from [<c01a9bbc>] (worker_thread+0x19c/0x2bc)
+[ 2729.341949] [<c01a9bbc>] (worker_thread+0x19c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.350250] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.358581] 
+[ 2729.358581] PID: 29, Name: rpcrouter
+[ 2729.363555] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.372375] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.380706] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.389038] 
+[ 2729.389038] PID: 30, Name: reset_device
+[ 2729.394287] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.403106] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.411437] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.419708] 
+[ 2729.419708] PID: 31, Name: apr_driver
+[ 2729.424896] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.433685] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.441955] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.450347] 
+[ 2729.450347] PID: 32, Name: charm_queue
+[ 2729.455505] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.464324] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.472656] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.480987] 
+[ 2729.480987] PID: 33, Name: irq/390-charm s
+[ 2729.486480] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2729.494964] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.502929] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.511199] 
+[ 2729.511199] PID: 34, Name: rmt_storage
+[ 2729.516418] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.525268] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.533538] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.541900] 
+[ 2729.541931] PID: 35, Name: khungtaskd
+[ 2729.547058] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2729.555847] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c01d3328>] (watchdog+0x44/0x24c)
+[ 2729.564483] [<c01d3328>] (watchdog+0x44/0x24c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.572204] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.580535] 
+[ 2729.580535] PID: 36, Name: kswapd0
+[ 2729.585357] [<c07be834>] (__schedule+0x5b8/0x76c) from [<00000000>] (  (null))
+[ 2729.592620] 
+[ 2729.592620] PID: 37, Name: ksmd
+[ 2729.597167] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bf040>] (schedule_timeout+0x270/0x30c)
+[ 2729.606170] [<c07bf040>] (schedule_timeout+0x270/0x30c) from [<c022d07c>] (ksm_scan_thread+0x8ac/0xab8)
+[ 2729.615539] [<c022d07c>] (ksm_scan_thread+0x8ac/0xab8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.623901] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.632293] 
+[ 2729.632293] PID: 38, Name: fsnotify_mark
+[ 2729.637664] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c026b584>] (fsnotify_mark_destroy+0x128/0x14c)
+[ 2729.646972] [<c026b584>] (fsnotify_mark_destroy+0x128/0x14c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.655975] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.664306] 
+[ 2729.664306] PID: 39, Name: ecryptfs-kthrea
+[ 2729.669830] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c030084c>] (ecryptfs_threadfn+0xe8/0x288)
+[ 2729.678802] [<c030084c>] (ecryptfs_threadfn+0xe8/0x288) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.687316] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.695648] 
+[ 2729.695648] PID: 40, Name: nfsiod
+[ 2729.700378] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.709197] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.717529] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.725799] 
+[ 2729.725799] PID: 41, Name: crypto
+[ 2729.730590] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.739410] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.747680] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.756072] 
+[ 2729.756072] PID: 60, Name: mdp_dma_wq
+[ 2729.761199] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.769897] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.778289] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.786621] 
+[ 2729.786621] PID: 61, Name: mdp_vsync_wq
+[ 2729.791870] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.800689] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.809020] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.817352] 
+[ 2729.817352] PID: 62, Name: mdp_pipe_ctrl_w
+[ 2729.822845] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.831695] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.840026] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.848297] 
+[ 2729.848297] PID: 63, Name: mdp_cursor_ctrl
+[ 2729.853912] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.862670] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.870941] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.879333] 
+[ 2729.879333] PID: 64, Name: msmfb_commit_th
+[ 2729.884887] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c03d9358>] (msm_fb_commit_thread+0xc0/0x40c)
+[ 2729.894042] [<c03d9358>] (msm_fb_commit_thread+0xc0/0x40c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.902862] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.911193] 
+[ 2729.911193] PID: 65, Name: vidc_worker_que
+[ 2729.916687] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.925537] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.933868] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.942199] 
+[ 2729.942199] PID: 66, Name: vidc_timer_wq
+[ 2729.947509] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.956329] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.964660] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2729.972930] 
+[ 2729.972930] PID: 67, Name: kgsl-3d0
+[ 2729.977905] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2729.986724] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2729.994995] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.003387] 
+[ 2730.003387] PID: 68, Name: kgsl-2d0
+[ 2730.008331] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.017059] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.025451] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.033752] 
+[ 2730.033782] PID: 69, Name: kgsl-2d1
+[ 2730.038665] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.047485] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.055816] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.064086] 
+[ 2730.064086] PID: 70, Name: irq/505-pm8058_
+[ 2730.069641] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.078125] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.086059] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.094451] 
+[ 2730.094451] PID: 78, Name: k_rmnet_mux_wor
+[ 2730.100006] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.108703] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.117095] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.125427] 
+[ 2730.125427] PID: 79, Name: f_mtp
+[ 2730.130065] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.138885] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.147216] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.155548] 
+[ 2730.155548] PID: 80, Name: file-storage
+[ 2730.160797] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c04fcad8>] (sleep_thread+0x60/0x8c)
+[ 2730.169281] [<c04fcad8>] (sleep_thread+0x60/0x8c) from [<c050aaa4>] (fsg_main_thread+0xa0/0x16e8)
+[ 2730.178131] [<c050aaa4>] (fsg_main_thread+0xa0/0x16e8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.186492] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.194885] 
+[ 2730.194885] PID: 82, Name: diag_wq
+[ 2730.199707] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.208465] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.216857] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.225189] 
+[ 2730.225189] PID: 83, Name: diag_cntl_wq
+[ 2730.230407] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.239257] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.247589] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.255859] 
+[ 2730.255859] PID: 84, Name: diag_sdio_wq
+[ 2730.261138] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.269989] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.278259] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.286651] 
+[ 2730.286651] PID: 85, Name: kpsmoused
+[ 2730.291687] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.300384] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.308776] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.317108] 
+[ 2730.317108] PID: 86, Name: tki_wq
+[ 2730.321838] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.330657] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.338989] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.347320] 
+[ 2730.347320] PID: 87, Name: msm_charger_eve
+[ 2730.352813] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.361633] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.369964] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.378234] 
+[ 2730.378234] PID: 88, Name: msm_adc
+[ 2730.383178] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.391937] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.400207] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.408599] 
+[ 2730.408599] PID: 89, Name: irq/210-tsens
+[ 2730.414001] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.422363] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.430389] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.438720] 
+[ 2730.438720] PID: 90, Name: dbs_sync/0
+[ 2730.443786] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05aab84>] (dbs_sync_thread+0x9c/0x1e8)
+[ 2730.452606] [<c05aab84>] (dbs_sync_thread+0x9c/0x1e8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.460937] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.469207] 
+[ 2730.469238] PID: 91, Name: dbs_sync/1
+[ 2730.474365] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05aab84>] (dbs_sync_thread+0x9c/0x1e8)
+[ 2730.483184] [<c05aab84>] (dbs_sync_thread+0x9c/0x1e8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.491455] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.499847] 
+[ 2730.499847] PID: 92, Name: irq/642-msm-sdc
+[ 2730.505401] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.513763] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.521820] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.530120] 
+[ 2730.530120] PID: 93, Name: mmcqd/0
+[ 2730.534942] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8)
+[ 2730.543853] [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.552276] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.560607] 
+[ 2730.560607] PID: 94, Name: mmcqd/0boot0
+[ 2730.565856] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8)
+[ 2730.574768] [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.583190] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.591461] 
+[ 2730.591461] PID: 95, Name: mmcqd/0boot1
+[ 2730.596801] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8)
+[ 2730.605651] [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.614013] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.622406] 
+[ 2730.622406] PID: 97, Name: binder
+[ 2730.627136] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.635955] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.644287] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.652618] 
+[ 2730.652618] PID: 98, Name: kworker/u:2
+[ 2730.657775] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c011e84c>] (worker+0xf8/0x1ec)
+[ 2730.665832] [<c011e84c>] (worker+0xf8/0x1ec) from [<c01a9654>] (process_one_work+0x228/0x434)
+[ 2730.674316] [<c01a9654>] (process_one_work+0x228/0x434) from [<c01a9bbc>] (worker_thread+0x19c/0x2bc)
+[ 2730.683471] [<c01a9bbc>] (worker_thread+0x19c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.691772] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.700103] 
+[ 2730.700103] PID: 99, Name: kworker/u:3
+[ 2730.705261] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2730.713989] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.722229] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.730560] 
+[ 2730.730560] PID: 100, Name: krfcommd
+[ 2730.735565] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0757030>] (rfcomm_run+0x168/0x1840)
+[ 2730.744110] [<c0757030>] (rfcomm_run+0x168/0x1840) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.752197] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.760467] 
+[ 2730.760467] PID: 101, Name: msm-cpufreq
+[ 2730.765838] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.774597] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.782867] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.791259] 
+[ 2730.791259] PID: 102, Name: rq_stats
+[ 2730.796234] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.805053] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.813385] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.821716] 
+[ 2730.821716] PID: 103, Name: qt602240_wq
+[ 2730.826965] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2730.835784] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.844116] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.852386] 
+[ 2730.852386] PID: 104, Name: mmcqd/2
+[ 2730.857360] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8)
+[ 2730.866271] [<c05bd75c>] (mmc_queue_thread+0x94/0x1c8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.874633] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.882995] 
+[ 2730.882995] PID: 105, Name: irq/317-qt60224
+[ 2730.888671] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.897003] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.905059] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.913391] 
+[ 2730.913391] PID: 106, Name: irq/487-pm8058_
+[ 2730.918975] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.927459] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.935455] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.943756] 
+[ 2730.943786] PID: 107, Name: irq/488-pm8058_
+[ 2730.949371] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.957855] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.965759] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2730.974151] 
+[ 2730.974151] PID: 108, Name: irq/444-CHGVAL
+[ 2730.979705] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2730.988067] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2730.996124] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.004455] 
+[ 2731.004455] PID: 109, Name: irq/443-CHGINVA
+[ 2731.010040] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2731.018524] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.026489] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.034820] 
+[ 2731.034820] PID: 110, Name: irq/474-VBATDET
+[ 2731.040435] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2731.048889] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.056884] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.065155] 
+[ 2731.065155] PID: 111, Name: irq/564-BATT_ID
+[ 2731.070861] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d5084>] (irq_thread+0x18c/0x1dc)
+[ 2731.079284] [<c01d5084>] (irq_thread+0x18c/0x1dc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.087219] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.095611] 
+[ 2731.095611] PID: 112, Name: ueventd
+[ 2731.100494] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2731.110626] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2731.121459] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c024a5b8>] (do_sys_poll+0x2bc/0x378)
+[ 2731.130767] [<c024a5b8>] (do_sys_poll+0x2bc/0x378) from [<c024a714>] (sys_poll+0x5c/0xbc)
+[ 2731.138916] [<c024a714>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.147247] 
+[ 2731.147247] PID: 114, Name: jbd2/mmcblk0p13
+[ 2731.152862] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2731.161315] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.169311] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.177581] 
+[ 2731.177581] PID: 115, Name: ext4-dio-unwrit
+[ 2731.183288] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2731.192047] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.200317] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.208709] 
+[ 2731.208709] PID: 118, Name: flush-179:0
+[ 2731.213958] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 2731.223236] [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.232147] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.240478] 
+[ 2731.240478] PID: 120, Name: jbd2/mmcblk0p14
+[ 2731.246063] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2731.254547] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.262542] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.270874] 
+[ 2731.270874] PID: 121, Name: ext4-dio-unwrit
+[ 2731.276458] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2731.285278] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.293609] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.301879] 
+[ 2731.301879] PID: 125, Name: jbd2/mmcblk0p16
+[ 2731.307586] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2731.316009] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.323944] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.332336] 
+[ 2731.332336] PID: 126, Name: ext4-dio-unwrit
+[ 2731.337921] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2731.346679] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.355072] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.363403] 
+[ 2731.363403] PID: 127, Name: jbd2/mmcblk0p15
+[ 2731.368988] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2731.377471] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.385467] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.393737] 
+[ 2731.393737] PID: 128, Name: ext4-dio-unwrit
+[ 2731.399383] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2731.408203] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.416473] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.424865] 
+[ 2731.424865] PID: 129, Name: jbd2/mmcblk0p17
+[ 2731.430511] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2731.438873] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.446929] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.455230] 
+[ 2731.455261] PID: 130, Name: ext4-dio-unwrit
+[ 2731.460845] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2731.469665] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2731.477996] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2731.486328] 
+[ 2731.486328] PID: 233, Name: healthd
+[ 2731.491210] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2731.501342] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2731.511749] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.520782] 
+[ 2731.520782] PID: 234, Name: servicemanager
+[ 2731.526306] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05d7518>] (binder_thread_read+0x2b0/0xb5c)
+[ 2731.535461] [<c05d7518>] (binder_thread_read+0x2b0/0xb5c) from [<c05d800c>] (binder_ioctl+0x248/0x5fc)
+[ 2731.544738] [<c05d800c>] (binder_ioctl+0x248/0x5fc) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2731.553070] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2731.561340] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2731.569763] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.578155] 
+[ 2731.578155] PID: 235, Name: vold
+[ 2731.582794] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0360>] (do_nanosleep+0x74/0xd0)
+[ 2731.591278] [<c07c0360>] (do_nanosleep+0x74/0xd0) from [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114)
+[ 2731.600219] [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b2150>] (sys_nanosleep+0x9c/0xa4)
+[ 2731.609252] [<c01b2150>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.617950] 
+[ 2731.617950] PID: 239, Name: skytestserver
+[ 2731.623443] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0)
+[ 2731.632507] [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd6e4>] (futex_wait+0xdc/0x1f8)
+[ 2731.641387] [<c01bd6e4>] (futex_wait+0xdc/0x1f8) from [<c01beb50>] (do_futex+0xc8/0x95c)
+[ 2731.649536] [<c01beb50>] (do_futex+0xc8/0x95c) from [<c01bf508>] (sys_futex+0x124/0x16c)
+[ 2731.657592] [<c01bf508>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.666198] 
+[ 2731.666198] PID: 240, Name: orientationd
+[ 2731.671508] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0)
+[ 2731.680603] [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd6e4>] (futex_wait+0xdc/0x1f8)
+[ 2731.689544] [<c01bd6e4>] (futex_wait+0xdc/0x1f8) from [<c01beb50>] (do_futex+0xc8/0x95c)
+[ 2731.697540] [<c01beb50>] (do_futex+0xc8/0x95c) from [<c01bf508>] (sys_futex+0x124/0x16c)
+[ 2731.705688] [<c01bf508>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.714263] 
+[ 2731.714263] PID: 241, Name: geomagneticd
+[ 2731.719604] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0527328>] (evdev_read+0xe8/0x1fc)
+[ 2731.727996] [<c0527328>] (evdev_read+0xe8/0x1fc) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2731.736083] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2731.743896] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.752166] 
+[ 2731.752166] PID: 242, Name: auditd
+[ 2731.757080] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2731.767150] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2731.777984] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c024a5b8>] (do_sys_poll+0x2bc/0x378)
+[ 2731.787231] [<c024a5b8>] (do_sys_poll+0x2bc/0x378) from [<c024a714>] (sys_poll+0x5c/0xbc)
+[ 2731.795440] [<c024a714>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.803771] 
+[ 2731.803771] PID: 243, Name: netd
+[ 2731.808410] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0360>] (do_nanosleep+0x74/0xd0)
+[ 2731.816894] [<c07c0360>] (do_nanosleep+0x74/0xd0) from [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114)
+[ 2731.825836] [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b2150>] (sys_nanosleep+0x9c/0xa4)
+[ 2731.834869] [<c01b2150>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.843566] 
+[ 2731.843566] PID: 244, Name: debuggerd
+[ 2731.848693] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2731.857604] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c0629c50>] (__skb_recv_datagram+0x20c/0x280)
+[ 2731.867248] [<c0629c50>] (__skb_recv_datagram+0x20c/0x280) from [<c0629ce0>] (skb_recv_datagram+0x1c/0x20)
+[ 2731.876831] [<c0629ce0>] (skb_recv_datagram+0x1c/0x20) from [<c06de9c4>] (unix_accept+0x4c/0xe8)
+[ 2731.885650] [<c06de9c4>] (unix_accept+0x4c/0xe8) from [<c061ffd4>] (sys_accept4+0x17c/0x264)
+[ 2731.894073] [<c061ffd4>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.902832] 
+[ 2731.902832] PID: 246, Name: rild
+[ 2731.907470] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0360>] (do_nanosleep+0x74/0xd0)
+[ 2731.915954] [<c07c0360>] (do_nanosleep+0x74/0xd0) from [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114)
+[ 2731.924865] [<c01b202c>] (hrtimer_nanosleep+0x8c/0x114) from [<c01b2150>] (sys_nanosleep+0x9c/0xa4)
+[ 2731.933837] [<c01b2150>] (sys_nanosleep+0x9c/0xa4) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.942657] 
+[ 2731.942657] PID: 247, Name: surfaceflinger
+[ 2731.948242] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2731.958312] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2731.968719] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2731.977691] 
+[ 2731.977691] PID: 248, Name: zygote
+[ 2731.982604] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2731.992675] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2732.003540] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2732.012573] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2732.021392] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2732.030181] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.038757] 
+[ 2732.038757] PID: 249, Name: drmserver
+[ 2732.043823] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05d7518>] (binder_thread_read+0x2b0/0xb5c)
+[ 2732.053009] [<c05d7518>] (binder_thread_read+0x2b0/0xb5c) from [<c05d800c>] (binder_ioctl+0x248/0x5fc)
+[ 2732.062286] [<c05d800c>] (binder_ioctl+0x248/0x5fc) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2732.070617] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2732.078887] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2732.087310] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.095703] 
+[ 2732.095703] PID: 250, Name: mediaserver
+[ 2732.100952] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05d7518>] (binder_thread_read+0x2b0/0xb5c)
+[ 2732.110137] [<c05d7518>] (binder_thread_read+0x2b0/0xb5c) from [<c05d800c>] (binder_ioctl+0x248/0x5fc)
+[ 2732.119415] [<c05d800c>] (binder_ioctl+0x248/0x5fc) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2732.127746] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2732.136016] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2732.144409] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.152832] 
+[ 2732.152832] PID: 252, Name: installd
+[ 2732.157806] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0)
+[ 2732.166900] [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd6e4>] (futex_wait+0xdc/0x1f8)
+[ 2732.175842] [<c01bd6e4>] (futex_wait+0xdc/0x1f8) from [<c01beb50>] (do_futex+0xc8/0x95c)
+[ 2732.183898] [<c01beb50>] (do_futex+0xc8/0x95c) from [<c01bf508>] (sys_futex+0x124/0x16c)
+[ 2732.191925] [<c01bf508>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.200561] 
+[ 2732.200561] PID: 254, Name: keystore
+[ 2732.205627] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05d7518>] (binder_thread_read+0x2b0/0xb5c)
+[ 2732.214660] [<c05d7518>] (binder_thread_read+0x2b0/0xb5c) from [<c05d800c>] (binder_ioctl+0x248/0x5fc)
+[ 2732.224029] [<c05d800c>] (binder_ioctl+0x248/0x5fc) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2732.232360] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2732.240692] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2732.248962] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.257446] 
+[ 2732.257446] PID: 258, Name: kauditd
+[ 2732.262390] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01cfd94>] (kauditd_thread+0x124/0x178)
+[ 2732.271087] [<c01cfd94>] (kauditd_thread+0x124/0x178) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.279479] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.287811] 
+[ 2732.287811] PID: 288, Name: qrngd
+[ 2732.292541] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2732.302673] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2732.313507] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c024a5b8>] (do_sys_poll+0x2bc/0x378)
+[ 2732.322814] [<c024a5b8>] (do_sys_poll+0x2bc/0x378) from [<c024a714>] (sys_poll+0x5c/0xbc)
+[ 2732.330963] [<c024a714>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.339233] 
+[ 2732.339233] PID: 289, Name: time_daemon
+[ 2732.344543] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2732.353454] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c0629c50>] (__skb_recv_datagram+0x20c/0x280)
+[ 2732.363098] [<c0629c50>] (__skb_recv_datagram+0x20c/0x280) from [<c0629ce0>] (skb_recv_datagram+0x1c/0x20)
+[ 2732.372650] [<c0629ce0>] (skb_recv_datagram+0x1c/0x20) from [<c06de9c4>] (unix_accept+0x4c/0xe8)
+[ 2732.381500] [<c06de9c4>] (unix_accept+0x4c/0xe8) from [<c061ffd4>] (sys_accept4+0x17c/0x264)
+[ 2732.389892] [<c061ffd4>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.398681] 
+[ 2732.398681] PID: 291, Name: qmuxd
+[ 2732.403381] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2732.413513] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2732.424377] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2732.433471] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2732.442260] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2732.450958] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.459594] 
+[ 2732.459594] PID: 292, Name: sh
+[ 2732.464141] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2732.472930] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c041edd0>] (n_tty_read+0x338/0x6bc)
+[ 2732.481842] [<c041edd0>] (n_tty_read+0x338/0x6bc) from [<c041a1cc>] (tty_read+0x80/0xc4)
+[ 2732.489898] [<c041a1cc>] (tty_read+0x80/0xc4) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2732.497711] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2732.505462] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.513854] 
+[ 2732.513854] PID: 294, Name: rmt_storage
+[ 2732.519104] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0173fd0>] (rmt_storage_ioctl+0x200/0x494)
+[ 2732.528198] [<c0173fd0>] (rmt_storage_ioctl+0x200/0x494) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2732.536956] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2732.545288] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2732.553619] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.561981] 
+[ 2732.561981] PID: 299, Name: qmiproxy
+[ 2732.567077] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2732.577148] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2732.588012] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2732.597045] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2732.605895] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2732.614654] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.623229] 
+[ 2732.623229] PID: 301, Name: qcks
+[ 2732.627868] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2732.636779] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07be104>] (wait_for_common+0xd4/0x184)
+[ 2732.645996] [<c07be104>] (wait_for_common+0xd4/0x184) from [<c07be21c>] (wait_for_completion_interruptible+0x18/0x24)
+[ 2732.656585] [<c07be21c>] (wait_for_completion_interruptible+0x18/0x24) from [<c0172d78>] (charm_modem_ioctl+0x1c4/0x244)
+[ 2732.667419] [<c0172d78>] (charm_modem_ioctl+0x1c4/0x244) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2732.676147] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2732.684539] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2732.692871] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2732.701293] 
+[ 2732.701293] PID: 413, Name: flush-179:96
+[ 2732.706604] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 2732.715942] [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.724822] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.733154] 
+[ 2732.733154] PID: 417, Name: jbd2/mmcblk1p2-
+[ 2732.738739] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c02eab4c>] (kjournald2+0x184/0x204)
+[ 2732.747192] [<c02eab4c>] (kjournald2+0x184/0x204) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.755126] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.763519] 
+[ 2732.763519] PID: 418, Name: ext4-dio-unwrit
+[ 2732.769165] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2732.777893] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.786285] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.794586] 
+[ 2732.794616] PID: 595, Name: rpcrotuer_smd_x
+[ 2732.800201] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2732.809020] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.817352] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.825683] 
+[ 2732.825683] PID: 596, Name: krpcserversd
+[ 2732.830993] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c013da54>] (rpc_servers_thread+0xf0/0x358)
+[ 2732.840087] [<c013da54>] (rpc_servers_thread+0xf0/0x358) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.848693] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.856964] 
+[ 2732.856964] PID: 619, Name: krmt_storagecln
+[ 2732.862609] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c013bef4>] (__msm_rpc_read+0x11c/0x7c4)
+[ 2732.871429] [<c013bef4>] (__msm_rpc_read+0x11c/0x7c4) from [<c013c5ac>] (msm_rpc_read+0x10/0x74)
+[ 2732.880187] [<c013c5ac>] (msm_rpc_read+0x10/0x74) from [<c013eb08>] (rpc_clients_thread+0x2c/0x1d8)
+[ 2732.889160] [<c013eb08>] (rpc_clients_thread+0x2c/0x1d8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.897827] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.906127] 
+[ 2732.906158] PID: 620, Name: krmt_storagecln
+[ 2732.911743] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c013e9c0>] (rpc_clients_cb_thread+0x70/0x18c)
+[ 2732.921081] [<c013e9c0>] (rpc_clients_cb_thread+0x70/0x18c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.929931] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.938262] 
+[ 2732.938262] PID: 684, Name: sdio_al_wq
+[ 2732.943420] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2732.952239] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2732.960571] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2732.968841] 
+[ 2732.968841] PID: 685, Name: kworker/u:4
+[ 2732.974151] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c011e84c>] (worker+0xf8/0x1ec)
+[ 2732.982208] [<c011e84c>] (worker+0xf8/0x1ec) from [<c01a9654>] (process_one_work+0x228/0x434)
+[ 2732.990631] [<c01a9654>] (process_one_work+0x228/0x434) from [<c01a9bbc>] (worker_thread+0x19c/0x2bc)
+[ 2732.999908] [<c01a9bbc>] (worker_thread+0x19c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.008148] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.016479] 
+[ 2733.016479] PID: 686, Name: sdio_al_wq
+[ 2733.021636] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.030456] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.038787] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.047058] 
+[ 2733.047058] PID: 693, Name: su
+[ 2733.051574] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2733.060485] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c0629c50>] (__skb_recv_datagram+0x20c/0x280)
+[ 2733.070068] [<c0629c50>] (__skb_recv_datagram+0x20c/0x280) from [<c0629ce0>] (skb_recv_datagram+0x1c/0x20)
+[ 2733.079772] [<c0629ce0>] (skb_recv_datagram+0x1c/0x20) from [<c06de9c4>] (unix_accept+0x4c/0xe8)
+[ 2733.088531] [<c06de9c4>] (unix_accept+0x4c/0xe8) from [<c061ffd4>] (sys_accept4+0x17c/0x264)
+[ 2733.096954] [<c061ffd4>] (sys_accept4+0x17c/0x264) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.105712] 
+[ 2733.105712] PID: 695, Name: netmgrd
+[ 2733.110626] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0)
+[ 2733.119689] [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd6e4>] (futex_wait+0xdc/0x1f8)
+[ 2733.128631] [<c01bd6e4>] (futex_wait+0xdc/0x1f8) from [<c01beb50>] (do_futex+0xc8/0x95c)
+[ 2733.136657] [<c01beb50>] (do_futex+0xc8/0x95c) from [<c01bf508>] (sys_futex+0x124/0x16c)
+[ 2733.144775] [<c01bf508>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.153381] 
+[ 2733.153381] PID: 705, Name: adbd
+[ 2733.158020] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2733.168151] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2733.178985] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2733.188110] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2733.196868] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2733.205566] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.214233] 
+[ 2733.214233] PID: 750, Name: ksdioirqd/mmc4
+[ 2733.219787] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2733.228637] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c05bb040>] (sdio_irq_thread+0x22c/0x2d0)
+[ 2733.237884] [<c05bb040>] (sdio_irq_thread+0x22c/0x2d0) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.246337] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.254669] 
+[ 2733.254669] PID: 751, Name: sdio_xprt
+[ 2733.259765] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.268585] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.276916] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.285247] 
+[ 2733.285247] PID: 752, Name: rpcrotuer_sdio_
+[ 2733.290832] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.299652] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.307983] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.316253] 
+[ 2733.316253] PID: 753, Name: sdio_cmux
+[ 2733.321441] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.330200] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.338470] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.346862] 
+[ 2733.346862] PID: 754, Name: sdio_cdemux
+[ 2733.352111] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.360931] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.369262] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.377593] 
+[ 2733.377593] PID: 755, Name: system_server
+[ 2733.383026] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2733.393157] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2733.403564] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.412597] 
+[ 2733.412597] PID: 794, Name: ksdioirqd/mmc1
+[ 2733.418090] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2733.427001] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c05bb040>] (sdio_irq_thread+0x22c/0x2d0)
+[ 2733.436279] [<c05bb040>] (sdio_irq_thread+0x22c/0x2d0) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.444702] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.452972] 
+[ 2733.452972] PID: 795, Name: kworker/u:7
+[ 2733.458282] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0139d84>] (rr_read+0x128/0x14c)
+[ 2733.466491] [<c0139d84>] (rr_read+0x128/0x14c) from [<c013a920>] (do_read_data+0x20/0xd0c)
+[ 2733.474670] [<c013a920>] (do_read_data+0x20/0xd0c) from [<c01a9654>] (process_one_work+0x228/0x434)
+[ 2733.483764] [<c01a9654>] (process_one_work+0x228/0x434) from [<c01a9bbc>] (worker_thread+0x19c/0x2bc)
+[ 2733.492980] [<c01a9bbc>] (worker_thread+0x19c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.501220] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.509490] 
+[ 2733.509490] PID: 796, Name: sdio_dmux
+[ 2733.514617] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.523437] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.531707] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.540100] 
+[ 2733.540100] PID: 797, Name: krmt_storagecln
+[ 2733.545745] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c013bef4>] (__msm_rpc_read+0x11c/0x7c4)
+[ 2733.554443] [<c013bef4>] (__msm_rpc_read+0x11c/0x7c4) from [<c013c5ac>] (msm_rpc_read+0x10/0x74)
+[ 2733.563293] [<c013c5ac>] (msm_rpc_read+0x10/0x74) from [<c013eb08>] (rpc_clients_thread+0x2c/0x1d8)
+[ 2733.572326] [<c013eb08>] (rpc_clients_thread+0x2c/0x1d8) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.580902] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.589233] 
+[ 2733.589233] PID: 798, Name: krmt_storagecln
+[ 2733.594818] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c013e9c0>] (rpc_clients_cb_thread+0x70/0x18c)
+[ 2733.604187] [<c013e9c0>] (rpc_clients_cb_thread+0x70/0x18c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.613037] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.621307] 
+[ 2733.621307] PID: 915, Name: kworker/0:3
+[ 2733.626586] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2733.635345] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.643524] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.651916] 
+[ 2733.651916] PID: 969, Name: ndroid.systemui
+[ 2733.657562] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2733.667572] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2733.677978] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.687072] 
+[ 2733.687072] PID: 1056, Name: sdcard
+[ 2733.692016] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c026ca98>] (inotify_read+0x2e8/0x344)
+[ 2733.700561] [<c026ca98>] (inotify_read+0x2e8/0x344) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2733.708953] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2733.716766] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.725097] 
+[ 2733.725097] PID: 1069, Name: sdcard
+[ 2733.729980] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c026ca98>] (inotify_read+0x2e8/0x344)
+[ 2733.738647] [<c026ca98>] (inotify_read+0x2e8/0x344) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2733.746978] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2733.754730] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.763122] 
+[ 2733.763122] PID: 1078, Name: tion.pckeyboard
+[ 2733.768798] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2733.778930] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2733.789337] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.798339] 
+[ 2733.798370] PID: 1107, Name: loop0
+[ 2733.803222] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c04775b0>] (loop_thread+0xb8/0x440)
+[ 2733.811584] [<c04775b0>] (loop_thread+0xb8/0x440) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.819641] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.827941] 
+[ 2733.827941] PID: 1108, Name: kdmflush
+[ 2733.833038] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.841857] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.850189] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.858459] 
+[ 2733.858459] PID: 1126, Name: kcryptd_io
+[ 2733.863769] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.872589] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.880859] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.889251] 
+[ 2733.889251] PID: 1127, Name: kcryptd
+[ 2733.894287] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.902984] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.911376] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.919708] 
+[ 2733.919708] PID: 1128, Name: ext4-dio-unwrit
+[ 2733.925384] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2733.934204] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2733.942535] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2733.950866] 
+[ 2733.950866] PID: 1140, Name: m.android.phone
+[ 2733.956573] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2733.966674] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2733.977111] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2733.986114] 
+[ 2733.986114] PID: 1144, Name: roid.dspmanager
+[ 2733.991790] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.001922] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.012329] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.021362] 
+[ 2734.021362] PID: 1149, Name: ndroid.incallui
+[ 2734.027038] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.037170] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.047576] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.056610] 
+[ 2734.056610] PID: 1180, Name: coilsw.launcher
+[ 2734.062347] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2734.072357] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.082824] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.091857] 
+[ 2734.091857] PID: 1302, Name: android.smspush
+[ 2734.097595] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.107666] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.118072] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.127044] 
+[ 2734.127044] PID: 1402, Name: rocess.location
+[ 2734.132843] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.142913] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.153320] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.162292] 
+[ 2734.162292] PID: 1449, Name: mpdecision
+[ 2734.167572] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0)
+[ 2734.176666] [<c01bcce8>] (futex_wait_queue_me+0xd4/0xf0) from [<c01bd6e4>] (futex_wait+0xdc/0x1f8)
+[ 2734.185607] [<c01bd6e4>] (futex_wait+0xdc/0x1f8) from [<c01beb50>] (do_futex+0xc8/0x95c)
+[ 2734.193634] [<c01beb50>] (do_futex+0xc8/0x95c) from [<c01bf508>] (sys_futex+0x124/0x16c)
+[ 2734.201751] [<c01bf508>] (sys_futex+0x124/0x16c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.210357] 
+[ 2734.210357] PID: 1622, Name: m.facebook.orca
+[ 2734.216033] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.226165] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.236572] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.245574] 
+[ 2734.245605] PID: 2117, Name: sdio_smem
+[ 2734.250732] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9a10>] (rescuer_thread+0x184/0x194)
+[ 2734.259582] [<c01a9a10>] (rescuer_thread+0x184/0x194) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2734.267913] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2734.276245] 
+[ 2734.276245] PID: 2719, Name: mozilla.firefox
+[ 2734.281921] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.292053] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.302459] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.311462] 
+[ 2734.311462] PID: 2786, Name: reenify:service
+[ 2734.317169] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.327270] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.337707] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.346710] 
+[ 2734.346710] PID: 2810, Name: sh
+[ 2734.351257] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 2734.359924] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.368774] 
+[ 2734.368774] PID: 2815, Name: logcat
+[ 2734.373657] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.383789] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2734.394653] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2734.403747] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2734.412536] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2734.421234] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.429870] 
+[ 2734.429870] PID: 3124, Name: s.messaging:rcs
+[ 2734.435607] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.445678] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.456115] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.465057] 
+[ 2734.465057] PID: 3361, Name: .bitspin.timely
+[ 2734.470855] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.480926] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.491333] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.500305] 
+[ 2734.500305] PID: 3746, Name: sh
+[ 2734.504913] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 2734.513580] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.522369] 
+[ 2734.522369] PID: 3826, Name: su
+[ 2734.526977] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2734.535186] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2734.543029] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.551513] 
+[ 2734.551513] PID: 3827, Name: su
+[ 2734.556060] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2734.564971] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c041edd0>] (n_tty_read+0x338/0x6bc)
+[ 2734.573822] [<c041edd0>] (n_tty_read+0x338/0x6bc) from [<c041a1cc>] (tty_read+0x80/0xc4)
+[ 2734.581878] [<c041a1cc>] (tty_read+0x80/0xc4) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2734.589630] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2734.597503] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.605834] 
+[ 2734.605834] PID: 3832, Name: su
+[ 2734.610382] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2734.618621] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2734.626495] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.634857] 
+[ 2734.634857] PID: 3833, Name: su
+[ 2734.639465] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2734.647674] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2734.655517] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.664001] 
+[ 2734.664001] PID: 3836, Name: sh
+[ 2734.668548] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 2734.677215] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.686065] 
+[ 2734.686065] PID: 4454, Name: e.process.gapps
+[ 2734.691741] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2734.701873] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.712280] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.721282] 
+[ 2734.721282] PID: 4478, Name: .gms.persistent
+[ 2734.727020] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2734.737030] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.747528] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.756530] 
+[ 2734.756530] PID: 4537, Name: gle.android.gms
+[ 2734.762268] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2734.772338] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2734.782775] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2734.791717] 
+[ 2734.791717] PID: 4965, Name: dhd_cfg80211_ev
+[ 2734.797515] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2734.806365] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07c0694>] (__down_interruptible+0x70/0xd0)
+[ 2734.815856] [<c07c0694>] (__down_interruptible+0x70/0xd0) from [<c01b2864>] (down_interruptible+0x30/0x48)
+[ 2734.825683] [<c01b2864>] (down_interruptible+0x30/0x48) from [<bf02e54c>] (wl_event_handler+0x1f4/0x280 [bcmdhd])
+[ 2734.835968] [<bf02e54c>] (wl_event_handler+0x1f4/0x280 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2734.845855] 
+[ 2734.845855] PID: 4966, Name: dhd_watchdog
+[ 2734.851348] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2734.860137] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07c0694>] (__down_interruptible+0x70/0xd0)
+[ 2734.869750] [<c07c0694>] (__down_interruptible+0x70/0xd0) from [<c01b2864>] (down_interruptible+0x30/0x48)
+[ 2734.879455] [<c01b2864>] (down_interruptible+0x30/0x48) from [<bf006a50>] (dhd_watchdog_thread+0x7c/0x148 [bcmdhd])
+[ 2734.889892] [<bf006a50>] (dhd_watchdog_thread+0x7c/0x148 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2734.900024] 
+[ 2734.900024] PID: 4967, Name: dhd_dpc
+[ 2734.905029] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2734.913940] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07c0694>] (__down_interruptible+0x70/0xd0)
+[ 2734.923492] [<c07c0694>] (__down_interruptible+0x70/0xd0) from [<c01b2864>] (down_interruptible+0x30/0x48)
+[ 2734.933166] [<c01b2864>] (down_interruptible+0x30/0x48) from [<bf006960>] (dhd_dpc_thread+0x74/0xe8 [bcmdhd])
+[ 2734.943115] [<bf006960>] (dhd_dpc_thread+0x74/0xe8 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2734.952728] 
+[ 2734.952728] PID: 4968, Name: dhd_sysioc
+[ 2734.957977] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2734.966888] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07c0694>] (__down_interruptible+0x70/0xd0)
+[ 2734.976440] [<c07c0694>] (__down_interruptible+0x70/0xd0) from [<c01b2864>] (down_interruptible+0x30/0x48)
+[ 2734.986114] [<c01b2864>] (down_interruptible+0x30/0x48) from [<bf00681c>] (_dhd_sysioc_thread+0x500/0x570 [bcmdhd])
+[ 2734.996582] [<bf00681c>] (_dhd_sysioc_thread+0x500/0x570 [bcmdhd]) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.006652] 
+[ 2735.006652] PID: 4972, Name: wpa_supplicant
+[ 2735.012298] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2735.022430] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2735.033294] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2735.042388] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2735.051116] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2735.059936] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.068511] 
+[ 2735.068511] PID: 5011, Name: dhcpcd
+[ 2735.073425] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2735.083557] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2735.094390] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c024a5b8>] (do_sys_poll+0x2bc/0x378)
+[ 2735.103698] [<c024a5b8>] (do_sys_poll+0x2bc/0x378) from [<c024a714>] (sys_poll+0x5c/0xbc)
+[ 2735.111846] [<c024a714>] (sys_poll+0x5c/0xbc) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.120178] 
+[ 2735.120178] PID: 6038, Name: droid.apps.docs
+[ 2735.125854] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.135986] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.146392] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.155426] 
+[ 2735.155426] PID: 6523, Name: android.weather
+[ 2735.161102] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.171234] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.181640] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.190673] 
+[ 2735.190673] PID: 6792, Name: droid.apps.maps
+[ 2735.196350] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2735.206481] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.216888] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.225921] 
+[ 2735.225921] PID: 6951, Name: kworker/0:1
+[ 2735.231231] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2735.239990] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.248229] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.256561] 
+[ 2735.256561] PID: 6956, Name: droid.deskclock
+[ 2735.262237] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.272369] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.282775] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.291809] 
+[ 2735.291809] PID: 7010, Name: kworker/u:0
+[ 2735.297119] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2735.305877] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.314117] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.322448] 
+[ 2735.322448] PID: 7247, Name: kworker/u:5
+[ 2735.327758] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2735.336517] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.344757] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.353027] 
+[ 2735.353027] PID: 7612, Name: logcat
+[ 2735.358032] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.368103] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c0249424>] (poll_schedule_timeout+0x38/0x58)
+[ 2735.378967] [<c0249424>] (poll_schedule_timeout+0x38/0x58) from [<c0249bf4>] (do_select+0x43c/0x470)
+[ 2735.388000] [<c0249bf4>] (do_select+0x43c/0x470) from [<c0249e50>] (core_sys_select+0x228/0x338)
+[ 2735.396850] [<c0249e50>] (core_sys_select+0x228/0x338) from [<c024a034>] (sys_select+0xd4/0x104)
+[ 2735.405609] [<c024a034>] (sys_select+0xd4/0x104) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.414184] 
+[ 2735.414184] PID: 8294, Name: sh
+[ 2735.418731] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0108f60>] (sys_sigsuspend+0x7c/0xa0)
+[ 2735.427398] [<c0108f60>] (sys_sigsuspend+0x7c/0xa0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.436248] 
+[ 2735.436248] PID: 8301, Name: su
+[ 2735.440795] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2735.449005] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2735.456848] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.465332] 
+[ 2735.465332] PID: 8302, Name: su
+[ 2735.469940] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2735.478729] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c041edd0>] (n_tty_read+0x338/0x6bc)
+[ 2735.487640] [<c041edd0>] (n_tty_read+0x338/0x6bc) from [<c041a1cc>] (tty_read+0x80/0xc4)
+[ 2735.495727] [<c041a1cc>] (tty_read+0x80/0xc4) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2735.503540] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2735.511291] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.519653] 
+[ 2735.519653] PID: 8305, Name: su
+[ 2735.524230] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2735.532440] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2735.540344] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.548736] 
+[ 2735.548736] PID: 8307, Name: su
+[ 2735.553283] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01931a0>] (do_wait+0x1ac/0x244)
+[ 2735.561523] [<c01931a0>] (do_wait+0x1ac/0x244) from [<c01943d4>] (sys_wait4+0xa0/0xc0)
+[ 2735.569366] [<c01943d4>] (sys_wait4+0xa0/0xc0) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.577819] 
+[ 2735.577819] PID: 8308, Name: sh
+[ 2735.582427] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2735.591217] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c041edd0>] (n_tty_read+0x338/0x6bc)
+[ 2735.600158] [<c041edd0>] (n_tty_read+0x338/0x6bc) from [<c041a1cc>] (tty_read+0x80/0xc4)
+[ 2735.608215] [<c041a1cc>] (tty_read+0x80/0xc4) from [<c0239c8c>] (vfs_read+0xa4/0x12c)
+[ 2735.616027] [<c0239c8c>] (vfs_read+0xa4/0x12c) from [<c0239d48>] (sys_read+0x34/0x68)
+[ 2735.623779] [<c0239d48>] (sys_read+0x34/0x68) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.632171] 
+[ 2735.632171] PID: 8349, Name: kworker/0:0
+[ 2735.637573] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2735.646179] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.654479] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.662811] 
+[ 2735.662811] PID: 8397, Name: oid.documentsui
+[ 2735.668487] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.678619] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.689025] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.698059] 
+[ 2735.698059] PID: 8438, Name: flush-0:20
+[ 2735.703308] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 2735.712646] [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.721496] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.729827] 
+[ 2735.729827] PID: 8439, Name: flush-0:21
+[ 2735.735076] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4)
+[ 2735.744415] [<c025b6fc>] (bdi_writeback_thread+0x1bc/0x2e4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.753265] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2735.761596] 
+[ 2735.761596] PID: 8569, Name: d.process.media
+[ 2735.767272] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.777404] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.787811] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.796844] 
+[ 2735.796844] PID: 8595, Name: m.zulip.android
+[ 2735.802520] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.812652] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.823059] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.832092] 
+[ 2735.832092] PID: 9431, Name: .android.chrome
+[ 2735.837768] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c)
+[ 2735.847900] [<c07c04fc>] (schedule_hrtimeout_range_clock+0xd0/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.858306] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.867340] 
+[ 2735.867340] PID: 9480, Name: dboxed_process0
+[ 2735.873016] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.883148] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.893554] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.902557] 
+[ 2735.902587] PID: 9651, Name: dboxed_process1
+[ 2735.908325] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.918334] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.928802] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.937805] 
+[ 2735.937805] PID: 9842, Name: dboxed_process2
+[ 2735.943542] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2735.953613] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2735.964050] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2735.972991] 
+[ 2735.972991] PID: 10217, Name: kworker/0:2
+[ 2735.978546] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2735.987213] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2735.995391] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.003784] 
+[ 2736.003784] PID: 10406, Name: droid.apps.docs
+[ 2736.009613] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.019622] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.030090] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.039123] 
+[ 2736.039123] PID: 10478, Name: d.process.acore
+[ 2736.044952] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.055023] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.065429] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.074401] 
+[ 2736.074401] PID: 10768, Name: id.defcontainer
+[ 2736.080291] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.090362] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.100769] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.109710] 
+[ 2736.109741] PID: 10845, Name: kworker/u:6
+[ 2736.115203] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2736.123931] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.132141] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.140502] 
+[ 2736.140502] PID: 10912, Name: oid.setupwizard
+[ 2736.146331] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.156402] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.166839] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.175781] 
+[ 2736.175781] PID: 10930, Name: lysesoft.andftp
+[ 2736.181671] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.191741] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.202148] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.211120] 
+[ 2736.211120] PID: 10950, Name: id.gms.unstable
+[ 2736.216949] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.227081] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.237487] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.246490] 
+[ 2736.246520] PID: 10966, Name: oid.apps.photos
+[ 2736.252258] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.262390] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.272827] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.281829] 
+[ 2736.281829] PID: 11058, Name: enmod.trebuchet
+[ 2736.287597] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.297729] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.308135] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.317169] 
+[ 2736.317169] PID: 11089, Name: oid.voicedialer
+[ 2736.322937] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.333068] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.343475] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.352508] 
+[ 2736.352508] PID: 11102, Name: droid.gallery3d
+[ 2736.358337] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.368347] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.378814] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.387817] 
+[ 2736.387817] PID: 11122, Name: enmod.voiceplus
+[ 2736.393646] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.403717] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.414123] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.423095] 
+[ 2736.423095] PID: 11137, Name: earchbox:search
+[ 2736.428985] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.439056] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.449462] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.458435] 
+[ 2736.458435] PID: 11153, Name: gle.android.tts
+[ 2736.464263] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.474395] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.484802] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.493835] 
+[ 2736.493835] PID: 11182, Name: android.vending
+[ 2736.499603] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c)
+[ 2736.509704] [<c07c0470>] (schedule_hrtimeout_range_clock+0x44/0x10c) from [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c)
+[ 2736.520141] [<c026e71c>] (sys_epoll_wait+0x1b0/0x32c) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.529144] 
+[ 2736.529144] PID: 11280, Name: re-initialized>
+[ 2736.534912] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c05d75c8>] (binder_thread_read+0x360/0xb5c)
+[ 2736.544097] [<c05d75c8>] (binder_thread_read+0x360/0xb5c) from [<c05d800c>] (bindel+0x248/0x5fc)
+[ 2736.553405] [<c05d800c>] (binder_ioctl+0x248/0x5fc) from [<c0248118>] (vfs_ioctl+0x20/0x3c)
+[ 2736.561645] [<c0248118>] (vfs_ioctl+0x20/0x3c) from [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518)
+[ 2736.570037] [<c0248bbc>] (do_vfs_ioctl+0x4c4/0x518) from [<c0248c58>] (sys_ioctl+0x48/0x70)
+[ 2736.578369] [<c0248c58>] (sys_ioctl+0x48/0x70) from [<c0105c60>] (ret_fast_syscall+0x0/0x30)
+[ 2736.586791] 
+[ 2736.586791] PID: 11294, Name: migration/1
+[ 2736.592224] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01cf2a0>] (cpu_stopper_thread+0x134/0x14c)
+[ 2736.601379] [<c01cf2a0>] (cpu_stopper_thread+0x134/0x14c) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.610076] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.618316] 
+[ 2736.618347] PID: 11295, Name: kworker/1:0
+[ 2736.623809] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c07bedec>] (schedule_timeout+0x1c/0x30c)
+[ 2736.632720] [<c07bedec>] (schedule_timeout+0x1c/0x30c) from [<c07be104>] (wait_for_common+0xd4/0x184)
+[ 2736.641876] [<c07be104>] (wait_for_common+0xd4/0x184) from [<c01ad704>] (kthread_create_on_node+0x68/0xcc)
+[ 2736.651550] [<c01ad704>] (kthread_create_on_node+0x68/0xcc) from [<c01a6fc8>] (create_worker+0xac/0x160)
+[ 2736.661010] [<c01a6fc8>] (create_worker+0xac/0x160) from [<c01a72b0>] (manage_workers+0xbc/0x194)
+[ 2736.669860] [<c01a72b0>] (manage_workers+0xbc/0x194) from [<c01a9b20>] (worker_thread+0x100/0x2bc)
+[ 2736.678802] [<c01a9b20>] (worker_thread+0x100/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.687072] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.695343] 
+[ 2736.695343] PID: 11296, Name: ksoftirqd/1
+[ 2736.700866] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c0196aa8>] (run_ksoftirqd+0x78/0x1cc)
+[ 2736.709411] [<c0196aa8>] (run_ksoftirqd+0x78/0x1cc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.717620] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.725952] 
+[ 2736.725952] PID: 11297, Name: watchdog/1
+[ 2736.731262] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01d3af0>] (watchdog+0x84/0xd4)
+[ 2736.739410] [<c01d3af0>] (watchdog+0x84/0xd4) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.747039] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.755371] 
+[ 2736.755371] PID: 11298, Name: kworker/1:1
+[ 2736.760803] [<c07be834>] (__schedule+0x5b8/0x76c) from [<c01a9c9c>] (worker_thread+0x27c/0x2bc)
+[ 2736.769531] [<c01a9c9c>] (worker_thread+0x27c/0x2bc) from [<c01ad4fc>] (kthread+0x7c/0x88)
+[ 2736.777770] [<c01ad4fc>] (kthread+0x7c/0x88) from [<c0106d68>] (kernel_thread_exit+0x0/0x8)
+[ 2736.786041] Kernel panic - not syncing: Apps watchdog bark received!
+[ 2736.792449] In panic from Apps watchdog bark 
+[ 2736.796722] CPU1: stopping
+[ 2736.799407] In panic from Apps watchdog bark 
+[ 2736.903991] subsystem-fatal-8x60: Q6 NMI was sent.
+[ 2736.907806] BUG: scheduling while atomic: Binder_A/1210/0x00010005
+[ 2736.914001] Modules linked in: bcmdhd
+[ 2736.917602] In panic from Apps watchdog bark 
+[ 2740.244293] BUG: spinlock lockup on CPU#0, init/1, e898eb5c
+[ 2740.248901] In panic from Apps watchdog bark 
+[ 2740.253234] Backtrace for cpu 0 (current):
+[ 2740.257354] In panic from Apps watchdog bark 
+[ 2740.261657] 
+[ 2740.261657] sending IPI to all other CPUs:
+
+No errors detected
+
