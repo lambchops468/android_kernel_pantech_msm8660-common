@@ -2869,7 +2869,7 @@ void mem_cgroup_get_shmem_target(struct inode *inode, pgoff_t pgoff,
 #ifdef CONFIG_SWAP
 	if (ptr && ptr->val) {
 		entry.val = ptr->val;
-		page = find_get_page(&swapper_space, entry.val);
+		page = find_get_page(swap_address_space(entry), entry.val);
 	} else
 #endif
 		page = find_get_page(inode->i_mapping, pgoff);
