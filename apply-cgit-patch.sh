@@ -59,9 +59,13 @@ $COMMIT_MSG"
 
 echo "Applying Patch..."
 if $DRYRUN; then
-  git apply --check "$PATCH_FILE" || exit 1
+  # git apply --check "$PATCH_FILE" || exit 1
+  patch --dry-run -p1 -i "$PATCH_FILE" || exit 1
 else
-  git apply "$PATCH_FILE" || exit 1
+  # git apply "$PATCH_FILE" || exit 1
+  patch -p1 -i "$PATCH_FILE"
+  echo "Fix any errors and press enter..."
+  read
 fi
 
 echo "Checking build..."
