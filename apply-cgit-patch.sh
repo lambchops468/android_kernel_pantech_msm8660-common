@@ -75,8 +75,10 @@ echo "Press Enter to Continue..."
 read
 
 if ! $DRYRUN; then
+  find -name '*.orig' -delete
+  find -name '*.rej' -delete
   git add -A || exit 1
-  git reset apply-cgit-patch.sh
+  git reset apply-cgit-patch.sh build_kernel.sh
 fi
 
 echo "Commiting Patch..."
