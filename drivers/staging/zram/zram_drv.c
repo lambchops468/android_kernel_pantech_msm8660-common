@@ -759,7 +759,7 @@ static int zram_make_request(struct request_queue *queue, struct bio *bio)
 error:
 	up_read(&zram->init_lock);
 	bio_io_error(bio);
-	return -1;
+	return 0;
 }
 
 static void zram_slot_free(struct work_struct *work)
