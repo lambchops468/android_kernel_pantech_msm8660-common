@@ -12322,7 +12322,9 @@ static void __init msm8x60_init(struct msm_board_data *board_data)
 		smsc911x_config.reset_gpio
 			= GPIO_ETHERNET_RESET_N_DRAGON;
 
+#if !defined(CONFIG_MACH_MSM8X60_PRESTO)
 	platform_device_register(&smsc911x_device);
+#endif
 
 #ifdef CONFIG_PANTECH_AUDIO_PRESTO_FAB2200  // jmlee 20110505 add
     snd_subsystem_Init();
