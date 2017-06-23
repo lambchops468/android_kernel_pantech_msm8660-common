@@ -6319,7 +6319,9 @@ static struct platform_device *surf_devices[] __initdata = {
 	&msm_kgsl_3d0,
 	&msm_kgsl_2d0,
 	&msm_kgsl_2d1,
+#if !defined(CONFIG_MACH_MSM8X60_PRESTO)
 	&lcdc_samsung_panel_device,
+#endif
 #ifdef CONFIG_FB_MSM_LCDC_NT35582_WVGA
 	&lcdc_nt35582_panel_device,
 #endif
@@ -6981,7 +6983,7 @@ static int pm8058_gpios_init(void)
                 .inv_int_pol    = 0,
             }
         }
-#else /* CONFIG_SKY_GSBI12_UART_CONSOLE */
+#elif !defined(CONFIG_SKY_GSBI12_UART_CONSOLE_DISABLE)
 		{ /* PMIC ID interrupt */
 			PM8058_GPIO_PM_TO_SYS(36),
 			{
@@ -8727,7 +8729,7 @@ static void __init msm8x60_init_uart12dm(void)
     gpio_tlmm_config(uart12_config_gpio[0], GPIO_CFG_ENABLE);
     gpio_tlmm_config(uart12_config_gpio[1], GPIO_CFG_ENABLE);
 #else /* CONFIG_SKY_GSBI12_UART_CONSOLE */
-#if !defined(CONFIG_USB_PEHCI_HCD) && !defined(CONFIG_USB_PEHCI_HCD_MODULE)
+#if !defined(CONFIG_USB_PEHCI_HCD) && !defined(CONFIG_USB_PEHCI_HCD_MODULE) && !defined(CONFIG_SKY_GSBI12_UART_CONSOLE_DISABLE)
 	/* 0x1D000000 now belongs to EBI2:CS3 i.e. USB ISP Controller */
 	void *fpga_mem = ioremap_nocache(0x1D000000, SZ_4K);
 
