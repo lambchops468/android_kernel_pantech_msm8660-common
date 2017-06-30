@@ -148,12 +148,14 @@ void tune_lmk_param(int *other_free, int *other_file, struct shrink_control *sc)
 			tune_lmk_zone_param(zonelist, classzone_idx, other_free,
 				       NULL);
 
+#ifdef CONFIG_HIGHMEM
 		if (zone_watermark_ok(preferred_zone, 0, 0, ZONE_HIGHMEM, 0))
 			*other_free -=
 				  preferred_zone->lowmem_reserve[ZONE_HIGHMEM];
 		else
 			*other_free -= zone_page_state(preferred_zone,
 						      NR_FREE_PAGES);
+#endif
 
 		lowmem_print(4, "lowmem_shrink of kswapd tunning for highmem "
 			     "ofree %d, %d\n", *other_free, *other_file);

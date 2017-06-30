@@ -1470,7 +1470,24 @@ config PAGE_OFFSET
 	hex
 	default 0x40000000 if VMSPLIT_1G
 	default 0x80000000 if VMSPLIT_2G
-	default 0xC0000000
+	# The default value for VMSPLIT_3G
+	# default 0xC0000000
+	#
+	# According to arch/arm/mach-msm/include/mach/vmalloc.h , the default
+	# VMALLOC_END is PAGE_OFFSET (0xC0000000) + 0x3A000000 = 0xFA000000
+	# Let's call 0x3A000000 KERNEL_SPACE and 0xFA000000 BOUNDARY.
+	# I guess the area above BOUNDARY is used by Qualcomm drivers.
+	#
+	# The space available for LOWMEM = KERNEL_SPACE - CONFIG_VMALLOC_RESERVE
+	# We've decided to set CONFIG_VMALLOC_RESERVE to 128MB. The Pantech
+	# Burst has 1024MB of RAM, so if we want all physical memory to fit
+	# within Low memory and avoid using slower high memory, KERNEL_SPACE
+	# must be 0x48000000.
+	#
+	# To keep the same BOUNDARY, we have to set PAGE_OFFSET to 0xB2000000
+	# This means that each userspace process can use up to 0xB2000000 of
+	# address space and the rest is for the kernel.
+	default 0xB2000000
 
 config NR_CPUS
 	int "Maximum number of CPUs (2-32)"

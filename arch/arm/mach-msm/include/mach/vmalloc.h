@@ -20,7 +20,12 @@
 #ifdef CONFIG_VMSPLIT_2G
 #define VMALLOC_END	  (PAGE_OFFSET + 0x7A000000)
 #else
-#define VMALLOC_END	  (PAGE_OFFSET + 0x3A000000)
+/* The default value is 0x3A000000, but we've changed it to allow all of
+ * physical ram to fit in low memory and eliminate use of high memory. See
+ * PAGE_OFFSET in arch/arm/Kconfig
+ * VMALLOC_END		  (PAGE_OFFSET + 0x3A000000)
+ */
+#define VMALLOC_END	  (PAGE_OFFSET + 0x48000000)
 #endif
 
 #endif
