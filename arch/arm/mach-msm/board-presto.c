@@ -109,7 +109,7 @@
 #include <linux/ion.h>
 #include <mach/ion.h>
 
-#ifdef CONFIG_TOUCHSCREEN_MELFAS_TKI
+#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI) || defined(CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM)
 #include <linux/i2c-gpio.h>
 #endif /* CONFIG_TOUCHSCREEN_MELFAS_TKI */
 
@@ -318,7 +318,8 @@ struct pm8xxx_mpp_init_info {
 	} \
 }
 
-#ifdef CONFIG_TOUCHSCREEN_MELFAS_TKI
+#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI) || defined(CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM)
+
 #define GPIO_TKI_SCL      52
 #define GPIO_TKI_SDA      51
 static struct i2c_gpio_platform_data i2c_gpio_tki_data = {
@@ -4857,7 +4858,7 @@ static struct rpm_regulator_init_data rpm_regulator_init_data[] = {
 	RPM_LDO(PM8058_L17, 0, 1, 0, 2600000, 2600000, LDO150HMIN),
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */
 	RPM_LDO(PM8058_L18, 0, 1, 0, 2200000, 2200000, LDO150HMIN),
-#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI)
+#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI) || defined(CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM)
     RPM_LDO(PM8058_L19, 0, 1, 0, 3300000, 3300000, LDO150HMIN),
 #else /* CONFIG_TOUCHSCREEN_MELFAS_TKI */
 	RPM_LDO(PM8058_L19, 0, 1, 0, 2500000, 2500000, LDO150HMIN),
@@ -6419,7 +6420,7 @@ static struct platform_device *surf_devices[] __initdata = {
 	&msm_device_rng,
 #endif
 
-#ifdef CONFIG_TOUCHSCREEN_MELFAS_TKI
+#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI) || defined(CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM)
     &msm_device_i2c_gpio_tki,
 #endif /* CONFIG_TOUCHSCREEN_MELFAS_TKI */
 
@@ -12367,7 +12368,7 @@ static void __init msm8x60_init(struct msm_board_data *board_data)
         ARRAY_SIZE(proximity_i2c_info));
 #endif /* CONFIG_INPUT_SENSOR */
 
-#ifdef CONFIG_TOUCHSCREEN_MELFAS_TKI
+#if defined(CONFIG_TOUCHSCREEN_MELFAS_TKI) || defined(CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM)
     i2c_register_board_info(MSM_TKI_I2C_BUS_ID, i2c_tki_devices,
         ARRAY_SIZE(i2c_tki_devices));
 #endif /* CONFIG_TOUCHSCREEN_MELFAS_TKI */

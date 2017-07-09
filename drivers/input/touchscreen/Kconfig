@@ -835,4 +835,9 @@ config TOUCHSCREEN_MELFAS_TKI
     depends on I2C && CUST_SKY_H
     default n
 
+config TOUCHSCREEN_MELFAS_TKI_CUSTOM
+    tristate "Melfas Touch Key Interface With Custom Key Mapping"
+    depends on I2C && CUST_SKY_H
+    default n
+
 endif
