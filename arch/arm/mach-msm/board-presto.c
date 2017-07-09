@@ -339,6 +339,9 @@ struct platform_device msm_device_i2c_gpio_tki = {
 static struct i2c_board_info i2c_tki_devices[] __initdata = {
     {
         I2C_BOARD_INFO("tki-i2c", 0x20),
+#ifdef CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM
+	.flags = I2C_CLIENT_WAKE,
+#endif /* CONFIG_TOUCHSCREEN_MELFAS_TKI_CUSTOM */
     },
 };
 #endif /* CONFIG_TOUCHSCREEN_MELFAS_TKI */

@@ -81,6 +81,7 @@ struct tki_data_t
     struct input_dev *input_dev;
     struct work_struct work;
     struct early_suspend es;
+    bool power_enabled;
 };
 static struct tki_data_t tki_data;
 static struct workqueue_struct *tki_wq;
@@ -95,6 +96,11 @@ static int tki_power_off();
 static void tki_late_resume(struct early_suspend *h);
 static void tki_early_suspend(struct early_suspend *h);
 #endif /* CONFIG_HAS_EARLYSUSPEND */
+#ifdef CONFIG_PM_SLEEP
+static int tki_suspend(struct device *dev);
+static int tki_resume(struct device *dev);
+static SIMPLE_DEV_PM_OPS(tki_pm_ops, tki_suspend, tki_resume);
+#endif /* CONFIG_PM_SLEEP */
 
 static const struct i2c_device_id tki_id[] = {
 	{ "tki-i2c", 0 },
@@ -106,6 +112,9 @@ static struct i2c_driver tki_driver = {
 	.driver = {
 		.name	= "tki-i2c",
 		.owner	= THIS_MODULE,
+#ifdef CONFIG_PM_SLEEP
+		.pm	= &tki_pm_ops,
+#endif /* CONFIG_PM_SLEEP */
 	},
 	.probe		= tki_probe,
 	.remove		= __devexit_p(tki_remove),
@@ -143,7 +152,7 @@ static void tki_get_message(struct work_struct * p)
 			input_report_key(tki_data.input_dev, KEY_HOME, key_press);
 			break; 
 		case TKI_KEYCODE_SEARCH :
-			input_report_key(tki_data.input_dev, KEY_SEARCH, key_press);
+			input_report_key(tki_data.input_dev, KEY_POWER, key_press);
 			break; 
 		default:
 			dbg("Unknown Keycode [%02x]\n", byte_data & TKI_KEY_MASK);
@@ -169,17 +178,47 @@ static irqreturn_t tki_irq_handler(int irq, void *dev_id)
 static void tki_early_suspend(struct early_suspend *h)
 {
 	dbg_func_in();
-	tki_power_off();
+	if (!device_may_wakeup(&tki_data.client->dev)) {
+		tki_power_off();
+	}
 	dbg_func_out();
 }
 
 static void tki_late_resume(struct early_suspend *h)
 {
 	dbg_func_in();
-	tki_power_on();
+	if (!device_may_wakeup(&tki_data.client->dev)) {
+		tki_power_on();
+	}
 	dbg_func_out();
 }
 #endif /* CONFIG_HAS_EARLYSUSPEND */
+
+#ifdef CONFIG_PM_SLEEP
+static int tki_suspend(struct device *dev)
+{
+	dbg_func_in();
+	if (device_may_wakeup(dev)) {
+		enable_irq_wake(tki_data.client->irq);
+        } else {
+		tki_power_off();
+	}
+	dbg_func_out();
+	return 0;
+}
+
+static int tki_resume(struct device *dev)
+{
+	dbg_func_in();
+	if (device_may_wakeup(dev)) {
+		disable_irq_wake(tki_data.client->irq);
+	} else {
+		tki_power_on();
+	}
+	dbg_func_out();
+	return 0;
+}
+#endif
 
 static int __devinit tki_probe(struct i2c_client *client,
 				const struct i2c_device_id *id)
@@ -211,7 +250,7 @@ static int __devinit tki_probe(struct i2c_client *client,
 	set_bit(KEY_MENU, tki_data.input_dev->keybit);
 	set_bit(KEY_BACK, tki_data.input_dev->keybit);
 	set_bit(KEY_HOME, tki_data.input_dev->keybit);
-	set_bit(KEY_SEARCH, tki_data.input_dev->keybit);
+	set_bit(KEY_POWER, tki_data.input_dev->keybit);
 	set_bit(EV_SYN, tki_data.input_dev->evbit);
 	set_bit(EV_KEY, tki_data.input_dev->evbit);
 
@@ -274,6 +313,10 @@ static int tki_power_on(void)
 	int rc;
 	dbg_func_in();
 
+	if (tki_data.power_enabled) {
+		goto out;
+	}
+
 	rc = regulator_set_voltage(vreg_power, 3300000, 3300000);
 	if (rc) {
 		printk(KERN_ERR "%s: vreg set level failed (%d)\n", __func__, rc);
@@ -286,6 +329,8 @@ static int tki_power_on(void)
 		return rc;
 	}
 
+	tki_data.power_enabled = 1;
+out:
 	dbg_func_out();
 	return 0;
 }
@@ -295,12 +340,19 @@ static int tki_power_off(void)
 	int rc;
 	dbg_func_in();
 
+	if (!tki_data.power_enabled) {
+		goto out;
+	}
+
 	rc = regulator_disable(vreg_power);
 	if (rc) {
 		printk(KERN_ERR "%s: regulator disable failed (%d)\n", __func__, rc);
 		return rc;
 	}
 
+	tki_data.power_enabled = 0;
+
+out:
 	dbg_func_out();
 	return 0;
 }
@@ -319,6 +371,7 @@ static int tki_hw_setting(void)
 		return rc;
 	}
 
+	tki_data.power_enabled = 0;
 	rc = tki_power_on();
 	if (rc) {
 		goto power_on_fail;
