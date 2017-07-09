@@ -143,6 +143,12 @@ struct qt602240_data_t
 	struct mutex    lock;
 };
 struct qt602240_data_t *qt602240_data = NULL;
+
+static struct regulator *vreg_touch_2_8;
+static struct regulator *vreg_touch_1_8;
+#if (defined(CONFIG_SKY_EF40K_BOARD)||defined(CONFIG_SKY_EF40S_BOARD)) && (BOARD_REV >= WS20)
+static struct regulator *vreg_lvs2b_1_8;
+#endif
 /* -------------------------------------------------------------------- */
 
 
@@ -5161,11 +5167,6 @@ int init_hw_setting(void)
 #endif
 	int rc; 
 	unsigned gpioConfig;
-	struct regulator *vreg_touch_2_8;
-	struct regulator *vreg_touch_1_8;
-#if (defined(CONFIG_SKY_EF40K_BOARD)||defined(CONFIG_SKY_EF40S_BOARD)) && (BOARD_REV >= WS20)
-	struct regulator *vreg_lvs2b_1_8;
-#endif
 	dbg_func_in();
 
 	// Init 2.8V regulator
@@ -5199,7 +5200,6 @@ int init_hw_setting(void)
 	}
 	gpio_set_value(GPIO_TOUCH_ENABLE1_AVdd, 1);
 #endif
-	regulator_put(vreg_touch_2_8);
 
 	// Init 1.8V regulator
 #if defined(CONFIG_SKY_EF39S_BOARD) || defined(CONFIG_SKY_EF40K_BOARD) || defined(CONFIG_SKY_EF40S_BOARD)
@@ -5231,7 +5231,6 @@ int init_hw_setting(void)
 	}
 	gpio_set_value(GPIO_TOUCH_ENABLE2_Vdd, 1);
 #endif
-	regulator_put(vreg_touch_1_8);
 #if (defined(CONFIG_SKY_EF40K_BOARD)||defined(CONFIG_SKY_EF40S_BOARD)) && (BOARD_REV >= WS20)
 	vreg_lvs2b_1_8 = regulator_get(NULL, "8901_lvs2");
 	if (IS_ERR(vreg_lvs2b_1_8)) {
@@ -5242,7 +5241,6 @@ int init_hw_setting(void)
 	
 	rc = regulator_enable(vreg_lvs2b_1_8);
 	printk("[QT602240]8901 LVS2 regulator_enable return:  %d \n", rc);
-	regulator_put(vreg_lvs2b_1_8);
 #endif
 
 	// Init Reset GPIO 
@@ -5294,53 +5292,16 @@ int init_hw_setting(void)
 void off_hw_setting(void)
 {
 	int rc; 
-	struct regulator *vreg_touch_2_8;
-	struct regulator *vreg_touch_1_8;
-#if defined(CONFIG_SKY_EF40K_BOARD) && (BOARD_REV >= WS20)
-	struct regulator *vreg_lvs2b_1_8;
-#endif
 	dbg_func_in();
-
-	// Init 2.8V regulator
-#if defined(CONFIG_SKY_EF39S_BOARD) || defined(CONFIG_SKY_EF40K_BOARD) || defined(CONFIG_SKY_EF40S_BOARD)
-	vreg_touch_2_8 = regulator_get(NULL, "8058_l2");
-#elif defined(CONFIG_PANTECH_PRESTO_BOARD) || defined(CONFIG_PANTECH_QUANTINA_BOARD)
-	vreg_touch_2_8 = regulator_get(NULL, "8058_l17");
-#endif
-
-	if (IS_ERR(vreg_touch_2_8)) {
-		rc = PTR_ERR(vreg_touch_2_8);
-		printk(KERN_ERR "[QT602240]%s: regulator get of %s failed (%d)\n",
-				__func__, "vreg_touch_power", rc);
-	}
 
 	rc = regulator_disable(vreg_touch_2_8);
 	printk("[QT602240]Touch Power regulator_disable return:  %d \n", rc);
 	regulator_put(vreg_touch_2_8);
 
-	// Init 1.8V regulator
-#if defined(CONFIG_SKY_EF39S_BOARD) || defined(CONFIG_SKY_EF40K_BOARD) || defined(CONFIG_SKY_EF40S_BOARD)
-	vreg_touch_1_8 = regulator_get(NULL, "8058_s3");
-#elif defined(CONFIG_PANTECH_PRESTO_BOARD) || defined(CONFIG_PANTECH_QUANTINA_BOARD)
-	vreg_touch_1_8 = regulator_get(NULL, "8058_l20");
-#endif
-
-	if (IS_ERR(vreg_touch_1_8)) {
-		rc = PTR_ERR(vreg_touch_1_8);
-		printk(KERN_ERR "[QT602240]%s: regulator get of %s failed (%d)\n",
-				__func__, "vreg_touch_1_8", rc);
-	}
-
 	rc = regulator_disable(vreg_touch_1_8);
 	printk("[QT602240]8058_s3 regulator_disable return:  %d \n", rc);
 	regulator_put(vreg_touch_1_8);
 #if defined(CONFIG_SKY_EF40K_BOARD) && (BOARD_REV >= WS20)
-	vreg_lvs2b_1_8 = regulator_get(NULL, "8901_lvs2");
-	if (IS_ERR(vreg_lvs2b_1_8)) {
-		rc = PTR_ERR(vreg_lvs2b_1_8);
-		printk(KERN_ERR "[QT602240]%s: regulator get of %s failed (%d)\n",
-				__func__, "vreg_lvs2b_1_8", rc);
-	}
 	rc = regulator_disable(vreg_lvs2b_1_8);
 	printk("[QT602240]8901 LVS2 regulator_disable return:  %d \n", rc);
 	regulator_put(vreg_lvs2b_1_8);

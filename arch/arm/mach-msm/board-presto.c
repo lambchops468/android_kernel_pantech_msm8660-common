@@ -1089,13 +1089,14 @@ static struct platform_device isp1763_device = {
 #endif
 
 #if defined(CONFIG_MACH_MSM8X60_PRESTO)
+static struct regulator *vdd;
+#if (BOARD_REV >= TP10)	
+static struct regulator *vreg_l15;
+#endif	
+static struct regulator *vldgc;
+
 static void sensors_power_up(void)
 {
-    struct regulator *vdd;
-#if (BOARD_REV >= TP10)	
-    struct regulator *vreg_l15;
-#endif	
-    struct regulator *vldgc;
     int rc;
 
     vdd = regulator_get(NULL, "8058_l10");
@@ -1129,7 +1130,6 @@ static void sensors_power_up(void)
         printk(KERN_ERR "<LVS1> %s: vreg enable failed (%d)\n",__func__, rc);
     }
     else {
-        regulator_put(vldgc);
         printk(KERN_ERR "<LVS1> Power up OK\n");
     }
 
