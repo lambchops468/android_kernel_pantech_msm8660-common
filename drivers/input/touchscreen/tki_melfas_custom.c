@@ -143,10 +143,10 @@ static void tki_get_message(struct work_struct * p)
 	switch(byte_data & TKI_KEY_MASK)
 	{
 		case TKI_KEYCODE_BACK :
-			input_report_key(tki_data.input_dev, KEY_BACK, key_press);
+			input_report_key(tki_data.input_dev, KEY_RECENT, key_press);
 			break;
 		case TKI_KEYCODE_MENU :
-			input_report_key(tki_data.input_dev, KEY_MENU, key_press);
+			input_report_key(tki_data.input_dev, KEY_BACK, key_press);
 			break;
 		case TKI_KEYCODE_HOME :
 			input_report_key(tki_data.input_dev, KEY_HOME, key_press);
@@ -247,7 +247,7 @@ static int __devinit tki_probe(struct i2c_client *client,
 
 	tki_data.input_dev->name = "tki_input";
 
-	set_bit(KEY_MENU, tki_data.input_dev->keybit);
+	set_bit(KEY_RECENT, tki_data.input_dev->keybit);
 	set_bit(KEY_BACK, tki_data.input_dev->keybit);
 	set_bit(KEY_HOME, tki_data.input_dev->keybit);
 	set_bit(KEY_POWER, tki_data.input_dev->keybit);
