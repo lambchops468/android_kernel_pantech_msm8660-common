@@ -187,9 +187,9 @@ static void tki_early_suspend(struct early_suspend *h)
 static void tki_late_resume(struct early_suspend *h)
 {
 	dbg_func_in();
-	if (!device_may_wakeup(&tki_data.client->dev)) {
-		tki_power_on();
-	}
+	// This function is called when the screen turns on. The touch-key
+	// interface should be powered-on no matter what when the screen is on.
+	tki_power_on();
 	dbg_func_out();
 }
 #endif /* CONFIG_HAS_EARLYSUSPEND */
