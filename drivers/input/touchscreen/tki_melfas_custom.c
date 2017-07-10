@@ -121,6 +121,11 @@ static struct i2c_driver tki_driver = {
 	.id_table	= tki_id,
 };
 
+static bool wake_from_early_suspend = 1;
+module_param(wake_from_early_suspend, bool, S_IRUGO | S_IWUSR);
+MODULE_PARM_DESC(wake_from_early_suspend, "Allow the Touch Key Interface to "
+	"wake the screen from early suspend.");
+
 static void tki_get_message(struct work_struct * p)
 {
 	int rc = -1, key_press =1;
@@ -178,7 +183,8 @@ static irqreturn_t tki_irq_handler(int irq, void *dev_id)
 static void tki_early_suspend(struct early_suspend *h)
 {
 	dbg_func_in();
-	if (!device_may_wakeup(&tki_data.client->dev)) {
+	if (!device_may_wakeup(&tki_data.client->dev) &&
+			!wake_from_early_suspend) {
 		tki_power_off();
 	}
 	dbg_func_out();
@@ -212,7 +218,7 @@ static int tki_resume(struct device *dev)
 	dbg_func_in();
 	if (device_may_wakeup(dev)) {
 		disable_irq_wake(tki_data.client->irq);
-	} else {
+	} else if (wake_from_early_suspend) {
 		tki_power_on();
 	}
 	dbg_func_out();
