@@ -3230,15 +3230,14 @@ static void __init msm8x60_init_dsps(void)
 #define MSM_FB_SIZE roundup(MSM_FB_PRIM_BUF_SIZE + MSM_FB_EXT_BUF_SIZE + \
 				MSM_FB_DSUB_PMEM_ADDER, 4096)
 
-//TODO(AZL)
 #ifndef CONFIG_F_SKYDISP_USE_ASHMEM
 #if defined(CONFIG_MACH_MSM8X60_PRESTO) || defined(CONFIG_MACH_MSM8X60_QUANTINA)
-#define MSM_PMEM_SF_SIZE 0x1800000 /* 24 Mbytes */
+#define MSM_PMEM_SF_SIZE 0x2000000 /* 32 Mbytes */
 #else /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
-#define MSM_PMEM_SF_SIZE 0x3000000 /* 48 Mbytes */
+#define MSM_PMEM_SF_SIZE 0x4000000 /* 64 Mbytes */
 #endif /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
 #endif /* CONFIG_F_SKYDISP_USE_ASHMEM */
-#define MSM_HDMI_PRIM_PMEM_SF_SIZE 0x3000000 /* 48 Mbytes */
+#define MSM_HDMI_PRIM_PMEM_SF_SIZE 0x4000000 /* 64 Mbytes */
 
 #ifdef CONFIG_FB_MSM_HDMI_AS_PRIMARY
 unsigned char hdmi_is_primary = 1;
@@ -3266,32 +3265,31 @@ unsigned char hdmi_is_primary;
 #define MSM_FB_OVERLAY1_WRITEBACK_SIZE (0)
 #endif  /* CONFIG_FB_MSM_OVERLAY1_WRITEBACK */
 
-//TODO(AZL)
-#define MSM_PMEM_KERNEL_EBI1_SIZE  0x480000
+#define MSM_PMEM_KERNEL_EBI1_SIZE  0x600000
 #ifdef CONFIG_MACH_MSM8X60_PRESTO // pz1945: not used for presto
-#define MSM_PMEM_ADSP_SIZE         0x1800000
+#define MSM_PMEM_ADSP_SIZE         0x2000000
 #else /* CONFIG_MACH_MSM8X60_PRESTO */
-#define MSM_PMEM_ADSP_SIZE         0x3180000
+#define MSM_PMEM_ADSP_SIZE         0x4200000
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */
-#define MSM_PMEM_AUDIO_SIZE        0x1E8400
+#define MSM_PMEM_AUDIO_SIZE        0x28B000
 
 #define MSM_SMI_BASE          0x38000000
 #define MSM_SMI_SIZE          0x4000000
 
 #define KERNEL_SMI_BASE       (MSM_SMI_BASE)
-#define KERNEL_SMI_SIZE       0x480000
+#define KERNEL_SMI_SIZE       0x600000
 
 #define USER_SMI_BASE         (KERNEL_SMI_BASE + KERNEL_SMI_SIZE)
 #define USER_SMI_SIZE         (MSM_SMI_SIZE - KERNEL_SMI_SIZE)
 #define MSM_PMEM_SMIPOOL_SIZE USER_SMI_SIZE
 
-#define MSM_ION_SF_SIZE		0x3000000 /* 48MB */
+#define MSM_ION_SF_SIZE		0x4000000 /* 64MB */
 #define MSM_ION_CAMERA_SIZE     MSM_PMEM_ADSP_SIZE
 #define MSM_ION_MM_FW_SIZE	0x200000 /* (2MB) */
-#define MSM_ION_MM_SIZE		0x2880000 /* (40.5MB) Must be a multiple of 64K */
+#define MSM_ION_MM_SIZE		0x3600000 /* (54MB) Must be a multiple of 64K */
 #define MSM_ION_MFC_SIZE	SZ_8K
-#define MSM_ION_WB_SIZE		0x480000 /* 4.5MB */
-#define MSM_ION_QSECOM_SIZE	0x480000 /* (4.5MB) */
+#define MSM_ION_WB_SIZE		0x600000 /* 6MB */
+#define MSM_ION_QSECOM_SIZE	0x600000 /* (6MB) */
 #define MSM_ION_AUDIO_SIZE	MSM_PMEM_AUDIO_SIZE
 
 #ifdef CONFIG_MSM_MULTIMEDIA_USE_ION
@@ -6546,7 +6544,6 @@ static struct ion_co_heap_pdata co_ion_pdata = {
 };
 #endif
 
-//TODO(AZL)
 /**
  * These heaps are listed in the order they will be allocated. Due to
  * video hardware restrictions and content protection the FW heap has to
@@ -6643,7 +6640,6 @@ static struct platform_device ion_dev = {
 #endif
 
 
-//TODO(AZL)
 static struct memtype_reserve msm8x60_reserve_table[] __initdata = {
 	/* Kernel SMI memory pool for video core, used for firmware */
 	/* and encoder, decoder scratch buffers */
@@ -6758,7 +6754,6 @@ static void __init msm8x60_calculate_reserve_sizes(void)
 	reserve_mdp_memory();
 }
 
-//TODO(AZL)
 static int msm8x60_paddr_to_memtype(unsigned int paddr)
 {
 	if (paddr >= 0x40000000 && paddr < 0x80000000) /* ALRAN for 1GB by qualcomm sr. */
