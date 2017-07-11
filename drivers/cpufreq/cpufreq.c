@@ -15,6 +15,7 @@
  *
  */
 
+#include <linux/sched.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -432,7 +433,38 @@ static ssize_t store_##file_name					\
 }
 
 store_one(scaling_min_freq, min);
-store_one(scaling_max_freq, max);
+
+static ssize_t store_scaling_max_freq
+(struct cpufreq_policy *policy, const char *buf, size_t count)
+{
+	unsigned int ret = -EINVAL;
+	struct cpufreq_policy new_policy;
+
+	ret = cpufreq_get_policy(&new_policy, policy->cpu);
+	if (ret)
+		return -EINVAL;
+
+	ret = sscanf(buf, "%u", &new_policy.max);
+	if (ret != 1)
+		return -EINVAL;
+
+#ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
+        struct task_struct *tsk = current;
+	if (tsk != NULL && !strcmp(tsk->comm, "thermald") &&
+				new_policy.max > CONFIG_MSM_CPU_FREQ_MAX) {
+		pr_err("Ignoring scaling_max_freq (> %u) request from "
+			"%i(thermald)\n",
+			CONFIG_MSM_CPU_FREQ_MAX,
+			tsk->pid);
+		return -EINVAL;
+	}
+#endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
+
+	ret = __cpufreq_set_policy(policy, &new_policy);
+	policy->user_policy.max = policy->max;
+
+	return ret ? ret : count;
+}
 
 /**
  * show_cpuinfo_cur_freq - current CPU frequency as detected by hardware
