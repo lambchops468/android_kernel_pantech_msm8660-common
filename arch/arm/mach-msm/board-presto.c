@@ -3273,7 +3273,7 @@ unsigned char hdmi_is_primary;
 #else /* CONFIG_MACH_MSM8X60_PRESTO */
 #define MSM_PMEM_ADSP_SIZE         0x3180000
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */
-#define MSM_PMEM_AUDIO_SIZE        0x1E8400
+#define MSM_PMEM_AUDIO_SIZE        0x1E9000
 
 #define MSM_SMI_BASE          0x38000000
 #define MSM_SMI_SIZE          0x4000000

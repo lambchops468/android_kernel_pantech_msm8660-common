@@ -3,11 +3,11 @@ msm8x60_reserve_table[MEMTYPE_EBI1].size =
 msm_ion_sf_size = MSM_ION_SF_SIZE = 0x3000000
 MSM_ION_CAMERA_SIZE = 0x1800000
 MSM_ION_WB_SIZE = 0x480000
-MSM_ION_AUDIO_SIZE = 0x1E8400
+MSM_ION_AUDIO_SIZE = 0x1E9000
 pmem_kernel_ebi1_size = MSM_PMEM_KERNEL_EBI1_SIZE = 0x480000
-MSM_PMEM_AUDIO_SIZE = 0x1E8400
+MSM_PMEM_AUDIO_SIZE = 0x1E9000
 
-Total = 0x54D0800  (85 MB)
+Total = 0x54D2000  (85 MB)
 
 msm8x60_reserve_table[MEMTYPE_EBI1].limit =
 (unlimited)
@@ -24,3 +24,7 @@ Total = 0x2A82000 (43 MB)
 
 msm8x60_reserve_table[MEMTYPE_SMI].limit =
 USER_SMI_SIZE = 0x3B80000
+
+
+
+To see how large ION allocations are on a running system, check /sys/kernel/debug/ion
