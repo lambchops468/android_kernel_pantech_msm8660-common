@@ -4802,7 +4802,7 @@ static struct rpm_regulator_init_data rpm_regulator_init_data[] = {
 	RPM_LDO(PM8058_L0,  0, 1, 0, 1200000, 1200000, LDO150HMIN),
 	RPM_LDO(PM8058_L1,  0, 1, 0, 1200000, 1200000, LDO300HMIN),
 //S 20110908 ssoh Change_AVdd_3.3V
-#if defined(CONFIG_TOUCHSCREEN_QT602240)
+#if !defined(CONFIG_MACH_MSM8X60_PRESTO)
     RPM_LDO(PM8058_L2,  0, 1, 0, 3300000, 3300000, LDO300HMIN),
 #elif (defined(CONFIG_MACH_MSM8X60_PRESTO) && (BOARD_REV > WS10)) // Presto NR CLK_IN TP Test ws20 remove boot err 
     RPM_LDO(PM8058_L2,  0, 1, 0, 1800000, 1800000, LDO300HMIN), // WS20: XO_OUT_D0 ==> eS310
