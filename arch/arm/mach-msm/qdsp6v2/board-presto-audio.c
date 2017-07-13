@@ -501,7 +501,7 @@ int audience_pmic_L9_switch_on(void)
 int audience_pmic_L9_switch_off(void)
 {
 	int rc = 0;
-	if (!snddev_reg_l9_switch)
+	if (snddev_reg_l9_switch)
 	{	
 		rc = regulator_disable(snddev_reg_l9_switch);
 		if (rc < 0)

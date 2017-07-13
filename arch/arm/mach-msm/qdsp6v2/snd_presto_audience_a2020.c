@@ -2892,7 +2892,7 @@ int audience_pmic_vreg_switch_on(void)
 int audience_pmic_vreg_switch_off(void)
 {
 	int rc = 0;
-	if (!snddev_reg_l9_audience)
+	if (snddev_reg_l9_audience)
 	{	
 		rc = regulator_disable(snddev_reg_l9_audience);
 		if (rc < 0)
@@ -2911,7 +2911,7 @@ int audience_pmic_vreg_switch_off(void)
 		snddev_reg_l9_audience = NULL;
 	}
 #if (BOARD_REV > WS10)
-	if (!snddev_reg_s3_audience)
+	if (snddev_reg_s3_audience)
 	{	
 		rc = regulator_disable(snddev_reg_s3_audience);
 		if (rc < 0)
@@ -2930,7 +2930,7 @@ int audience_pmic_vreg_switch_off(void)
 		snddev_reg_s3_audience = NULL;
 	}
 #else	
-	if (!snddev_reg_l8_audience)
+	if (snddev_reg_l8_audience)
 	{	
 		rc = regulator_disable(snddev_reg_l8_audience);
 		if (rc < 0)

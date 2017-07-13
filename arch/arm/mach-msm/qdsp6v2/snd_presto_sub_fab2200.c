@@ -1219,7 +1219,7 @@ void snd_subsystem_pmic_vreg_l2_off(void)
 {
 	int rc = 0;
 
-	if (!snddev_reg_s3_fab2200)
+	if (snddev_reg_s3_fab2200)
 	{	
 		rc = regulator_disable(snddev_reg_s3_fab2200);
 		if (rc < 0)
@@ -1282,7 +1282,7 @@ void snd_subsystem_pmic_vreg_l2_off(void)
 {
 	int rc = 0;
 
-	if (!snddev_reg_l8_fab2200)
+	if (snddev_reg_l8_fab2200)
 	{	
 		rc = regulator_disable(snddev_reg_l8_fab2200);
 		if (rc < 0)
