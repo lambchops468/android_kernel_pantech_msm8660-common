@@ -369,9 +369,6 @@ static int fab2200_probe(struct i2c_client *client, const struct i2c_device_id *
 	else {
 		fab2200_i2c_client = client;
 
-		snd_subsystem_pmic_vreg_l2_on();	
-
-
 #if 0 //def FEATURE_SKY_SND_EXTAMPCTRL  //20110310 jhsong : sub chip cal tool by youngsoo Lim
 		status=misc_register(&miscdev_snd_fab);
 		if(status)
