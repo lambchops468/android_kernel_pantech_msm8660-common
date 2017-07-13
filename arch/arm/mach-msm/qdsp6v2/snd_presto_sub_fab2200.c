@@ -1187,25 +1187,26 @@ int snd_subsystem_pmic_vreg_l2_on(void)
 	int rc = 0;
 	snddev_reg_s3_fab2200 = regulator_get(NULL, "8058_s3");
 	if (IS_ERR(snddev_reg_s3_fab2200)) {
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_s3", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n",__func__,
+			"8058_s3", rc);
 	}
 
 	rc = regulator_set_voltage(snddev_reg_s3_fab2200, 1800000, 1800000);
 	if (rc < 0)
 	{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK		
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_s3", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n",__func__,
+			"8058_s3", rc);
 	}
 
 	rc = regulator_enable(snddev_reg_s3_fab2200);
 	if (rc < 0)
 	{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK		
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",	__func__, "8058_s3", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_s3", rc);
+	}
+	else
+	{
+		pr_info("%s: vreg_enable suceeded(%s)\n", __func__, "8058_s3");
 	}
 	return rc;
 }
@@ -1223,9 +1224,13 @@ void snd_subsystem_pmic_vreg_l2_off(void)
 		rc = regulator_disable(snddev_reg_s3_fab2200);
 		if (rc < 0)
 		{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_s3", rc);
-#endif
+			pr_err("%s: vreg_disable failed(%s) = %d \n", __func__,
+				"8058_s3", rc);
+		}
+		else
+		{
+			pr_info("%s: vreg_disable suceeded(%s)\n",  __func__,
+				"8058_s3");
 		}
 
 		regulator_put(snddev_reg_s3_fab2200);
@@ -1245,24 +1250,26 @@ int snd_subsystem_pmic_vreg_l2_on(void)
 	int rc = 0;
 	snddev_reg_l8_fab2200 = regulator_get(NULL, "8058_l8");
 	if (IS_ERR(snddev_reg_l8_fab2200)) {
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l8", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l8", rc);
 	}
 
 	rc = regulator_set_voltage(snddev_reg_l8_fab2200, 1800000, 1800000);
 	if (rc < 0)
 	{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l8", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l8", rc);
 	}
 	rc = regulator_enable(snddev_reg_l8_fab2200);
 	if (rc < 0)
 	{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-		printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",	__func__, "8058_l8", rc);
-#endif
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l8", rc);
+	}
+	else
+	{
+		pr_info("%s: vreg_enable succeeded(%s) \n", __func__,
+			"8058_l8");
 	}
 	return rc;
 }
@@ -1280,9 +1287,11 @@ void snd_subsystem_pmic_vreg_l2_off(void)
 		rc = regulator_disable(snddev_reg_l8_fab2200);
 		if (rc < 0)
 		{
-#ifdef CONFIG_FAB2200_DEBUG_PRINTK
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l8", rc);
-#endif
+			pr_err("%s: vreg_disable failed(%s) = %d \n", __func__,
+				"8058_l8", rc);
+		} else {
+			pr_err("%s: vreg_disable succeeded(%s)\n", __func__,
+				"8058_l8");
 		}
 
 		regulator_put(snddev_reg_l8_fab2200);

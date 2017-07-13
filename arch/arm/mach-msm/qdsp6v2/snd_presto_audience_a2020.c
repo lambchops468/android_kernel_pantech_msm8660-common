@@ -2799,87 +2799,87 @@ static struct regulator *snddev_reg_l8_audience;
 int audience_pmic_vreg_switch_on(void)
 {
 	int rc = 0;
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK	
-	printk("[Snd_audience_a2020] audience_pmic_vreg_switch_on ==> START  \n");
-#endif
+	pr_info("[Snd_audience_a2020] audience_pmic_vreg_switch_on ==> START"
+		"\n");
 	
 	snddev_reg_l9_audience = regulator_get(NULL, "8058_l9");
 	if (IS_ERR(snddev_reg_l9_audience)) {
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_l9", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_l9", rc);
 	}
 
 	rc = regulator_set_voltage(snddev_reg_l9_audience, 2700000, 2700000);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK	
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_l9", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_l9", rc);
 	}
 
 	rc = regulator_enable(snddev_reg_l9_audience);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK	
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",	 "8058_l9", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_l9", rc);
+	}
+	else
+	{
+		pr_info("[Snd_audience_a2020] vreg_enable succeeded(%s)\n",
+			"8058_l9");
 	}
 
 ////
 #if (BOARD_REV > WS10)
 	snddev_reg_s3_audience = regulator_get(NULL, "8058_s3");
 	if (IS_ERR(snddev_reg_s3_audience)) {
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK		
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_s3", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_s3", rc);
 	}
 
 	rc = regulator_set_voltage(snddev_reg_s3_audience, 1800000, 1800000);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_s3", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_s3", rc);
 	}
 
 	rc = regulator_enable(snddev_reg_s3_audience);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",	 "8058_s3", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_s3", rc);
+	}
+	else
+	{
+		pr_info("[Snd_audience_a2020] vreg_enable succeeded(%s)\n",
+			"8058_s3");
 	}
 
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK	
-	printk("[Snd_audience_a2020] audience_pmic_vreg_switch_on <== END  \n");
-#endif
+	pr_info("[Snd_audience_a2020] audience_pmic_vreg_switch_on <== END\n");
 #else
 	snddev_reg_l8_audience = regulator_get(NULL, "8058_l8");
 	if (IS_ERR(snddev_reg_l8_audience)) {
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK		
 		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_l8", rc);
-#endif
 	}
 
 	rc = regulator_set_voltage(snddev_reg_l8_audience, 1800000, 1800000);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n", "8058_l8", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_l8", rc);
 	}
 	rc = regulator_enable(snddev_reg_l8_audience);
 	if (rc < 0)
 	{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-		printk("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",	 "8058_l8", rc);
-#endif
+		pr_err("[Snd_audience_a2020] vreg_enable failed(%s) = %d \n",
+			"8058_l8", rc);
+	}
+	else
+	{
+		pr_info("[Snd_audience_a2020] vreg_enable succeeded(%s)\n",
+			"8058_l8");
 	}
 
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK	
-	printk("[Snd_audience_a2020] audience_pmic_vreg_switch_on <== END  \n");
-#endif
+	pr_info("[Snd_audience_a2020] audience_pmic_vreg_switch_on <== END\n");
 #endif
 	return rc;
 }
@@ -2897,9 +2897,13 @@ int audience_pmic_vreg_switch_off(void)
 		rc = regulator_disable(snddev_reg_l9_audience);
 		if (rc < 0)
 		{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l9", rc);
-#endif
+			pr_err("%s: vreg_disable failed(%s) = %d \n",
+				__func__, "8058_l9", rc);
+		}
+		else
+		{
+			pr_info("%s: vreg_disable succeeded(%s)\n",
+				__func__, "8058_l9");
 		}
 
 		regulator_put(snddev_reg_l9_audience);
@@ -2912,9 +2916,13 @@ int audience_pmic_vreg_switch_off(void)
 		rc = regulator_disable(snddev_reg_s3_audience);
 		if (rc < 0)
 		{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK			
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_s3", rc);
-#endif
+			pr_err("%s: vreg_disable failed(%s) = %d \n",
+				__func__, "8058_s3", rc);
+		}
+		else
+		{
+			pr_info("%s: vreg_disable succeeded(%s)\n",
+				__func__, "8058_s3");
 		}
 
 		regulator_put(snddev_reg_s3_audience);
@@ -2927,9 +2935,13 @@ int audience_pmic_vreg_switch_off(void)
 		rc = regulator_disable(snddev_reg_l8_audience);
 		if (rc < 0)
 		{
-#ifdef CONFIG_AUDIENCE_DEBUG_PRINTK
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l8", rc);
-#endif
+			pr_err("%s: vreg_disable failed(%s) = %d \n",
+				__func__, "8058_l8", rc);
+		}
+		else
+		{
+			pr_info("%s: vreg_disable succeeded(%s)\n", __func__,
+				"8058_l8");
 		}
 		regulator_put(snddev_reg_l8_audience);
 

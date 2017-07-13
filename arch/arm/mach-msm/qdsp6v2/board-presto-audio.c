@@ -477,16 +477,22 @@ int audience_pmic_L9_switch_on(void)
 	
 	snddev_reg_l9_switch = regulator_get(NULL, "8058_l9");
 	if (IS_ERR(snddev_reg_l9_switch)) {
-		printk("vreg_enable failed(%s) = %d \n", "8058_l9", rc);
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l9", rc);
 	}
 
 	rc = regulator_set_voltage(snddev_reg_l9_switch, 2700000, 2700000);
 	if (rc < 0)
-		printk("vreg_enable failed(%s) = %d \n", "8058_l9", rc);
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l9", rc);
 
 	rc = regulator_enable(snddev_reg_l9_switch);
 	if (rc < 0)
-		printk("vreg_enable failed(%s) = %d \n",	 "8058_l9", rc);
+		pr_err("%s: vreg_enable failed(%s) = %d \n", __func__,
+			"8058_l9", rc);
+	else
+		pr_info("%s: vreg_enable succeeded(%s)\n", __func__,
+			"8058_l9");
 
 	return rc;
 }
@@ -499,7 +505,11 @@ int audience_pmic_L9_switch_off(void)
 	{	
 		rc = regulator_disable(snddev_reg_l9_switch);
 		if (rc < 0)
-			printk(KERN_ERR "%s: vreg_enable failed(%s) = %d \n",__func__, "8058_l9", rc);
+			pr_err("%s: vreg_disable failed(%s) = %d \n", __func__,
+				"8058_l9", rc);
+		else
+			pr_info("%s: vreg_disable succeeded(%s)\n", __func__,
+				"8058_l9", rc);
 
 		regulator_put(snddev_reg_l9_switch);
 
