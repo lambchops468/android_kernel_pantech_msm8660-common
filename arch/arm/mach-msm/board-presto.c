@@ -10203,9 +10203,6 @@ static void setup_display_power(void)
 
 #define GPIO_RESX_N (GPIO_EXPANDER_GPIO_BASE + 2)
 
-#if 0//def CONFIG_SKY_CHARGING
-extern unsigned int sky_charging_status(void);
-#endif
 #if defined(CONFIG_MACH_MSM8X60_PRESTO) || defined(CONFIG_MACH_MSM8X60_QUANTINA)    // p13777 kej 110623
 #ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
 static int display_common_power(int on)
@@ -10224,20 +10221,6 @@ static int display_common_power(int on)
         _GET_REGULATOR(reg_8058_l11, "8058_l11");
 
     if (on) {
-#if 0//def CONFIG_SKY_CHARGING
-        if (sky_charging_status())
-        {			
-            rc = regulator_set_voltage(reg_8058_l17, 3300000, 3300000);
-            if (!rc)
-                rc = regulator_enable(reg_8058_l17);
-            if (rc) {
-                pr_err("'%s' regulator enable failed, rc=%d\n",
-                    "8058_l17", rc);
-                return rc;
-            }
-        }
-#endif
-
         rc = regulator_set_voltage(reg_8058_l11, 1800000, 1800000);
         if (!rc)
             rc = regulator_enable(reg_8058_l11);
@@ -10265,23 +10248,11 @@ static int display_common_power(int on)
             pr_warning("'%s' regulator disable failed, rc=%d\n",
                 "reg_8058_l3", rc);
 
-#if 0 //def CONFIG_SKY_CHARGING
-        if (sky_charging_status())
-        {				
-            rc = regulator_disable(reg_8058_l11);
-            if (rc)
-                pr_warning("'%s' regulator disable failed, rc=%d\n",
-                    "reg_8058_l11", rc);
+        rc = regulator_disable(reg_8058_l11);
+        if (rc)
+            pr_warning("'%s' regulator disable failed, rc=%d\n",
+                "reg_8058_l11", rc);
 
-            rc = regulator_disable(reg_8058_l17);
-            if (rc)
-                pr_warning("'%s' regulator disable failed, rc=%d\n",
-                    "reg_8058_l17", rc);
-
-            msleep(20);
-            pr_info(" [sky_charging_status]  \n");		
-        }
-#endif
         pr_info("%s(off): success\n", __func__);
     }
 
@@ -11446,7 +11417,6 @@ static void __init msm_fb_add_devices(void)
 
 #ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
 	msm_fb_register_device("lcdc", &lcdc_pdata);
-    display_common_power(1);//kkcho
 #endif /* CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT */
 #ifdef CONFIG_FB_MSM_MIPI_DSI
 	msm_fb_register_device("mipi_dsi", &mipi_dsi_pdata);
