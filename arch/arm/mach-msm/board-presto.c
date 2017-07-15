@@ -6059,8 +6059,8 @@ static int pmic8058_xoadc_vreg_config(int on)
 			pr_err("%s: Enable of regulator ldo18_adc "
 						"failed\n", __func__);
 	} else {
-#if defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
-        rc = 0;
+#if 0 //defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
+         rc = 0;
 #else /* CONFIG_SKY_CHARGING || CONFIG_SKY_SMB_CHARGER */
 		rc = regulator_disable(vreg_ldo18_adc);
 		if (rc)
