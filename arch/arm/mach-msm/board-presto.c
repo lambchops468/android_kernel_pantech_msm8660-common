@@ -1175,12 +1175,15 @@ static struct regulator *vdd_cx;
 #define PMIC_ID_GPIO		36
 notify_vbus_state notify_vbus_state_func_ptr;
 static int usb_phy_susp_dig_vol = 750000;
-static int pmic_id_notif_supported;
 
 #ifdef CONFIG_USB_EHCI_MSM_72K
 #define USB_PMIC_ID_DET_DELAY	msecs_to_jiffies(100)
 struct delayed_work pmic_id_det;
 
+#ifdef CONFIG_MACH_MSM8X60_PRESTO
+static int pmic_id_notif_supported = 1;
+#else
+static int pmic_id_notif_supported;
 static int __init usb_id_pin_rework_setup(char *support)
 {
 	if (strncmp(support, "true", 4) == 0)
@@ -1189,6 +1192,7 @@ static int __init usb_id_pin_rework_setup(char *support)
 	return 1;
 }
 __setup("usb_id_pin_rework=", usb_id_pin_rework_setup);
+#endif /* CONFIG_MACH_MSM8X60_PRESTO */
 
 static void pmic_id_detect(struct work_struct *w)
 {
@@ -1489,7 +1493,7 @@ static int msm_hsusb_ldo_enable(int on)
 				"ldo6_3p3\n", __func__);
 	}
 
-	pr_debug("reg (%s)\n", on ? "HPM" : "LPM");
+	pr_info("%s: (%s)\n", __func__, on ? "HPM" : "LPM");
 	return ret < 0 ? ret : 0;
  }
 #endif
@@ -8849,9 +8853,14 @@ static void __init msm8x60_init_buses(void)
 	 */
 	if (SOCINFO_VERSION_MAJOR(socinfo_get_version()) == 2 &&
 			(machine_is_msm8x60_surf() ||
+#ifdef CONFIG_MACH_MSM8X60_PRESTO
+			 machine_is_msm8x60_presto() ||
+#endif
 			(machine_is_msm8x60_ffa() &&
-			pmic_id_notif_supported)))
+			pmic_id_notif_supported))) {
+		pr_info("Enabling msm_otg USB PHY power collapse.\n");
 		msm_otg_pdata.phy_can_powercollapse = 1;
+	}
 	msm_device_otg.dev.platform_data = &msm_otg_pdata;
 #endif
 
