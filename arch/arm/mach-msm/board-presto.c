@@ -8587,7 +8587,7 @@ static struct i2c_registry msm8x60_i2c_devices[] __initdata = {
 		msm_i2c_gsbi7_timpani_info,
 		ARRAY_SIZE(msm_i2c_gsbi7_timpani_info),
 	},
-#if defined(CONFIG_MARIMBA_CORE)
+#if defined(CONFIG_MARIMBA_CORE) && (defined(CONFIG_GPIO_SX150X) || defined(CONFIG_GPIO_SX150X_MODULE))
 	{
 		I2C_SURF | I2C_FFA | I2C_FLUID | I2C_DRAGON,
 		MSM_GSBI7_QUP_I2C_BUS_ID,
@@ -10072,10 +10072,6 @@ static void __init msm8x60_init_mmc(void)
 #endif
 }
 
-#if !defined(CONFIG_GPIO_SX150X) && !defined(CONFIG_GPIO_SX150X_MODULE)
-static inline void display_common_power(int on) {}
-#else
-
 #define _GET_REGULATOR(var, name) do {					\
 	if (var == NULL) {						\
 		var = regulator_get(NULL, name);			\
@@ -10087,6 +10083,77 @@ static inline void display_common_power(int on) {}
 	}								\
 } while (0)
 
+#if defined(CONFIG_MACH_MSM8X60_PRESTO) || defined(CONFIG_MACH_MSM8X60_QUANTINA)    // p13777 kej 110623
+#ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
+static void setup_display_power(void) {
+	pr_err("%s: Wrong Machine Configuration.\n", __func__);
+}
+
+static int display_common_power(int on)
+{
+    static struct regulator *reg_8058_l3;
+    static struct regulator *reg_8058_l11;
+    static int prev_on;
+    int rc;
+
+    if (on == prev_on)
+        return 0;
+
+    if (!reg_8058_l3)
+        _GET_REGULATOR(reg_8058_l3, "8058_l3");
+    if (!reg_8058_l11)
+        _GET_REGULATOR(reg_8058_l11, "8058_l11");
+
+    if (on) {
+        rc = regulator_set_voltage(reg_8058_l11, 1800000, 1800000);
+        if (!rc)
+            rc = regulator_enable(reg_8058_l11);
+        if (rc) {
+            pr_err("'%s' regulator enable failed, rc=%d\n",
+                "8058_l11", rc);
+            return rc;
+        }
+
+        rc = regulator_set_voltage(reg_8058_l3, 3000000, 3000000);
+        if (!rc)
+            rc = regulator_enable(reg_8058_l3);
+        if (rc) {
+            pr_err("'%s' regulator enable failed, rc=%d\n",
+                "8058_l3", rc);
+            return rc;
+        }
+
+        pr_info("%s(on): success\n", __func__);
+    }
+    else 
+    {
+        rc = regulator_disable(reg_8058_l3);
+        if (rc)
+            pr_warning("'%s' regulator disable failed, rc=%d\n",
+                "reg_8058_l3", rc);
+
+        rc = regulator_disable(reg_8058_l11);
+        if (rc)
+            pr_warning("'%s' regulator disable failed, rc=%d\n",
+                "reg_8058_l11", rc);
+
+        pr_info("%s(off): success\n", __func__);
+    }
+
+    prev_on = on;
+
+    return 0;
+}
+#endif /* CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT */
+#else /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
+#if !defined(CONFIG_GPIO_SX150X) && !defined(CONFIG_GPIO_SX150X_MODULE)
+static void display_common_power(int on) {
+	pr_err("%s: SX150X GPIO expander not available.\n", __func__);
+}
+static void setup_display_power(void) {
+	pr_err("%s: SX150X GPIO expander not available.\n", __func__);
+}
+#else /* !defined(CONFIG_GPIO_SX150X) && !defined(CONFIG_GPIO_SX150X_MODULE) */
 static int dsub_regulator(int on)
 {
 	static struct regulator *dsub_reg;
@@ -10203,65 +10270,6 @@ static void setup_display_power(void)
 
 #define GPIO_RESX_N (GPIO_EXPANDER_GPIO_BASE + 2)
 
-#if defined(CONFIG_MACH_MSM8X60_PRESTO) || defined(CONFIG_MACH_MSM8X60_QUANTINA)    // p13777 kej 110623
-#ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
-static int display_common_power(int on)
-{
-    static struct regulator *reg_8058_l3;
-    static struct regulator *reg_8058_l11;
-    static int prev_on;
-    int rc;
-
-    if (on == prev_on)
-        return 0;
-
-    if (!reg_8058_l3)
-        _GET_REGULATOR(reg_8058_l3, "8058_l3");
-    if (!reg_8058_l11)
-        _GET_REGULATOR(reg_8058_l11, "8058_l11");
-
-    if (on) {
-        rc = regulator_set_voltage(reg_8058_l11, 1800000, 1800000);
-        if (!rc)
-            rc = regulator_enable(reg_8058_l11);
-        if (rc) {
-            pr_err("'%s' regulator enable failed, rc=%d\n",
-                "8058_l11", rc);
-            return rc;
-        }
-
-        rc = regulator_set_voltage(reg_8058_l3, 3000000, 3000000);
-        if (!rc)
-            rc = regulator_enable(reg_8058_l3);
-        if (rc) {
-            pr_err("'%s' regulator enable failed, rc=%d\n",
-                "8058_l3", rc);
-            return rc;
-        }
-
-        pr_info("%s(on): success\n", __func__);
-    }
-    else 
-    {
-        rc = regulator_disable(reg_8058_l3);
-        if (rc)
-            pr_warning("'%s' regulator disable failed, rc=%d\n",
-                "reg_8058_l3", rc);
-
-        rc = regulator_disable(reg_8058_l11);
-        if (rc)
-            pr_warning("'%s' regulator disable failed, rc=%d\n",
-                "reg_8058_l11", rc);
-
-        pr_info("%s(off): success\n", __func__);
-    }
-
-    prev_on = on;
-
-    return 0;
-}
-#endif /* CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT */
-#else /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
 #ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
 static void display_common_power(int on)
 {
@@ -10488,9 +10496,9 @@ out:
 	display_reg = NULL;
 }
 #endif /* CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT */
+#endif /* !defined(CONFIG_GPIO_SX150X) && !defined(CONFIG_GPIO_SX150X_MODULE) */
 #endif /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
 #undef _GET_REGULATOR
-#endif
 
 #ifdef CONFIG_FB_MSM_MIPI_DSI
 static int mipi_dsi_panel_power(int on);
