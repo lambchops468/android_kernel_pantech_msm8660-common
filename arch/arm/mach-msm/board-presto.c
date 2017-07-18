@@ -10266,17 +10266,6 @@ static void setup_display_power(void)
 	}
 }
 
-#define _GET_REGULATOR(var, name) do {					\
-	if (var == NULL) {						\
-		var = regulator_get(NULL, name);			\
-		if (IS_ERR(var)) {					\
-			pr_err("'%s' regulator not found, rc=%ld\n",	\
-				name, PTR_ERR(var));			\
-			var = NULL;					\
-		}							\
-	}								\
-} while (0)
-
 #define GPIO_RESX_N (GPIO_EXPANDER_GPIO_BASE + 2)
 
 #ifdef CONFIG_FB_MSM_LCDC_SAMSUNG_OLED_PT
