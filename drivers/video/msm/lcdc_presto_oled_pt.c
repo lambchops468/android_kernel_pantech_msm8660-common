@@ -697,7 +697,6 @@ static void lcdc_samsung_oled_set_backlight(struct msm_fb_data_type *mfd)
 			sizeof(gamma_sequence_140)/sizeof(*gamma_sequence_140));
 		break;
 	case 11:
-	default:
 		samsung_serigo_list(gamma_sequence_120,
 			sizeof(gamma_sequence_120)/sizeof(*gamma_sequence_120));
 		break;
@@ -706,6 +705,7 @@ static void lcdc_samsung_oled_set_backlight(struct msm_fb_data_type *mfd)
 			sizeof(gamma_sequence_100)/sizeof(*gamma_sequence_100));
 		break;
 	case 9:
+	default:
 		samsung_serigo_list(gamma_sequence_80,
 			sizeof(gamma_sequence_80)/sizeof(*gamma_sequence_80));
 		break;
