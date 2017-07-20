@@ -454,7 +454,7 @@ static int msm_fb_probe(struct platform_device *pdev)
 	vsync_cntrl.dev = mfd->fbi->dev;
 	mfd->panel_info.frame_count = 0;
 #if defined(CONFIG_MACH_MSM8X60_PRESTO)
-    mfd->bl_level = 9;
+    mfd->bl_level = 10;
 #else /* QCOM Original */
 	mfd->bl_level = 0;
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */

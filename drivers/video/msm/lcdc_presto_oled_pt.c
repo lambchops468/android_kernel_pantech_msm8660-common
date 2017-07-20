@@ -660,83 +660,84 @@ static void lcdc_samsung_oled_set_backlight(struct msm_fb_data_type *mfd)
 	}
 
 	switch (mfd->bl_level) {
-	case 20:
+	case 21:
 		samsung_serigo_list(gamma_sequence_300,
 			sizeof(gamma_sequence_300)/sizeof(*gamma_sequence_300));
 		break;
-	case 19:
+	case 20:
 		samsung_serigo_list(gamma_sequence_280,
 			sizeof(gamma_sequence_280)/sizeof(*gamma_sequence_280));
 		break;
-	case 18:
+	case 19:
 		samsung_serigo_list(gamma_sequence_260,
 			sizeof(gamma_sequence_260)/sizeof(*gamma_sequence_260));
 		break;
-	case 17:
+	case 18:
 		samsung_serigo_list(gamma_sequence_240,
 			sizeof(gamma_sequence_240)/sizeof(*gamma_sequence_240));
 		break;
-	case 16:
+	case 17:
 		samsung_serigo_list(gamma_sequence_220,
 			sizeof(gamma_sequence_220)/sizeof(*gamma_sequence_220));
 		break;
-	case 15:
+	case 16:
 		samsung_serigo_list(gamma_sequence_200,
 			sizeof(gamma_sequence_200)/sizeof(*gamma_sequence_200));
 		break;
-	case 14:
+	case 15:
 		samsung_serigo_list(gamma_sequence_180,
 			sizeof(gamma_sequence_180)/sizeof(*gamma_sequence_180));
 		break;
-	case 13:
+	case 14:
 		samsung_serigo_list(gamma_sequence_160,
 			sizeof(gamma_sequence_160)/sizeof(*gamma_sequence_160));
 		break;
-	case 12:
+	case 13:
 		samsung_serigo_list(gamma_sequence_140,
 			sizeof(gamma_sequence_140)/sizeof(*gamma_sequence_140));
 		break;
-	case 11:
+	case 12:
 		samsung_serigo_list(gamma_sequence_120,
 			sizeof(gamma_sequence_120)/sizeof(*gamma_sequence_120));
 		break;
-	case 10:
+	case 11:
 		samsung_serigo_list(gamma_sequence_100,
 			sizeof(gamma_sequence_100)/sizeof(*gamma_sequence_100));
 		break;
-	case 9:
+	case 10:
 	default:
 		samsung_serigo_list(gamma_sequence_80,
 			sizeof(gamma_sequence_80)/sizeof(*gamma_sequence_80));
 		break;
-	case 8:
+	case 9:
 		samsung_serigo_list(gamma_sequence_60,
 			sizeof(gamma_sequence_60)/sizeof(*gamma_sequence_60));
 		break;
-	case 7:
+	case 8:
 		samsung_serigo_list(gamma_sequence_40,
 			sizeof(gamma_sequence_40)/sizeof(*gamma_sequence_40));
 		break;
-	case 6:
+	case 7:
 		samsung_serigo_list(gamma_sequence_20,
 			sizeof(gamma_sequence_20)/sizeof(*gamma_sequence_20));
 		break;
-	case 5:
+	case 6:
 		samsung_serigo_list(gamma_sequence_0,
 			sizeof(gamma_sequence_0)/sizeof(*gamma_sequence_0));
 		break;
-	case 4:
+	case 5:
 		samsung_serigo_list(gamma_sequence_n20,
 			sizeof(gamma_sequence_n20)/sizeof(*gamma_sequence_n20));
 		break;
-	case 3:
+	case 4:
 		samsung_serigo_list(gamma_sequence_n40,
 			sizeof(gamma_sequence_n40)/sizeof(*gamma_sequence_n40));
 		break;
-	case 2:
+	case 3:
 		samsung_serigo_list(gamma_sequence_n60,
 			sizeof(gamma_sequence_n60)/sizeof(*gamma_sequence_n60));
 		break;
+	case 2:
 	case 1:
 		samsung_serigo_list(gamma_sequence_n80,
 			sizeof(gamma_sequence_n80)/sizeof(*gamma_sequence_n80));
@@ -824,7 +825,7 @@ static int __devinit samsung_probe(struct platform_device *pdev)
 	pinfo->fb_num = 2;
 #if defined(PANTECH_OLED_BL_CONTROL)
     pinfo->clk_rate = 24000000; /* Max 27.77MHz */
-    pinfo->bl_max = 16; //12 -> 6  for power saving
+    pinfo->bl_max = 17; //12 -> 6  for power saving
 #else /* PANTECH_OLED_BL_CONTROL */
 	pinfo->clk_rate = 25600000; /* Max 27.77MHz */
 	pinfo->bl_max = 21;
