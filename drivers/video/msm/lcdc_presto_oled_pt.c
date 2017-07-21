@@ -206,6 +206,49 @@ static struct samsung_spi_data gamma_sequence_40[] = {
      0x00, 0x4F, 0x00, 0x78 } },
     { .addr = 0xFA, .len = 1, .data = { 0x03 } },
 };
+/* lum = 20 cd/m2 (extrapolated from the above values) */
+static struct samsung_spi_data gamma_sequence_20[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0x5C, 0x15,
+     0x16, 0xB8, 0xC1, 0xAD, 0xBA, 0xC3, 0xB3, 0xD1, 0xD5, 0xCA, 0x00, 0x4F,
+     0x00, 0x45, 0x00, 0x6B } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+/* lum = 0 cd/m2 (note the display is not actually black. Values extrapolated from the above ) */
+static struct samsung_spi_data gamma_sequence_0[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0x6E, 0x0B,
+     0x16, 0xBA, 0xC4, 0xB0, 0xBD, 0xC6, 0xB7, 0xD4, 0xD7, 0xCD, 0x00, 0x46,
+     0x00, 0x3B, 0x00, 0x5F } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+/* lum = -20 cd/m2 (note the display is not actually black. Values extrapolated from the above ) */
+static struct samsung_spi_data gamma_sequence_n20[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0x88, 0x01,
+     0x15, 0xBB, 0xC6, 0xB2, 0xBF, 0xC8, 0xBA, 0xD6, 0xDA, 0xCF, 0x00, 0x3C,
+     0x00, 0x30, 0x00, 0x52 } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+/* lum = -40 cd/m2 (note the display is not actually black. Values extrapolated from the above ) */
+static struct samsung_spi_data gamma_sequence_n40[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0xAC, 0x00,
+     0x14, 0xBC, 0xC9, 0xB4, 0xC1, 0xCA, 0xBD, 0xD8, 0xDC, 0xD1, 0x00, 0x32,
+     0x00, 0x26, 0x00, 0x45 } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+/* lum = -60 cd/m2 (note the display is not actually black. Values extrapolated from the above ) */
+static struct samsung_spi_data gamma_sequence_n60[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0xDC, 0x00,
+     0x13, 0xBD, 0xCA, 0xB6, 0xC3, 0xCC, 0xC0, 0xDA, 0xDE, 0xD3, 0x00, 0x28,
+     0x00, 0x1C, 0x00, 0x39 } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+/* lum = -80 cd/m2 (note the display is not actually black. Values extrapolated from the above ) */
+static struct samsung_spi_data gamma_sequence_n80[] = {
+    { .addr = 0xfa, .len = 22, .data = { 0x02, 0x18, 0x08, 0x24, 0xFE, 0x00,
+     0x12, 0xBF, 0xCB, 0xB8, 0xC5, 0xCE, 0xC2, 0xDC, 0xE0, 0xD5, 0x00, 0x1E,
+     0x00, 0x13, 0x00, 0x2C } },
+    { .addr = 0xFA, .len = 1, .data = { 0x03 } },
+};
+
 #endif /* PRESTO_OLED_GAMMA_SEQUENCE */
 
 #ifdef PRESTO_OLED_GAMMA_SEQUENCE
@@ -617,62 +660,87 @@ static void lcdc_samsung_oled_set_backlight(struct msm_fb_data_type *mfd)
 	}
 
 	switch (mfd->bl_level) {
-	case 14:
+	case 21:
 		samsung_serigo_list(gamma_sequence_300,
 			sizeof(gamma_sequence_300)/sizeof(*gamma_sequence_300));
 		break;
-	case 13:
+	case 20:
 		samsung_serigo_list(gamma_sequence_280,
 			sizeof(gamma_sequence_280)/sizeof(*gamma_sequence_280));
 		break;
-	case 12:
+	case 19:
 		samsung_serigo_list(gamma_sequence_260,
 			sizeof(gamma_sequence_260)/sizeof(*gamma_sequence_260));
 		break;
-	case 11:
+	case 18:
 		samsung_serigo_list(gamma_sequence_240,
 			sizeof(gamma_sequence_240)/sizeof(*gamma_sequence_240));
 		break;
-	case 10:
+	case 17:
 		samsung_serigo_list(gamma_sequence_220,
 			sizeof(gamma_sequence_220)/sizeof(*gamma_sequence_220));
 		break;
-	case 9:
+	case 16:
 		samsung_serigo_list(gamma_sequence_200,
 			sizeof(gamma_sequence_200)/sizeof(*gamma_sequence_200));
 		break;
-	case 8:
+	case 15:
 		samsung_serigo_list(gamma_sequence_180,
 			sizeof(gamma_sequence_180)/sizeof(*gamma_sequence_180));
 		break;
-	case 7:
+	case 14:
 		samsung_serigo_list(gamma_sequence_160,
 			sizeof(gamma_sequence_160)/sizeof(*gamma_sequence_160));
 		break;
-	case 6:
+	case 13:
 		samsung_serigo_list(gamma_sequence_140,
 			sizeof(gamma_sequence_140)/sizeof(*gamma_sequence_140));
 		break;
-	case 5:
-	default:
+	case 12:
 		samsung_serigo_list(gamma_sequence_120,
 			sizeof(gamma_sequence_120)/sizeof(*gamma_sequence_120));
 		break;
-	case 4:
+	case 11:
 		samsung_serigo_list(gamma_sequence_100,
 			sizeof(gamma_sequence_100)/sizeof(*gamma_sequence_100));
 		break;
-	case 3:
+	case 10:
+	default:
 		samsung_serigo_list(gamma_sequence_80,
 			sizeof(gamma_sequence_80)/sizeof(*gamma_sequence_80));
 		break;
-	case 2:
+	case 9:
 		samsung_serigo_list(gamma_sequence_60,
 			sizeof(gamma_sequence_60)/sizeof(*gamma_sequence_60));
 		break;
-	case 1:
+	case 8:
 		samsung_serigo_list(gamma_sequence_40,
 			sizeof(gamma_sequence_40)/sizeof(*gamma_sequence_40));
+		break;
+	case 7:
+		samsung_serigo_list(gamma_sequence_20,
+			sizeof(gamma_sequence_20)/sizeof(*gamma_sequence_20));
+		break;
+	case 6:
+		samsung_serigo_list(gamma_sequence_0,
+			sizeof(gamma_sequence_0)/sizeof(*gamma_sequence_0));
+		break;
+	case 5:
+		samsung_serigo_list(gamma_sequence_n20,
+			sizeof(gamma_sequence_n20)/sizeof(*gamma_sequence_n20));
+		break;
+	case 4:
+		samsung_serigo_list(gamma_sequence_n40,
+			sizeof(gamma_sequence_n40)/sizeof(*gamma_sequence_n40));
+		break;
+	case 3:
+		samsung_serigo_list(gamma_sequence_n60,
+			sizeof(gamma_sequence_n60)/sizeof(*gamma_sequence_n60));
+		break;
+	case 2:
+	case 1:
+		samsung_serigo_list(gamma_sequence_n80,
+			sizeof(gamma_sequence_n80)/sizeof(*gamma_sequence_n80));
 		break;
 #ifdef CONFIG_F_SKYDISP_BEAM_ON_BUG_FIX
 	case 0:
@@ -757,10 +825,10 @@ static int __devinit samsung_probe(struct platform_device *pdev)
 	pinfo->fb_num = 2;
 #if defined(PANTECH_OLED_BL_CONTROL)
     pinfo->clk_rate = 24000000; /* Max 27.77MHz */
-    pinfo->bl_max = 10; //12 -> 6  for power saving
+    pinfo->bl_max = 17; //12 -> 6  for power saving
 #else /* PANTECH_OLED_BL_CONTROL */
 	pinfo->clk_rate = 25600000; /* Max 27.77MHz */
-	pinfo->bl_max = 15;
+	pinfo->bl_max = 21;
 #endif /* PANTECH_OLED_BL_CONTROL */
 	pinfo->bl_min = 1;
 
