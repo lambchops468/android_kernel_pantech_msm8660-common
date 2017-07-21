@@ -20,6 +20,11 @@
 #include <linux/miscdevice.h>
 #include <linux/fs.h>
 
+static bool disable_keyboard_led = 0;
+module_param(disable_keyboard_led, bool, S_IRUGO | S_IWUSR);
+MODULE_PARM_DESC(disable_keyboard_led, "Disable the keyboard LEDs and force "
+	"zero brightness.");
+
 //#define DBG_ENABLE
 
 #ifdef DBG_ENABLE
@@ -79,8 +84,18 @@ static void kp_bl_set(struct pmic8058_led_data *led, enum led_brightness value)
 	int rc;
 	u8 level;
 	unsigned long flags;
+	static bool disabled = 0;
 
 	spin_lock_irqsave(&led->value_lock, flags);
+
+	if (disable_keyboard_led && disabled) {
+		spin_unlock_irqrestore(&led->value_lock, flags);
+		return;
+	} else if (disable_keyboard_led) {
+		value = LED_OFF;
+	}
+	disabled = disable_keyboard_led;
+
 	level = (value << PM8058_DRV_KEYPAD_BL_SHIFT) &
 				 PM8058_DRV_KEYPAD_BL_MASK;
 
