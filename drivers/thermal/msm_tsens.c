@@ -30,6 +30,8 @@
 #include <linux/gpio.h>
 
 /* Trips: from very hot to very cold */
+/* TODO(AZL): STAGE3 and STAGE0 don't work. No interrupt is generated, so
+ * no event processing occurs for those trip points */
 enum tsens_trip_type {
 	TSENS_TRIP_STAGE3 = 0,
 	TSENS_TRIP_STAGE2,
@@ -90,12 +92,21 @@ struct tsens_tm_device_sensor {
 struct tsens_tm_device {
 	struct tsens_tm_device_sensor sensor[TSENS_NUM_SENSORS];
 	bool prev_reading_avail;
+	bool suspended;
 	int offset;
 	struct work_struct work;
 	uint32_t pm_tsens_thr_data;
 };
 
 struct tsens_tm_device *tmdev;
+
+/*******
+ * TODO(AZL): fix upper/lower limit clr.
+ * Fix interrupt locking/race
+ * Use thermal sys ->notify
+ * Cleanup printk
+ * enable sensors by default
+ */
 
 // p15060, MDM boot up fail fix
 bool mdm_reset = false;
@@ -136,6 +147,10 @@ static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 	if (!tm_sensor || tm_sensor->mode != THERMAL_DEVICE_ENABLED || !temp)
 		return -EINVAL;
 
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
+
 	if (!tmdev->prev_reading_avail) {
 		while (!(readl(TSENS_INT_STATUS_ADDR) & TSENS_TRDY_MASK))
 			msleep(1);
@@ -156,6 +171,10 @@ static int tsens_tz_get_mode(struct thermal_zone_device *thermal,
 	if (!tm_sensor || !mode)
 		return -EINVAL;
 
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
+
 	*mode = tm_sensor->mode;
 
 	return 0;
@@ -169,6 +188,10 @@ static int tsens_tz_set_mode(struct thermal_zone_device *thermal,
 
 	if (!tm_sensor)
 		return -EINVAL;
+
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
 
 	if (mode != tm_sensor->mode) {
 		pr_info("%s: mode: %d --> %d\n", __func__, tm_sensor->mode,
@@ -219,6 +242,10 @@ static int tsens_tz_get_trip_type(struct thermal_zone_device *thermal,
 	if (!tm_sensor || trip < 0 || !type)
 		return -EINVAL;
 
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
+
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
 		*type = THERMAL_TRIP_CRITICAL;
@@ -247,6 +274,10 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
+
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
 
 	lo_code = 0;
 	hi_code = TSENS_THRESHOLD_MAX_CODE;
@@ -331,6 +362,10 @@ static int tsens_tz_get_trip_temp(struct thermal_zone_device *thermal,
 	if (!tm_sensor || trip < 0 || !temp)
 		return -EINVAL;
 
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
+
 	reg = readl(TSENS_THRESHOLD_ADDR);
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
@@ -370,6 +405,10 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 	code_err_chk = code = tsens_tz_degC_to_code(temp);
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
+
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
 
 	lo_code = 0;
 	hi_code = TSENS_THRESHOLD_MAX_CODE;
@@ -518,11 +557,15 @@ static int tsens_suspend(struct device *dev)
 {
 	unsigned int reg;
 
+
 	tmdev->pm_tsens_thr_data = readl_relaxed(TSENS_THRESHOLD_ADDR);
 	reg = readl_relaxed(TSENS_CNTL_ADDR);
 	writel_relaxed(reg & ~(TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	tmdev->prev_reading_avail = 0;
 
+	tmdev->suspended = 1;
+
+	// TODO(AZL): Make this disable_irq() and move it to the start of this function.
 	disable_irq_nosync(TSENS_UPPER_LOWER_INT);
 	mb();
 	return 0;
@@ -547,6 +590,8 @@ static int tsens_resume(struct device *dev)
 	}
 
 	writel_relaxed(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
+
+	tmdev->suspended = 0;
 
 	enable_irq(TSENS_UPPER_LOWER_INT);
 	mb();
@@ -608,6 +653,8 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	writel((TSENS_LOWER_LIMIT_TH << 0) | (TSENS_UPPER_LIMIT_TH << 8) |
 		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
 			TSENS_THRESHOLD_ADDR);
+
+	tmdev->suspended = 0;
 
 	for (i = 0; i < TSENS_NUM_SENSORS; i++) {
 		char name[17];
