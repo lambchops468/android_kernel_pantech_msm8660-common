@@ -138,6 +138,13 @@ static int tsens_tz_degC_to_code(int degC)
 	return code;
 }
 
+// Call this when reconfiguring trip points. Trip points may not cause an
+// interrupt if the temperature was already exceeding the trip point
+// temperatures, so manually kick-off any actions.
+static void tsens_tz_force_update(struct thermal_zone_device *tz) {
+	thermal_zone_device_update(tz);
+}
+
 static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 			     unsigned long *temp)
 {
@@ -230,7 +237,7 @@ static int tsens_tz_set_mode(struct thermal_zone_device *thermal,
     }
 
 #endif
-
+	tsens_tz_force_update(thermal);
 	return 0;
 }
 
@@ -348,6 +355,8 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 		if (code < lo_code || code > hi_code)
 			return -EINVAL;
 		writel(reg_cntl & ~mask, TSENS_CNTL_ADDR);
+
+		tsens_tz_force_update(thermal);
 	}
 
 	return 0;
@@ -476,6 +485,9 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 		return -EINVAL;
 
 	writel(reg_th | code, TSENS_THRESHOLD_ADDR);
+
+	tsens_tz_force_update(thermal);
+
 	return 0;
 }
 
