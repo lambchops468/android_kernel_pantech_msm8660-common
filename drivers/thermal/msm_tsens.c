@@ -27,6 +27,9 @@
 #include <mach/msm_iomap.h>
 #include <linux/pm.h>
 
+// TODO(azl): Remove
+#include <linux/sched.h>
+
 // p15060, MDM boot up fail fix
 #include <linux/gpio.h>
 
@@ -105,8 +108,6 @@ struct tsens_tm_device *tmdev;
 /*******
  * TODO(AZL): fix upper/lower limit clr.
  * Fix interrupt locking/race
- * Use thermal sys ->notify
- * Cleanup printk
  * enable sensors by default
  */
 
@@ -179,6 +180,13 @@ static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 
 	*temp = tsens_tz_code_to_degC(code);
 
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		pr_info("%s: Getting temp %d (pid=%i %s)\n", __func__, *temp, tsk->pid, tsk->comm);
+	} else {
+		pr_info("%s: Getting temp %d (pid=unknown)\n", __func__, *temp);
+	}
+
 	return 0;
 }
 
@@ -199,6 +207,13 @@ static int tsens_tz_get_mode(struct thermal_zone_device *thermal,
 
 	*mode = tm_sensor->mode;
 	spin_unlock_irqrestore(&tmdev->lock, flags);
+
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		pr_info("%s: Getting mode %d (pid=%i %s)\n", __func__, *mode, tsk->pid, tsk->comm);
+	} else {
+		pr_info("%s: Getting mode %d (pid=unknown)\n", __func__, *mode);
+	}
 
 	return 0;
 }
@@ -257,6 +272,19 @@ static int tsens_tz_set_mode(struct thermal_zone_device *thermal,
     }
 
 #endif
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		if (mode == THERMAL_DEVICE_ENABLED)
+			pr_info("%s: Enabling (pid=%i %s)\n", __func__, tsk->pid, tsk->comm);
+		else
+			pr_info("%s: Disabling (pid=%i %s)\n", __func__, tsk->pid, tsk->comm);
+	} else {
+		if (mode == THERMAL_DEVICE_ENABLED)
+			pr_info("%s: Enabling (pid=unknown)\n", __func__);
+		else
+			pr_info("%s: Disabling (pid=unknown)\n", __func__);
+	}
+
 	tsens_tz_force_update(thermal);
 	return 0;
 }
@@ -292,6 +320,13 @@ static int tsens_tz_get_trip_type(struct thermal_zone_device *thermal,
 		break;
 	default:
 		return -EINVAL;
+	}
+
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		pr_info("%s: Getting trip type %d (pid=%i %s)\n", __func__, trip, tsk->pid, tsk->comm);
+	} else {
+		pr_info("%s: Getting trip type %d (pid=unknown)\n", __func__, trip);
 	}
 
 	return 0;
@@ -392,6 +427,19 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 		tsens_tz_force_update(thermal);
 	}
 
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		if (mode == THERMAL_TRIP_ACTIVATION_DISABLED)
+			pr_info("%s: Disabling trip %d (pid=%i %s)\n", __func__, trip, tsk->pid, tsk->comm);
+		else
+			pr_info("%s: Enabling trip %d (pid=%i %s)\n", __func__, trip, tsk->pid, tsk->comm);
+	} else {
+		if (mode == THERMAL_TRIP_ACTIVATION_DISABLED)
+			pr_info("%s: Disabling trip %d (pid=unknown)\n", __func__, trip);
+		else
+			pr_info("%s: Enabling trip %d (pid=unknown)\n", __func__, trip);
+	}
+
 	return 0;
 }
 
@@ -433,6 +481,14 @@ static int tsens_tz_get_trip_temp(struct thermal_zone_device *thermal,
 	}
 
 	*temp = tsens_tz_code_to_degC(reg);
+
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		pr_info("%s: Getting trip %d temp %ld (pid=%i %s)\n", __func__, trip, *temp, tsk->pid, tsk->comm);
+	} else {
+		pr_info("%s: Getting trip %d temp %ld (pid=unknown)\n", __func__, trip, *temp);
+	}
+
 
 	return 0;
 }
@@ -528,6 +584,13 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 	if (code_err_chk < lo_code || code_err_chk > hi_code) {
 		ret = -EINVAL;
 		goto done;
+	}
+
+	struct task_struct *tsk = current;
+	if (tsk && tsk->comm) {
+		pr_info("%s: Setting new trip %d temp %ld (pid=%i %s)\n", __func__, trip, temp, tsk->pid, tsk->comm);
+	} else {
+		pr_info("%s: Setting new trip %d temp %ld (pid=unknown)\n", __func__, trip, temp);
 	}
 
 	writel(reg_th | code, TSENS_THRESHOLD_ADDR);
@@ -765,6 +828,16 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
 			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	pr_notice("%s: OK\n", __func__);
+
+	for (i = 0; i < TSENS_TRIP_NUM; i++) {
+		unsigned long triptemp;
+		rc = tsens_tz_get_trip_temp(&tmdev->sensor[0].tz_dev, i, &triptemp);
+		if (!rc)
+			pr_info("%s: Initial %d trip point temp: %ld\n", __func__, i, triptemp);
+		else
+			pr_info("%s: Error getting initial trip point temp (%d)\n", __func__, rc);
+	}
+	pr_info("%s: Code for 70C: %x\n", __func__, tsens_tz_degC_to_code(70));
 	return 0;
 }
 
