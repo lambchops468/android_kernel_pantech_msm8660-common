@@ -546,7 +546,6 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 	struct tsens_tm_device *tm = data;
 	unsigned int threshold, threshold_low, i, code, reg, sensor, mask;
 	bool upper_th_x, lower_th_x;
-	int adc_code;
 
 	mask = ~(TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR);
 	threshold = readl(TSENS_THRESHOLD_ADDR);
@@ -568,12 +567,9 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 			if (upper_th_x || lower_th_x) {
 				/* Call thermal_zone_device_update() */
 				schedule_work(&tm->work);
-				adc_code = readl(TSENS_S0_STATUS_ADDR
-							+ (i << 2));
-				printk(KERN_INFO"\nTrip point triggered by "
-					"current temperature (%d degrees) "
-					"measured by Temperature-Sensor %d\n",
-					tsens_tz_code_to_degC(adc_code), i);
+				pr_info("msm_tsens trip point triggered by "
+					"current temperature (%d degrees)\n",
+					tsens_tz_code_to_degC(code));
 			}
 		}
 		sensor >>= 1;
