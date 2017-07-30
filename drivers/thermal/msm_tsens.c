@@ -21,6 +21,7 @@
 #include <linux/interrupt.h>
 #include <linux/delay.h>
 #include <linux/slab.h>
+#include <linux/spinlock.h>
 
 #include <linux/io.h>
 #include <mach/msm_iomap.h>
@@ -91,10 +92,11 @@ struct tsens_tm_device_sensor {
 
 struct tsens_tm_device {
 	struct tsens_tm_device_sensor sensor[TSENS_NUM_SENSORS];
+	struct work_struct work;
+	spinlock_t lock;
 	bool prev_reading_avail;
 	bool suspended;
 	int offset;
-	struct work_struct work;
 	uint32_t pm_tsens_thr_data;
 };
 
@@ -149,12 +151,20 @@ static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 			     unsigned long *temp)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 	unsigned int code;
 
-	if (!tm_sensor || tm_sensor->mode != THERMAL_DEVICE_ENABLED || !temp)
+	if (!tm_sensor || !temp)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
+
+	if (tm_sensor->mode != THERMAL_DEVICE_ENABLED) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
+		return -EINVAL;
+	}
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
@@ -165,6 +175,8 @@ static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 	}
 
 	code = readl(TSENS_S0_STATUS_ADDR + (tm_sensor->sensor_num << 2));
+	spin_unlock_irqrestore(&tmdev->lock, flags);
+
 	*temp = tsens_tz_code_to_degC(code);
 
 	return 0;
@@ -174,15 +186,19 @@ static int tsens_tz_get_mode(struct thermal_zone_device *thermal,
 			      enum thermal_device_mode *mode)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 
 	if (!tm_sensor || !mode)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
 	*mode = tm_sensor->mode;
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	return 0;
 }
@@ -191,12 +207,15 @@ static int tsens_tz_set_mode(struct thermal_zone_device *thermal,
 			      enum thermal_device_mode mode)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 	unsigned int reg, mask;
 
 	if (!tm_sensor)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
@@ -219,6 +238,7 @@ static int tsens_tz_set_mode(struct thermal_zone_device *thermal,
 		writel(reg, TSENS_CNTL_ADDR);
 	}
 	tm_sensor->mode = mode;
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 // p15060, MDM boot up fail fix
 // MDM2AP_STATUS       -> 134
@@ -245,13 +265,17 @@ static int tsens_tz_get_trip_type(struct thermal_zone_device *thermal,
 				   int trip, enum thermal_trip_type *type)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 
 	if (!tm_sensor || trip < 0 || !type)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
@@ -277,12 +301,16 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 			int trip, enum thermal_trip_activation_mode mode)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 	unsigned int reg_cntl, reg_th, code, hi_code, lo_code, mask;
 
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
+
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
@@ -346,15 +374,20 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 									>> 24;
 		break;
 	default:
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -EINVAL;
 	}
 
-	if (mode == THERMAL_TRIP_ACTIVATION_DISABLED)
+	if (mode == THERMAL_TRIP_ACTIVATION_DISABLED) {
 		writel(reg_cntl | mask, TSENS_CNTL_ADDR);
-	else {
-		if (code < lo_code || code > hi_code)
+		spin_unlock_irqrestore(&tmdev->lock, flags);
+	} else {
+		if (code < lo_code || code > hi_code) {
+			spin_unlock_irqrestore(&tmdev->lock, flags);
 			return -EINVAL;
+		}
 		writel(reg_cntl & ~mask, TSENS_CNTL_ADDR);
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 
 		tsens_tz_force_update(thermal);
 	}
@@ -366,16 +399,22 @@ static int tsens_tz_get_trip_temp(struct thermal_zone_device *thermal,
 				   int trip, unsigned long *temp)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 	unsigned int reg;
 
 	if (!tm_sensor || trip < 0 || !temp)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
+
 	if (tmdev->suspended) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
 	reg = readl(TSENS_THRESHOLD_ADDR);
+	spin_unlock_irqrestore(&tmdev->lock, flags);
+
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
 		reg = (reg & TSENS_THRESHOLD_MAX_LIMIT_MASK) >> 24;
@@ -408,15 +447,19 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 				   int trip, long temp)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned long flags;
 	unsigned int reg_th, reg_cntl;
-	int code, hi_code, lo_code, code_err_chk;
+	int code, hi_code, lo_code, code_err_chk, ret = 0;
 
 	code_err_chk = code = tsens_tz_degC_to_code(temp);
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
+
 	if (tmdev->suspended) {
-		return -ENODEV;
+		ret = -ENODEV;
+		goto done;
 	}
 
 	lo_code = 0;
@@ -478,17 +521,23 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 									>> 24;
 		break;
 	default:
-		return -EINVAL;
+		ret = -EINVAL;
+		goto done;
 	}
 
-	if (code_err_chk < lo_code || code_err_chk > hi_code)
-		return -EINVAL;
+	if (code_err_chk < lo_code || code_err_chk > hi_code) {
+		ret = -EINVAL;
+		goto done;
+	}
 
 	writel(reg_th | code, TSENS_THRESHOLD_ADDR);
 
-	tsens_tz_force_update(thermal);
+done:
+	spin_unlock_irqrestore(&tmdev->lock, flags);
+	if (!ret)
+		tsens_tz_force_update(thermal);
 
-	return 0;
+	return ret;
 }
 
 static void notify_uspace_tsens(struct thermal_zone_device *tz) {
@@ -533,10 +582,13 @@ static void update_tsens_fn(struct work_struct *work)
 
 static irqreturn_t tsens_isr(int irq, void *data)
 {
+	unsigned long flags;
 	unsigned int reg = readl(TSENS_CNTL_ADDR);
 
+	spin_lock_irqsave(&tmdev->lock, flags);
 	writel(reg | TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR,
 			TSENS_CNTL_ADDR);
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	return IRQ_WAKE_THREAD;
 }
@@ -544,8 +596,11 @@ static irqreturn_t tsens_isr(int irq, void *data)
 static irqreturn_t tsens_isr_thread(int irq, void *data)
 {
 	struct tsens_tm_device *tm = data;
+	unsigned long flags;
 	unsigned int threshold, threshold_low, i, code, reg, sensor, mask;
 	bool upper_th_x, lower_th_x;
+
+	spin_lock_irqsave(&tmdev->lock, flags);
 
 	mask = ~(TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR);
 	threshold = readl(TSENS_THRESHOLD_ADDR);
@@ -575,31 +630,39 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 		sensor >>= 1;
 	}
 	writel(reg & mask, TSENS_CNTL_ADDR);
+
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 	return IRQ_HANDLED;
 }
 
 #ifdef CONFIG_PM
 static int tsens_suspend(struct device *dev)
 {
+	unsigned long flags;
 	unsigned int reg;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
+	tmdev->suspended = 1;
 
 	tmdev->pm_tsens_thr_data = readl_relaxed(TSENS_THRESHOLD_ADDR);
 	reg = readl_relaxed(TSENS_CNTL_ADDR);
 	writel_relaxed(reg & ~(TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	tmdev->prev_reading_avail = 0;
 
-	tmdev->suspended = 1;
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	// TODO(AZL): Make this disable_irq() and move it to the start of this function.
-	disable_irq_nosync(TSENS_UPPER_LOWER_INT);
+	disable_irq_sync(TSENS_UPPER_LOWER_INT);
 	mb();
 	return 0;
 }
 
 static int tsens_resume(struct device *dev)
 {
+	unsigned long flags;
 	unsigned int reg;
+
+	spin_lock_irqsave(&tmdev->lock, flags);
 
 	reg = readl_relaxed(TSENS_CNTL_ADDR);
 	writel_relaxed(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
@@ -618,6 +681,7 @@ static int tsens_resume(struct device *dev)
 	writel_relaxed(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
 
 	tmdev->suspended = 0;
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	enable_irq(TSENS_UPPER_LOWER_INT);
 	mb();
@@ -654,6 +718,8 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		pr_err("%s: kzalloc() failed.\n", __func__);
 		return -ENOMEM;
 	}
+
+	spin_lock_init(&tmdev->lock);
 
 	platform_set_drvdata(pdev, tmdev);
 
@@ -717,10 +783,13 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 static int __devexit tsens_tm_remove(struct platform_device *pdev)
 {
 	struct tsens_tm_device *tmdev = platform_get_drvdata(pdev);
+	unsigned long flags;
 	unsigned int reg, i;
 
+	spin_lock_irqsave(&tmdev->lock, flags);
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg & ~(TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
+	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	for (i = 0; i < TSENS_NUM_SENSORS; i++)
 		thermal_zone_device_unregister(tmdev->sensor[i].tz_dev);
