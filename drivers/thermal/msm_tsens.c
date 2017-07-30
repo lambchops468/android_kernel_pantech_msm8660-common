@@ -641,6 +641,8 @@ static int tsens_suspend(struct device *dev)
 	unsigned long flags;
 	unsigned int reg;
 
+	disable_irq(TSENS_UPPER_LOWER_INT);
+
 	spin_lock_irqsave(&tmdev->lock, flags);
 	tmdev->suspended = 1;
 
@@ -651,8 +653,6 @@ static int tsens_suspend(struct device *dev)
 
 	spin_unlock_irqrestore(&tmdev->lock, flags);
 
-	// TODO(AZL): Make this disable_irq() and move it to the start of this function.
-	disable_irq_sync(TSENS_UPPER_LOWER_INT);
 	mb();
 	return 0;
 }
