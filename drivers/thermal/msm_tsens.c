@@ -612,20 +612,8 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 	sensor >>= 3;
 	for (i = 0; i < TSENS_NUM_SENSORS; i++) {
 		if (sensor & 1) {
-			code = readl(TSENS_S0_STATUS_ADDR + (i << 2));
-			upper_th_x = code >= threshold;
-			lower_th_x = code <= threshold_low;
-			if (upper_th_x)
-				mask |= TSENS_UPPER_STATUS_CLR;
-			if (lower_th_x)
-				mask |= TSENS_LOWER_STATUS_CLR;
-			if (upper_th_x || lower_th_x) {
-				/* Call thermal_zone_device_update() */
-				schedule_work(&tm->work);
-				pr_info("msm_tsens trip point triggered by "
-					"current temperature (%d degrees)\n",
-					tsens_tz_code_to_degC(code));
-			}
+			/* Call thermal_zone_device_update() */
+			schedule_work(&tm->work);
 		}
 		sensor >>= 1;
 	}
