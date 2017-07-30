@@ -479,6 +479,19 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 	return 0;
 }
 
+static void notify_uspace_tsens(struct thermal_zone_device *tz) {
+	/* Currently only Sensor0 is supported. We added support
+	   to notify only the supported Sensor and this portion
+	   needs to be revisited once other sensors are supported */
+	sysfs_notify(&tz->device.kobj, NULL, "type");
+}
+
+static int tsens_tz_notify(struct thermal_zone_device *tz, int trip,
+			enum thermal_trip_type trip_type) {
+	notify_uspace_tsens(tz);
+	return 0;
+}
+
 static struct thermal_zone_device_ops tsens_thermal_zone_ops = {
 	.get_temp = tsens_tz_get_temp,
 	.get_mode = tsens_tz_get_mode,
@@ -488,17 +501,22 @@ static struct thermal_zone_device_ops tsens_thermal_zone_ops = {
 	.get_trip_temp = tsens_tz_get_trip_temp,
 	.set_trip_temp = tsens_tz_set_trip_temp,
 	.get_crit_temp = tsens_tz_get_crit_temp,
+	.notify = tsens_tz_notify,
 };
 
-static void notify_uspace_tsens_fn(struct work_struct *work)
+static void update_tsens_fn(struct work_struct *work)
 {
+	int i;
+	struct thermal_zone_device *tz;
 	struct tsens_tm_device *tm = container_of(work, struct tsens_tm_device,
 					work);
-	/* Currently only Sensor0 is supported. We added support
-	   to notify only the supported Sensor and this portion
-	   needs to be revisited once other sensors are supported */
-	sysfs_notify(&tm->sensor[0].tz_dev->device.kobj,
-					NULL, "type");
+
+	for (i = 0; i < TSENS_NUM_SENSORS; i++) {
+		tz = tm->sensor[i].tz_dev;
+		if (!tz)
+			continue;
+		thermal_zone_device_update(tz);
+	}
 }
 
 static irqreturn_t tsens_isr(int irq, void *data)
@@ -536,7 +554,7 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 			if (lower_th_x)
 				mask |= TSENS_LOWER_STATUS_CLR;
 			if (upper_th_x || lower_th_x) {
-				/* Notify user space */
+				/* Call thermal_zone_device_update() */
 				schedule_work(&tm->work);
 				adc_code = readl(TSENS_S0_STATUS_ADDR
 							+ (i << 2));
@@ -635,7 +653,7 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 			- (int)(TSENS_FACTOR * TSENS_SLOPE) * calib_data;
 	tmdev->prev_reading_avail = 0;
 
-	INIT_WORK(&tmdev->work, notify_uspace_tsens_fn);
+	INIT_WORK(&tmdev->work, update_tsens_fn);
 
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
