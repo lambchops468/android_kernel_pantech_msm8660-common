@@ -144,6 +144,19 @@ static int tsens_tz_degC_to_code(int degC)
 // interrupt if the temperature was already exceeding the trip point
 // temperatures, so manually kick-off any actions.
 static void tsens_tz_force_update(struct thermal_zone_device *tz) {
+	struct tsens_tm_device_sensor *tm_sensor = tz->devdata;
+	unsigned long flags;
+
+	if (!tm_sensor)
+		return;
+
+	spin_lock_irqsave(&tmdev->lock, flags);
+	if (tm_sensor->mode != THERMAL_DEVICE_ENABLED) {
+		spin_unlock_irqrestore(&tmdev->lock, flags);
+		return;
+	}
+	spin_unlock_irqrestore(&tmdev->lock, flags);
+
 	thermal_zone_device_update(tz);
 }
 
