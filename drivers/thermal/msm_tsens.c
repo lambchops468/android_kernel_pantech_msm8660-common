@@ -75,6 +75,10 @@ enum tsens_trip_type {
 #define TSENS_LOWER_STATUS_CLR (1 << 9)
 #define TSENS_UPPER_STATUS_CLR (1 << 10)
 #define TSENS_MAX_STATUS_MASK (1 << 11)
+#define TSENS_STATUS_MASK ~(TSENS_MIN_STATUS_MASK | \
+				TSENS_LOWER_STATUS_CLR | \
+				TSENS_UPPER_STATUS_CLR | \
+				TSENS_MAX_STATUS_MASK)
 #define TSENS_MEASURE_PERIOD 4 /* 1 sec. default as required by Willie */
 #define TSENS_SLP_CLK_ENA (1 << 24)
 #define TSENS_THRESHOLD_ADDR (MSM_CLK_CTL_BASE + 0x00003624)
@@ -108,6 +112,7 @@ struct tsens_tm_device {
 	bool prev_reading_avail;
 	bool suspended;
 	int offset;
+	uint32_t disabled_trips;
 	uint32_t pm_tsens_thr_data;
 };
 
@@ -403,6 +408,7 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 	}
 
 	if (mode == THERMAL_TRIP_ACTIVATION_DISABLED) {
+		tmdev->disabled_trips |= mask;
 		writel(reg_cntl | mask, TSENS_CNTL_ADDR);
 		spin_unlock_irqrestore(&tmdev->lock, flags);
 	} else {
@@ -410,6 +416,7 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 			spin_unlock_irqrestore(&tmdev->lock, flags);
 			return -EINVAL;
 		}
+		tmdev->disabled_trips &= ~mask;
 		writel(reg_cntl & ~mask, TSENS_CNTL_ADDR);
 		spin_unlock_irqrestore(&tmdev->lock, flags);
 
@@ -610,6 +617,9 @@ static irqreturn_t tsens_isr(int irq, void *data)
 	unsigned int reg = readl(TSENS_CNTL_ADDR);
 
 	spin_lock_irqsave(&tmdev->lock, flags);
+	// Disable lower & upper interrupt so that we won't loop back into
+	// this function when we return from this function and the kernel
+	// re-enables our interrupt.
 	writel(reg | TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR,
 			TSENS_CNTL_ADDR);
 	spin_unlock_irqrestore(&tmdev->lock, flags);
@@ -626,7 +636,8 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 
 	spin_lock_irqsave(&tmdev->lock, flags);
 
-	mask = ~(TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR);
+	mask = ~(TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR) |
+		tmdev->disabled_trips;
 	threshold = readl(TSENS_THRESHOLD_ADDR);
 	threshold_low = threshold & TSENS_THRESHOLD_LOWER_LIMIT_MASK;
 	threshold = (threshold & TSENS_THRESHOLD_UPPER_LIMIT_MASK) >> 8;
@@ -639,10 +650,16 @@ static irqreturn_t tsens_isr_thread(int irq, void *data)
 			code = readl(TSENS_S0_STATUS_ADDR + (i << 2));
 			upper_th_x = code >= threshold;
 			lower_th_x = code <= threshold_low;
-			if (upper_th_x)
+			if (upper_th_x) {
+				// Disable upper limit interrupt until lower
+				// interrupt occurs.
 				mask |= TSENS_UPPER_STATUS_CLR;
-			if (lower_th_x)
+			}
+			if (lower_th_x) {
+				// Disable lower limit interrupt until upper
+				// interrupt occurs.
 				mask |= TSENS_LOWER_STATUS_CLR;
+			}
 			if (upper_th_x || lower_th_x) {
 				/* Call thermal_zone_device_update() */
 				schedule_work(&tm->work);
@@ -691,8 +708,8 @@ static int tsens_resume(struct device *dev)
 	reg = readl_relaxed(TSENS_CNTL_ADDR);
 	writel_relaxed(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
-		TSENS_MIN_STATUS_MASK | TSENS_MAX_STATUS_MASK |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
+	reg = (reg & TSENS_STATUS_MASK) | tmdev->disabled_trips;
 
 	reg = (reg & ~TSENS_CONFIG_MASK) | (TSENS_CONFIG << TSENS_CONFIG_SHIFT);
 	writel_relaxed(reg, TSENS_CNTL_ADDR);
@@ -756,9 +773,11 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
-		TSENS_LOWER_STATUS_CLR | TSENS_UPPER_STATUS_CLR |
-		TSENS_MIN_STATUS_MASK | TSENS_MAX_STATUS_MASK |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
+	tmdev->disabled_trips = TSENS_LOWER_STATUS_CLR |
+		TSENS_UPPER_STATUS_CLR | TSENS_MIN_STATUS_MASK |
+		TSENS_MAX_STATUS_MASK;
+	reg |= tmdev->disabled_trips;
 
 	/* set TSENS_CONFIG bits (bits 29:28 of TSENS_CNTL) to '01';
 		this setting found to be optimal. */
