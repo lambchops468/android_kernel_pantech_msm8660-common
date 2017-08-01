@@ -326,20 +326,17 @@ static int tsens_tz_get_trip_type(struct thermal_zone_device *thermal,
 	return 0;
 }
 
-static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
-			int trip, enum thermal_trip_activation_mode mode)
+static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
+					int trip,
+					enum thermal_trip_activation_mode mode)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
-	unsigned long flags;
 	unsigned int reg_cntl, reg_th, code, hi_code, lo_code, mask;
 
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
 
-	spin_lock_irqsave(&tmdev->lock, flags);
-
 	if (tmdev->suspended) {
-		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -ENODEV;
 	}
 
@@ -403,27 +400,38 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 									>> 24;
 		break;
 	default:
-		spin_unlock_irqrestore(&tmdev->lock, flags);
 		return -EINVAL;
 	}
 
 	if (mode == THERMAL_TRIP_ACTIVATION_DISABLED) {
 		tmdev->disabled_trips |= mask;
 		writel(reg_cntl | mask, TSENS_CNTL_ADDR);
-		spin_unlock_irqrestore(&tmdev->lock, flags);
 	} else {
 		if (code < lo_code || code > hi_code) {
-			spin_unlock_irqrestore(&tmdev->lock, flags);
 			return -EINVAL;
 		}
 		tmdev->disabled_trips &= ~mask;
 		writel(reg_cntl & ~mask, TSENS_CNTL_ADDR);
-		spin_unlock_irqrestore(&tmdev->lock, flags);
 
-		tsens_tz_force_update(thermal);
 	}
 
 	return 0;
+}
+
+static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
+			int trip, enum thermal_trip_activation_mode mode)
+{
+	unsigned long flags;
+	int ret;
+
+	spin_lock_irqsave(&tmdev->lock, flags);
+	ret = __tsens_tz_activate_trip_type(thermal, trip, mode);
+	spin_unlock_irqrestore(&tmdev->lock, flags);
+
+	if (!ret)
+		tsens_tz_force_update(thermal);
+
+	return ret;
 }
 
 static int tsens_tz_get_trip_temp(struct thermal_zone_device *thermal,
@@ -474,11 +482,10 @@ static int tsens_tz_get_crit_temp(struct thermal_zone_device *thermal,
 	return tsens_tz_get_trip_temp(thermal, TSENS_TRIP_STAGE3, temp);
 }
 
-static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
+static int __tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 				   int trip, long temp)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
-	unsigned long flags;
 	unsigned int reg_th, reg_cntl;
 	int code, hi_code, lo_code, code_err_chk, ret = 0;
 
@@ -486,11 +493,8 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 	if (!tm_sensor || trip < 0)
 		return -EINVAL;
 
-	spin_lock_irqsave(&tmdev->lock, flags);
-
 	if (tmdev->suspended) {
-		ret = -ENODEV;
-		goto done;
+		return -ENODEV;
 	}
 
 	lo_code = 0;
@@ -552,19 +556,28 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 									>> 24;
 		break;
 	default:
-		ret = -EINVAL;
-		goto done;
+		return -EINVAL;
 	}
 
 	if (code_err_chk < lo_code || code_err_chk > hi_code) {
-		ret = -EINVAL;
-		goto done;
+		return -EINVAL;
 	}
 
 	writel(reg_th | code, TSENS_THRESHOLD_ADDR);
 
-done:
+	return 0;
+}
+
+static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
+				   int trip, long temp)
+{
+	unsigned long flags;
+	int ret;
+
+	spin_lock_irqsave(&tmdev->lock, flags);
+	ret = __tsens_tz_set_trip_temp(thermal, trip, temp);
 	spin_unlock_irqrestore(&tmdev->lock, flags);
+
 	if (!ret)
 		tsens_tz_force_update(thermal);
 
