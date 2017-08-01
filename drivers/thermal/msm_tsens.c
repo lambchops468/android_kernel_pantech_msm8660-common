@@ -326,30 +326,21 @@ static int tsens_tz_get_trip_type(struct thermal_zone_device *thermal,
 	return 0;
 }
 
-static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
-					int trip,
-					enum thermal_trip_activation_mode mode)
-{
-	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
-	unsigned int reg_cntl, reg_th, code, hi_code, lo_code, mask;
+// reg_cntl is the tsens control register (TSENS_CNTL_ADDR)
+// reg_th is the tsens threshold register (TSENS_THRESHOLD_ADDR)
+// trip is one of tsens_trip_type
+// code is the adc code given by tsens_tz_degC_to_code()
+//
+// Check if the given code will be valid when set as trip's threshold.
+// Checks the adjacent enabled thresholds to ensure that the new code is not
+// less than a colder trip and not more than a hotter trip.
+static int tsens_validate_adjacent_thresholds(unsigned int reg_cntl,
+						unsigned int reg_th,
+						int trip, unsigned int code) {
+	unsigned int hi_code, lo_code;
 
-	if (!tm_sensor || trip < 0)
-		return -EINVAL;
-
-	if (tmdev->suspended) {
-		return -ENODEV;
-	}
-
-	lo_code = 0;
-	hi_code = TSENS_THRESHOLD_MAX_CODE;
-
-	reg_cntl = readl(TSENS_CNTL_ADDR);
-	reg_th = readl(TSENS_THRESHOLD_ADDR);
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
-		code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK) >> 24;
-		mask = TSENS_MAX_STATUS_MASK;
-
 		if (!(reg_cntl & TSENS_UPPER_STATUS_CLR))
 			lo_code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK)
 									>> 8;
@@ -360,9 +351,6 @@ static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 									>> 16;
 		break;
 	case TSENS_TRIP_STAGE2:
-		code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK) >> 8;
-		mask = TSENS_UPPER_STATUS_CLR;
-
 		if (!(reg_cntl & TSENS_MAX_STATUS_MASK))
 			hi_code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK)
 									>> 24;
@@ -373,9 +361,6 @@ static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 									>> 16;
 		break;
 	case TSENS_TRIP_STAGE1:
-		code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK) >> 0;
-		mask = TSENS_LOWER_STATUS_CLR;
-
 		if (!(reg_cntl & TSENS_MIN_STATUS_MASK))
 			lo_code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK)
 									>> 16;
@@ -387,9 +372,6 @@ static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 									>> 24;
 		break;
 	case TSENS_TRIP_STAGE0:
-		code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK) >> 16;
-		mask = TSENS_MIN_STATUS_MASK;
-
 		if (!(reg_cntl & TSENS_LOWER_STATUS_CLR))
 			hi_code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK);
 		else if (!(reg_cntl & TSENS_UPPER_STATUS_CLR))
@@ -403,16 +385,63 @@ static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 		return -EINVAL;
 	}
 
+	if (code < lo_code || code > hi_code) {
+		return -EINVAL;
+	}
+
+	return 0;
+}
+
+static int __tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
+					int trip,
+					enum thermal_trip_activation_mode mode)
+{
+	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
+	unsigned int reg_cntl, reg_th, code, mask;
+	int ret;
+
+	if (!tm_sensor || trip < 0)
+		return -EINVAL;
+
+	if (tmdev->suspended) {
+		return -ENODEV;
+	}
+
+	reg_cntl = readl(TSENS_CNTL_ADDR);
+	reg_th = readl(TSENS_THRESHOLD_ADDR);
+	switch (trip) {
+	case TSENS_TRIP_STAGE3:
+		code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK) >> 24;
+		mask = TSENS_MAX_STATUS_MASK;
+		break;
+	case TSENS_TRIP_STAGE2:
+		code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK) >> 8;
+		mask = TSENS_UPPER_STATUS_CLR;
+		break;
+	case TSENS_TRIP_STAGE1:
+		code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK) >> 0;
+		mask = TSENS_LOWER_STATUS_CLR;
+		break;
+	case TSENS_TRIP_STAGE0:
+		code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK) >> 16;
+		mask = TSENS_MIN_STATUS_MASK;
+		break;
+	default:
+		return -EINVAL;
+	}
+
+
 	if (mode == THERMAL_TRIP_ACTIVATION_DISABLED) {
 		tmdev->disabled_trips |= mask;
 		writel(reg_cntl | mask, TSENS_CNTL_ADDR);
 	} else {
-		if (code < lo_code || code > hi_code) {
-			return -EINVAL;
-		}
+		ret = tsens_validate_adjacent_thresholds(reg_cntl, reg_th, trip,
+							 code);
+		if (ret)
+			return ret;
+
 		tmdev->disabled_trips &= ~mask;
 		writel(reg_cntl & ~mask, TSENS_CNTL_ADDR);
-
 	}
 
 	return 0;
@@ -486,8 +515,8 @@ static int __tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 				   int trip, long temp)
 {
 	struct tsens_tm_device_sensor *tm_sensor = thermal->devdata;
-	unsigned int reg_th, reg_cntl;
-	int code, hi_code, lo_code, code_err_chk, ret = 0;
+	unsigned int reg_th, reg_cntl, code, code_err_chk;
+	int ret;
 
 	code_err_chk = code = tsens_tz_degC_to_code(temp);
 	if (!tm_sensor || trip < 0)
@@ -497,70 +526,32 @@ static int __tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 		return -ENODEV;
 	}
 
-	lo_code = 0;
-	hi_code = TSENS_THRESHOLD_MAX_CODE;
-
 	reg_cntl = readl(TSENS_CNTL_ADDR);
 	reg_th = readl(TSENS_THRESHOLD_ADDR);
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
 		code <<= 24;
 		reg_th &= ~TSENS_THRESHOLD_MAX_LIMIT_MASK;
-
-		if (!(reg_cntl & TSENS_UPPER_STATUS_CLR))
-			lo_code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK)
-									>> 8;
-		else if (!(reg_cntl & TSENS_LOWER_STATUS_CLR))
-			lo_code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK);
-		else if (!(reg_cntl & TSENS_MIN_STATUS_MASK))
-			lo_code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK)
-									>> 16;
 		break;
 	case TSENS_TRIP_STAGE2:
 		code <<= 8;
 		reg_th &= ~TSENS_THRESHOLD_UPPER_LIMIT_MASK;
-
-		if (!(reg_cntl & TSENS_MAX_STATUS_MASK))
-			hi_code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK)
-									>> 24;
-		if (!(reg_cntl & TSENS_LOWER_STATUS_CLR))
-			lo_code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK);
-		else if (!(reg_cntl & TSENS_MIN_STATUS_MASK))
-			lo_code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK)
-									>> 16;
 		break;
 	case TSENS_TRIP_STAGE1:
 		reg_th &= ~TSENS_THRESHOLD_LOWER_LIMIT_MASK;
-
-		if (!(reg_cntl & TSENS_MIN_STATUS_MASK))
-			lo_code = (reg_th & TSENS_THRESHOLD_MIN_LIMIT_MASK)
-									>> 16;
-		if (!(reg_cntl & TSENS_UPPER_STATUS_CLR))
-			hi_code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK)
-									>> 8;
-		else if (!(reg_cntl & TSENS_MAX_STATUS_MASK))
-			hi_code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK)
-									>> 24;
 		break;
 	case TSENS_TRIP_STAGE0:
 		code <<= 16;
 		reg_th &= ~TSENS_THRESHOLD_MIN_LIMIT_MASK;
-
-		if (!(reg_cntl & TSENS_LOWER_STATUS_CLR))
-			hi_code = (reg_th & TSENS_THRESHOLD_LOWER_LIMIT_MASK);
-		else if (!(reg_cntl & TSENS_UPPER_STATUS_CLR))
-			hi_code = (reg_th & TSENS_THRESHOLD_UPPER_LIMIT_MASK)
-									>> 8;
-		else if (!(reg_cntl & TSENS_MAX_STATUS_MASK))
-			hi_code = (reg_th & TSENS_THRESHOLD_MAX_LIMIT_MASK)
-									>> 24;
 		break;
 	default:
 		return -EINVAL;
 	}
 
-	if (code_err_chk < lo_code || code_err_chk > hi_code) {
-		return -EINVAL;
+	ret = tsens_validate_adjacent_thresholds(reg_cntl, reg_th, trip,
+		code_err_chk);
+	if (ret) {
+		return ret;
 	}
 
 	writel(reg_th | code, TSENS_THRESHOLD_ADDR);
