@@ -30,9 +30,20 @@
 // p15060, MDM boot up fail fix
 #include <linux/gpio.h>
 
-/* Trips: from very hot to very cold */
-/* TODO(AZL): STAGE3 and STAGE0 don't work. No interrupt is generated, so
- * no event processing occurs for those trip points */
+/* Trips: from very hot to very cold
+ *
+ * When temperature > STAGE2, an interrupt is generated. Then, the high
+ * temperature interrupt is disabled and will not fire again until an interrupt
+ * has fired for temperature < STAGE1.
+ * When temperature < STAGE1 an interrupt is generated. Then, the high
+ * temperature interrupt is disabled and will not fire again until an interrupt
+ * has fired for temperature > STAGE2
+ * A temp read occurs regularly (configured by TSENS_MEASURE_PERIOD)
+ *
+ * STAGE3 trip action is an immediate shutdown via hardware. The kernel is not
+ * involved.
+ * STAGE0 trip action is untested, but is probably an immediate shutdown.
+ */
 enum tsens_trip_type {
 	TSENS_TRIP_STAGE3 = 0,
 	TSENS_TRIP_STAGE2,
