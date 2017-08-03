@@ -221,21 +221,31 @@ static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 		return -EINVAL;
 
 	spin_lock_irqsave(&tmdev->lock, flags);
-
-	if (tm_sensor->mode != THERMAL_DEVICE_ENABLED) {
-		spin_unlock_irqrestore(&tmdev->lock, flags);
-		return -EINVAL;
-	}
-	if (tmdev->suspended) {
-		spin_unlock_irqrestore(&tmdev->lock, flags);
-		return -ENODEV;
-	}
-
-	if (!tmdev->prev_reading_avail) {
-		while (!(readl(TSENS_INT_STATUS_ADDR) & TSENS_TRDY_MASK))
-			msleep(1);
-		tmdev->prev_reading_avail = 1;
-	}
+	do {
+		// Check to ensure that the state of the device hasn't changed
+		// while unlocked.
+		if (tm_sensor->mode != THERMAL_DEVICE_ENABLED) {
+			spin_unlock_irqrestore(&tmdev->lock, flags);
+			return -EINVAL;
+		}
+		if (tmdev->suspended) {
+			spin_unlock_irqrestore(&tmdev->lock, flags);
+			return -ENODEV;
+		}
+		
+		if (!tmdev->prev_reading_avail) {
+			if (readl(TSENS_INT_STATUS_ADDR) & TSENS_TRDY_MASK) {
+				tmdev->prev_reading_avail = 1;
+			} else {
+				// Unlock before yielding to another thread.
+				spin_unlock_irqrestore(&tmdev->lock, flags);
+				msleep(1);
+				spin_lock_irqsave(&tmdev->lock, flags);
+				// Go back to the top of the loop to perform
+				// checks.
+			}
+		}
+	} while (!tmdev->prev_reading_avail);
 
 	code = readl(TSENS_S0_STATUS_ADDR + (tm_sensor->sensor_num << 2));
 	spin_unlock_irqrestore(&tmdev->lock, flags);
