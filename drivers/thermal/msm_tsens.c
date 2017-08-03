@@ -20,6 +20,7 @@
 #include <linux/thermal.h>
 #include <linux/interrupt.h>
 #include <linux/delay.h>
+#include <linux/kernel.h>
 #include <linux/slab.h>
 #include <linux/spinlock.h>
 
@@ -117,6 +118,9 @@ struct tsens_tm_device {
 	spinlock_t lock;
 	bool prev_reading_avail;
 	bool suspended;
+	// Whether TSENS_TRIP_STAGE1 & TSENS_TRIP_STAGE2 are bound together to
+	// implement TSENS_TRIP_STAGE12 or if they are independent.
+	enum thermal_trip_activation_mode stage12_enabled;
 	int offset;
 	uint32_t disabled_trips;
 	uint32_t pm_tsens_thr_data;
@@ -529,32 +533,46 @@ static int tsens_tz_activate_trip_type(struct thermal_zone_device *thermal,
 	int ret;
 
 	spin_lock_irqsave(&tmdev->lock, flags);
-	if (trip != TSENS_TRIP_STAGE12) {
+	switch (trip) {
+	case TSENS_TRIP_STAGE2:
+	case TSENS_TRIP_STAGE1:
+		// Manipulating STAGE1 or STAGE2 directly disables the combined
+		// behavior for implementing STAGE12.
+		tmdev->stage12_enabled = THERMAL_TRIP_ACTIVATION_DISABLED;
+		// fall through
+	case TSENS_TRIP_STAGE3:
+	case TSENS_TRIP_STAGE0:
 		ret = __tsens_tz_activate_trip_type(thermal, trip, mode);
-	} else {
+		break;
+	case TSENS_TRIP_STAGE12:
 		ret = __tsens_tz_get_trip_mode(thermal, TSENS_TRIP_STAGE1,
 							&old_stage1_mode);
 		if (ret)
-			goto out;
+			break;
 
 		ret = __tsens_tz_activate_trip_type(thermal, TSENS_TRIP_STAGE1,
 							mode);
 		if (ret)
-			goto out;
+			break;
 		// Note that it is possible that sensor's interrupt might fire
 		// here.
 
 		ret = __tsens_tz_activate_trip_type(thermal,
 						TSENS_TRIP_STAGE2,
 						mode);
-		if (!ret)
-			goto out;
+		if (ret) {
+			// Undo TSENS_TRIP_STAGE1
+			__tsens_tz_activate_trip_type(thermal,
+				TSENS_TRIP_STAGE1, old_stage1_mode);
+			break;
+		}
 
-		// Undo TSENS_TRIP_STAGE1
-		__tsens_tz_activate_trip_type(thermal, TSENS_TRIP_STAGE1,
-						old_stage1_mode);
+		tmdev->stage12_enabled = mode;
+		break;
+	default:
+		ret = -EINVAL;
+		break;
 	}
-out:
 	spin_unlock_irqrestore(&tmdev->lock, flags);
 	if (!ret)
 		tsens_tz_force_update(thermal);
@@ -604,8 +622,22 @@ static int tsens_tz_get_trip_temp(struct thermal_zone_device *thermal,
 {
 	int ret;
 	unsigned long flags;
+
 	spin_lock_irqsave(&tmdev->lock, flags);
-	ret = __tsens_tz_get_trip_temp(thermal, trip, temp);
+
+	if (trip != TSENS_TRIP_STAGE12) {
+		ret = __tsens_tz_get_trip_temp(thermal, trip, temp);
+	} else {
+		ret = __tsens_tz_get_trip_temp(thermal, TSENS_TRIP_STAGE2,
+									temp);
+		// If stage12 is not enabled, disable passive cooling by
+		// returning an absurdly large trip temperature.
+		// We call __tsens_tz_get_trip_temp() first to validate
+		// arguments.
+		if (!ret && !tmdev->stage12_enabled)
+			*temp = LONG_MAX;
+	}
+
 	spin_unlock_irqrestore(&tmdev->lock, flags);
 	return ret;
 }
@@ -909,6 +941,8 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		TSENS_UPPER_STATUS_CLR | TSENS_MIN_STATUS_MASK |
 		TSENS_MAX_STATUS_MASK;
 	reg |= tmdev->disabled_trips;
+
+	tmdev->stage12_enabled = THERMAL_TRIP_ACTIVATION_DISABLED;
 
 	/* set TSENS_CONFIG bits (bits 29:28 of TSENS_CNTL) to '01';
 		this setting found to be optimal. */
