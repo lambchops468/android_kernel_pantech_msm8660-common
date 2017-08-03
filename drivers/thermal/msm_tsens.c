@@ -384,6 +384,9 @@ static int tsens_validate_adjacent_thresholds(unsigned int reg_th,
 						int trip, unsigned int code) {
 	unsigned int hi_code, lo_code;
 
+	hi_code = UINT_MAX;
+	lo_code = 0;
+
 	switch (trip) {
 	case TSENS_TRIP_STAGE3:
 		if (!(tmdev->disabled_trips & TSENS_UPPER_STATUS_CLR))
