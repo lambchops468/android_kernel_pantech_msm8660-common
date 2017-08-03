@@ -182,6 +182,30 @@ static void tsens_tz_force_update(struct thermal_zone_device *tz) {
 	thermal_zone_device_update(tz);
 }
 
+static int tsens_tz_bind(struct thermal_zone_device* tz,
+			struct thermal_cooling_device *cdev) {
+	if (!tz || !cdev) {
+		return -EINVAL;
+	}
+	// Only bind Processor cooling devices.
+	if (strncmp("Processor", cdev->type, sizeof("Processor"))) {
+		return 0;
+	}
+	return thermal_zone_bind_cooling_device(tz, TSENS_TRIP_STAGE12, cdev);
+}
+
+static int tsens_tz_unbind(struct thermal_zone_device* tz,
+			struct thermal_cooling_device *cdev) {
+	if (!tz || !cdev) {
+		return -EINVAL;
+	}
+	// Only bind Processor cooling devices.
+	if (strncmp("Processor", cdev->type, sizeof("Processor"))) {
+		return 0;
+	}
+	return thermal_zone_unbind_cooling_device(tz, TSENS_TRIP_STAGE12, cdev);
+}
+
 static int tsens_tz_get_temp(struct thermal_zone_device *thermal,
 			     unsigned long *temp)
 {
@@ -690,6 +714,8 @@ static int tsens_tz_notify(struct thermal_zone_device *tz, int trip,
 }
 
 static struct thermal_zone_device_ops tsens_thermal_zone_ops = {
+	.bind = tsens_tz_bind,
+	.unbind = tsens_tz_unbind,
 	.get_temp = tsens_tz_get_temp,
 	.get_mode = tsens_tz_get_mode,
 	.set_mode = tsens_tz_set_mode,
