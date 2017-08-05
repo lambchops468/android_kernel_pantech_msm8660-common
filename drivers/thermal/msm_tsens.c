@@ -878,6 +878,9 @@ static int tsens_resume(struct device *dev)
 
 	reg = readl_relaxed(TSENS_CNTL_ADDR);
 	writel_relaxed(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
+
+	writel_relaxed(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
+
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
 	reg = (reg & TSENS_STATUS_MASK) | tmdev->disabled_trips;
@@ -889,8 +892,6 @@ static int tsens_resume(struct device *dev)
 		writel_relaxed(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
 			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	}
-
-	writel_relaxed(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
 
 	tmdev->suspended = 0;
 	spin_unlock_irqrestore(&tmdev->lock, flags);
@@ -943,6 +944,12 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
+
+	// Set default trip threshold temperatures.
+	writel((TSENS_LOWER_LIMIT_TH << 0) | (TSENS_UPPER_LIMIT_TH << 8) |
+		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
+			TSENS_THRESHOLD_ADDR);
+
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
 	tmdev->disabled_trips = TSENS_LOWER_STATUS_CLR |
@@ -957,10 +964,6 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	reg = (reg & ~TSENS_CONFIG_MASK) | (TSENS_CONFIG << TSENS_CONFIG_SHIFT);
 
 	writel(reg, TSENS_CNTL_ADDR);
-
-	writel((TSENS_LOWER_LIMIT_TH << 0) | (TSENS_UPPER_LIMIT_TH << 8) |
-		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
-			TSENS_THRESHOLD_ADDR);
 
 	tmdev->suspended = 0;
 
