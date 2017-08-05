@@ -25,6 +25,7 @@
 #include <linux/completion.h>
 #include <linux/cpu.h>
 #include <linux/cpumask.h>
+#include <linux/msm_tsens_throttle.h>
 #include <linux/sched.h>
 #include <linux/suspend.h>
 #include <mach/socinfo.h>
@@ -69,14 +70,20 @@ static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq)
 	struct cpufreq_freqs freqs;
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, policy->cpu);
 
+	// If set_cpu_freq is called under normal conditions, these limits
+	// should already be applied by msm_cpufreq_verify().
 	if (new_freq > limit->allowed_max) {
+		pr_warn("%s: Target frequency %u max-limited to %u.\n",
+			__func__, new_freq,
+			limit->allowed_max);
 		new_freq = limit->allowed_max;
-		pr_debug("max: limiting freq to %d\n", new_freq);
 	}
 
 	if (new_freq < limit->allowed_min) {
+		pr_warn("%s: Target frequency %u min-limited to %u.\n",
+			__func__, new_freq,
+			limit->allowed_min);
 		new_freq = limit->allowed_min;
-		pr_debug("min: limiting freq to %d\n", new_freq);
 	}
 
 	freqs.old = policy->cur;
@@ -213,6 +220,7 @@ static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 {
 	struct cpufreq_frequency_table *freq_table =
 		cpufreq_frequency_get_table(policy->cpu);
+	struct cpu_freq *limit = &per_cpu(cpu_freq_info, policy->cpu);
 	int ret;
 
 	if (freq_table == NULL) {
@@ -220,8 +228,15 @@ static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 		return -ENODEV;
 	}
 
-	cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq,
-			policy->cpuinfo.max_freq);
+	if (limit->min == 0) {
+		// limit table is not initialized yet
+		cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq,
+						policy->cpuinfo.max_freq);
+	} else {
+		// Clamp policy->{min,max} to thermal throttle limits
+		cpufreq_verify_within_limits(policy, limit->allowed_min,
+				limit->allowed_max);
+	}
 
 	// Ensure there is at least one valid frequency that the hardware
 	// supports. policy->max may be bumped up.
