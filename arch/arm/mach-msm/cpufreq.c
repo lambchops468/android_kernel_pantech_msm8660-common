@@ -211,8 +211,24 @@ done:
 
 static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 {
+	struct cpufreq_frequency_table *freq_table =
+		cpufreq_frequency_get_table(policy->cpu);
+	int ret;
+
+	if (freq_table == NULL) {
+		pr_warn("%s: cpufreq driver not initialized yet.\n", __func__);
+		return -ENODEV;
+	}
+
 	cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq,
 			policy->cpuinfo.max_freq);
+
+	// Ensure there is at least one valid frequency that the hardware
+	// supports. policy->max may be bumped up.
+	ret = cpufreq_frequency_table_verify(policy, freq_table);
+	if (ret) {
+		return ret;
+	}
 	return 0;
 }
 
