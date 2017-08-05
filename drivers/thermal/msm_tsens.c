@@ -971,7 +971,9 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		tmdev->sensor[i].mode = THERMAL_DEVICE_ENABLED;
 		tmdev->sensor[i].tz_dev = thermal_zone_device_register(name,
 				TSENS_TRIP_NUM, &tmdev->sensor[i],
-				&tsens_thermal_zone_ops, 0, 0, 0, 0);
+				// Polling faster than 1000ms is not useful
+				// because hardware updates at 1 Hz.
+				&tsens_thermal_zone_ops, 1, 1, 1000, 0);
 		if (tmdev->sensor[i].tz_dev == NULL) {
 			pr_err("%s: thermal_zone_device_register() failed.\n",
 			__func__);

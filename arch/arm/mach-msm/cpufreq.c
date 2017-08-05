@@ -516,7 +516,15 @@ static int __init msm_cpufreq_register(void)
 #endif
 
 	register_pm_notifier(&msm_cpufreq_pm_notifier);
-	return cpufreq_register_driver(&msm_cpufreq_driver);
+	err = cpufreq_register_driver(&msm_cpufreq_driver);
+	if (err)
+		return err;
+
+	err = msm_tsens_throttle_init();
+	if (err)
+		pr_err("Failed to register msm_tsens_throttle driver\n");
+
+	return 0;
 }
 
 late_initcall(msm_cpufreq_register);
