@@ -59,7 +59,6 @@ struct cpu_freq {
 	uint32_t min;
 	uint32_t allowed_max;
 	uint32_t allowed_min;
-	uint32_t limits_init;
 };
 
 static DEFINE_PER_CPU(struct cpu_freq, cpu_freq_info);
@@ -70,16 +69,14 @@ static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq)
 	struct cpufreq_freqs freqs;
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, policy->cpu);
 
-	if (limit->limits_init) {
-		if (new_freq > limit->allowed_max) {
-			new_freq = limit->allowed_max;
-			pr_debug("max: limiting freq to %d\n", new_freq);
-		}
+	if (new_freq > limit->allowed_max) {
+		new_freq = limit->allowed_max;
+		pr_debug("max: limiting freq to %d\n", new_freq);
+	}
 
-		if (new_freq < limit->allowed_min) {
-			new_freq = limit->allowed_min;
-			pr_debug("min: limiting freq to %d\n", new_freq);
-		}
+	if (new_freq < limit->allowed_min) {
+		new_freq = limit->allowed_min;
+		pr_debug("min: limiting freq to %d\n", new_freq);
 	}
 
 	freqs.old = policy->cur;
@@ -231,6 +228,7 @@ static inline int msm_cpufreq_limits_init(void)
 	struct cpufreq_frequency_table *table = NULL;
 	uint32_t min = (uint32_t) -1;
 	uint32_t max = 0;
+	uint32_t freq;
 	struct cpu_freq *limit = NULL;
 
 	for_each_possible_cpu(cpu) {
@@ -239,19 +237,24 @@ static inline int msm_cpufreq_limits_init(void)
 		if (table == NULL) {
 			pr_err("%s: error reading cpufreq table for cpu %d\n",
 					__func__, cpu);
-			continue;
-		}
-		for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END); i++) {
-			if (table[i].frequency > max)
-				max = table[i].frequency;
-			if (table[i].frequency < min)
-				min = table[i].frequency;
+			min = 0;
+			max = ~0;
+		} else {
+			for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END);
+									i++) {
+				freq = table[i].frequency;
+				if (freq == CPUFREQ_ENTRY_INVALID)
+					continue;
+				if (freq > max)
+					max = freq;
+				if (freq < min)
+					min = freq;
+			}
 		}
 		limit->allowed_min = min;
 		limit->allowed_max = max;
 		limit->min = min;
 		limit->max = max;
-		limit->limits_init = 1;
 	}
 
 	return 0;
@@ -261,8 +264,11 @@ int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 {
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, cpu);
 
-	if (!limit->limits_init)
-		msm_cpufreq_limits_init();
+	if (limit->min == 0) {
+		pr_warn("%s: Attempted call before cpufreq driver is "
+			"initialized.\n", __func__);
+		return -ENODEV;
+	}
 
 	if ((min != MSM_CPUFREQ_NO_LIMIT) &&
 		min >= limit->min && min <= limit->max)
@@ -429,6 +435,10 @@ static int __init msm_cpufreq_register(void)
 			&attr_mfreq.attr);
 	if (err)
 		pr_err("Failed to create sysfs mfreq\n");
+
+	// Frequency table should already be setup by cpufreq_table_init()
+	// in acpuclock-presto.c.
+	msm_cpufreq_limits_init();
 
 	for_each_possible_cpu(cpu) {
 		mutex_init(&(per_cpu(cpufreq_suspend, cpu).suspend_mutex));
