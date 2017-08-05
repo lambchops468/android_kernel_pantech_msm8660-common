@@ -263,6 +263,8 @@ static inline int msm_cpufreq_limits_init(void)
 int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 {
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, cpu);
+	int i;
+	uint32_t new_max, new_min;
 
 	if (limit->min == 0) {
 		pr_warn("%s: Attempted call before cpufreq driver is "
@@ -270,21 +272,31 @@ int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 		return -ENODEV;
 	}
 
-	if ((min != MSM_CPUFREQ_NO_LIMIT) &&
-		min >= limit->min && min <= limit->max)
-		limit->allowed_min = min;
-	else
-		limit->allowed_min = limit->min;
+	if (min == MSM_CPUFREQ_NO_LIMIT) {
+		new_min = limit->min;
+	} else {
+		new_min = min;
+	}
 
+	if (max == MSM_CPUFREQ_NO_LIMIT) {
+		new_max = limit->max;
+	} else {
+		new_max = max;
+	}
 
-	if ((max != MSM_CPUFREQ_NO_LIMIT) &&
-		max <= limit->max && max >= limit->min)
-		limit->allowed_max = max;
-	else
-		limit->allowed_max = limit->max;
+	if (new_min >= limit->min && new_min <= limit->max &&
+			new_min <= new_max && new_max >= limit->min &&
+			new_max <= limit->max && new_max >= new_min) {
+		limit->allowed_min = new_min;
+		limit->allowed_max = new_max;
+	} else {
+		pr_warn("%s: Attempted to set invalid limits: New min: "
+			"%u, max: %u. Allowed min: %u, max: %u\n", __func__,
+			new_min, new_max, limit->min, limit->max);
+		return -EINVAL;
+	}
 
-	pr_debug("%s: Limiting cpu %d min = %d, max = %d\n",
-			__func__, cpu,
+	pr_debug("%s: Limiting cpu %d min = %d, max = %d\n", __func__, cpu,
 			limit->allowed_min, limit->allowed_max);
 
 	return 0;
