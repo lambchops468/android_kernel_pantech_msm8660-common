@@ -263,10 +263,13 @@ static inline int msm_cpufreq_limits_init(void)
 int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 {
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, cpu);
+        struct cpufreq_frequency_table *freq_table =
+		cpufreq_frequency_get_table(0);
 	int i;
 	uint32_t new_max, new_min;
+	bool exists_valid_frequency_in_range;
 
-	if (limit->min == 0) {
+	if (limit->min == 0 || freq_table == NULL) {
 		pr_warn("%s: Attempted call before cpufreq driver is "
 			"initialized.\n", __func__);
 		return -ENODEV;
@@ -282,6 +285,24 @@ int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 		new_max = limit->max;
 	} else {
 		new_max = max;
+	}
+
+	exists_valid_frequency_in_range = false;
+	for (i = 0; (freq_table[i].frequency != CPUFREQ_TABLE_END); i++) {
+		unsigned int freq = freq_table[i].frequency;
+		if (freq == CPUFREQ_ENTRY_INVALID)
+			continue;
+		if ((freq >= new_min) && (freq <= new_max)) {
+			exists_valid_frequency_in_range = true;
+			break;
+		}
+	}
+	if (!exists_valid_frequency_in_range) {
+		pr_warn("%s: Attempted to set invalid limits: New min: "
+			"%u, max: %u, but there are no valid cpu scaling "
+			"frequencies in the new limits.\n",
+			__func__, new_min, new_max);
+		return -EINVAL;
 	}
 
 	if (new_min >= limit->min && new_min <= limit->max &&
