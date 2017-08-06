@@ -954,26 +954,18 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
 			TSENS_THRESHOLD_ADDR);
 
-	// Temporarily enable sensors, but with all trip points disabled.
+	// Enable sensors.
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
-	tmdev->disabled_trips = TSENS_LOWER_STATUS_CLR |
-		TSENS_UPPER_STATUS_CLR | TSENS_MIN_STATUS_MASK |
-		TSENS_MAX_STATUS_MASK;
-	reg |= tmdev->disabled_trips;
-
-	tmdev->stage12_enabled = THERMAL_TRIP_ACTIVATION_DISABLED;
-
+	// Enable all trip points.
+	reg &= TSENS_STATUS_MASK;
+	tmdev->disabled_trips = 0;
+	tmdev->stage12_enabled = THERMAL_TRIP_ACTIVATION_ENABLED;
 	/* set TSENS_CONFIG bits (bits 29:28 of TSENS_CNTL) to '01';
 		this setting found to be optimal. */
 	reg = (reg & ~TSENS_CONFIG_MASK) | (TSENS_CONFIG << TSENS_CONFIG_SHIFT);
 
 	writel(reg, TSENS_CNTL_ADDR);
-
-	// Disable the sensors.
-	writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
-			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
-
 
 	tmdev->suspended = 0;
 
@@ -981,7 +973,7 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		char name[17];
 		sprintf(name, "tsens_tz_sensor%d", i);
 
-		tmdev->sensor[i].mode = THERMAL_DEVICE_DISABLED;
+		tmdev->sensor[i].mode = THERMAL_DEVICE_ENABLED;
 		tmdev->sensor[i].sensor_num = i;
 		tmdev->sensor[i].tz_dev = thermal_zone_device_register(name,
 				TSENS_TRIP_NUM, &tmdev->sensor[i],
