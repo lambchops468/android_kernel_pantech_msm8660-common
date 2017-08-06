@@ -91,14 +91,6 @@ static void update_cpu_max_freq(int cpu, uint32_t max_freq)
 					"frequency (%d)\n", cpu, ret);
 		return;
 	}
-
-	if (max_freq != MSM_CPUFREQ_NO_LIMIT)
-		pr_info("msm_tsens_throttle: Limiting cpu%d max frequency to "
-				"%u\n",
-				cpu, max_freq);
-	else
-		pr_info("msm_tsens_throttle: Max frequency reset for cpu%u\n",
-				cpu);
 }
 
 // Applies the current frequency limit to cpu.
@@ -147,6 +139,16 @@ static int tsens_throttle_set_cur_state(struct thermal_cooling_device *cdev,
 		max_freq = MSM_CPUFREQ_NO_LIMIT;
 	} else {
 		max_freq = avail_freqs[state];
+	}
+
+	if (max_freq != MSM_CPUFREQ_NO_LIMIT) {
+		pr_info("msm_tsens_throttle: %s CPU max freq to "
+				"%u\n", throttle_level < state
+					? "Throttling"
+					: "Unthrottling",
+				max_freq/1000);
+	} else {
+		pr_info("msm_tsens_throttle: CPU max frequency reset\n");
 	}
 
 	mutex_lock(&tsens_throttle_lock);
