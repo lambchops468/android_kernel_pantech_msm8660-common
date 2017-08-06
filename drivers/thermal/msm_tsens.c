@@ -864,14 +864,13 @@ static int tsens_suspend(struct device *dev)
 	spin_lock_irqsave(&tmdev->lock, flags);
 	tmdev->suspended = 1;
 
-	tmdev->pm_tsens_thr_data = readl_relaxed(TSENS_THRESHOLD_ADDR);
-	reg = readl_relaxed(TSENS_CNTL_ADDR);
-	writel_relaxed(reg & ~(TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
+	tmdev->pm_tsens_thr_data = readl(TSENS_THRESHOLD_ADDR);
+	reg = readl(TSENS_CNTL_ADDR);
+	writel(reg & ~(TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	tmdev->prev_reading_avail = 0;
 
 	spin_unlock_irqrestore(&tmdev->lock, flags);
 
-	mb();
 	return 0;
 }
 
@@ -882,20 +881,20 @@ static int tsens_resume(struct device *dev)
 
 	spin_lock_irqsave(&tmdev->lock, flags);
 
-	reg = readl_relaxed(TSENS_CNTL_ADDR);
-	writel_relaxed(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
+	reg = readl(TSENS_CNTL_ADDR);
+	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
 
-	writel_relaxed(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
+	writel(tmdev->pm_tsens_thr_data, TSENS_THRESHOLD_ADDR);
 
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
 	reg = (reg & TSENS_STATUS_MASK) | tmdev->disabled_trips;
 
 	reg = (reg & ~TSENS_CONFIG_MASK) | (TSENS_CONFIG << TSENS_CONFIG_SHIFT);
-	writel_relaxed(reg, TSENS_CNTL_ADDR);
+	writel(reg, TSENS_CNTL_ADDR);
 
 	if (tmdev->sensor->mode == THERMAL_DEVICE_DISABLED) {
-		writel_relaxed(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
+		writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
 			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	}
 
@@ -903,7 +902,6 @@ static int tsens_resume(struct device *dev)
 	spin_unlock_irqrestore(&tmdev->lock, flags);
 
 	enable_irq(TSENS_UPPER_LOWER_INT);
-	mb();
 	return 0;
 }
 
