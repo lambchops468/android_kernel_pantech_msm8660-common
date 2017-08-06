@@ -62,6 +62,7 @@
 
 // From arch/arm/mach-msm/acpuclock-presto.c
 #define MAX_AXI 310500
+#define MAX_FREQUENCY_TABLE_SIZE 15
 
 // When throttle_level == 0 , no throttling is occuring.
 // If throttle_level > 0, then the CPU's highest throttle_level frequencies are
@@ -180,10 +181,159 @@ static int long_rev_cmp(void *ap, void *bp) {
 	return b - a;
 }
 
-static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
+// If freq_table is too large, then make a new smaller table and point
+// freq_table at it. freq_table_size is updated with the size of the smaller
+// table. The old freq_table is freed.
+// If there is an error, nothing is freed.
+static int shrink_freq_table(uint32_t **freq_table, size_t *freq_table_size) {
+	int i, j, skip, skip_size, ret = 0;
+	size_t shrunk_freq_table_size;
+	uint32_t* shrunk_freq_table;
+
+	if (*freq_table_size <= MAX_FREQUENCY_TABLE_SIZE) {
+		return 0;
+	}
+
+	// Round up to ensure new frequency table is smaller than
+	// MAX_FREQUENCY_TABLE_SIZE.
+	skip_size = (*freq_table_size + MAX_FREQUENCY_TABLE_SIZE - 1)
+			/ MAX_FREQUENCY_TABLE_SIZE;
+	BUG_ON(skip_size < 1);
+
+	// Save room for the maximum frequency.
+	shrunk_freq_table_size++;
+
+	// Round up because we need to make room for the lowest frequency.
+	// (freq_table_size - 1) is the size of the freq table except for the
+	// maximum frequency, which was already accounted for.
+	shrunk_freq_table_size += ((*freq_table_size - 1) + skip_size - 1)
+		/ skip_size;
+
+	// Fill freqs
+	shrunk_freq_table = kcalloc(shrunk_freq_table_size, sizeof(uint32_t),
+								GFP_KERNEL);
+	if (!shrunk_freq_table) {
+		pr_err("%s: Could not allocate frequency table\n", __func__);
+		ret = -ENOMEM;
+		goto alloc_err;
+	}
+
+	j = 0;
+	skip = 0;
+	// Save the maximum frequency.
+	shrunk_freq_table[j++] = (*freq_table)[0];
+	// Save every skip-nd (i.e., 2nd) frequency.
+	for (i = 1; i < *freq_table_size; i++) {
+		if (++skip < skip_size) {
+			continue;
+		}
+		shrunk_freq_table[j++] = (*freq_table)[i];
+		BUG_ON(j > shrunk_freq_table_size);
+		skip = 0;
+	}
+
+	if (skip > 0) {
+		// lowest frequency was not copied in the loop above, so do it
+		// now.
+		shrunk_freq_table[j++] = (*freq_table)[*freq_table_size-1];
+		BUG_ON(j > shrunk_freq_table_size);
+	}
+
+	kfree(*freq_table);
+	*freq_table = shrunk_freq_table;
+	*freq_table_size = shrunk_freq_table_size;
+	return 0;
+
+alloc_err:
+	return ret;
+}
+
+static void print_freq_table(uint32_t* freqs, size_t freqs_size) {
+	// Room for a space, 5 digits of the frequency, and a '\0'
+	size_t freq_str_space = 7;
+	size_t buf_size = freqs_size*freq_str_space;
+	size_t step = 0;
+	char freqs_str[buf_size];
+	char* freqs_str_p = freqs_str;
+	int i;
+
+	for (i = 0; i < freqs_size; i++) {
+		step = snprintf(freqs_str_p, freq_str_space, " %d",
+								freqs[i]/1000);
+		freqs_str_p += step;
+	}
+
+	pr_info("msm_tsens_throttle: CPU Throttling Frequencies Mhz [%u]:%s\n",
+								freqs_size,
+								freqs_str);
+}
+
+static int setup_freq_table(struct cpufreq_frequency_table* freq_table) {
 	int i, j, ret = 0;
-	size_t freq_table_size;
 	uint32_t freq;
+	uint32_t *freqs;
+	size_t freqs_size;
+
+	// Count number of usable frequencies.
+	freqs_size = 0;
+	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
+		freq = freq_table[i].frequency;
+		// frequencies < MAX_AXI cause lots of problems, like random
+		// lock-ups and hotplug issues.
+		if (freq < MAX_AXI || freq == CPUFREQ_ENTRY_INVALID)
+			continue;
+		freqs_size++;
+	}
+
+	if (freqs_size == 0) {
+		pr_err("%s: Frequency table has no usable frequencies\n",
+			__func__);
+		ret = -ENODEV;
+		goto freq_table_err;
+	}
+
+	// Fill freqs
+	freqs = kcalloc(freqs_size, sizeof(uint32_t), GFP_KERNEL);
+	if (!freqs) {
+		pr_err("%s: Could not allocate frequency table\n", __func__);
+		ret = -ENOMEM;
+		goto alloc_err;
+	}
+
+	j = 0;
+	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
+		freq = freq_table[i].frequency;
+		if (freq >= MAX_AXI && freq != CPUFREQ_ENTRY_INVALID) {
+			freqs[j++] = freq_table[i].frequency;
+			BUG_ON(j > freqs_size);
+		}
+	}
+
+	// Sort freqs from highest to lowest.
+	sort(freqs, freqs_size, sizeof(uint32_t), long_rev_cmp,
+		NULL);
+
+	ret = shrink_freq_table(&freqs, &freqs_size);
+	if (ret) {
+		goto shrink_err;
+	}
+
+	print_freq_table(freqs, freqs_size);
+
+	avail_freqs = freqs;
+	max_throttle_level = freqs_size - 1;
+
+	return 0;
+
+shrink_err:
+	kfree(freqs);
+alloc_err:
+freq_table_err:
+	return ret;
+}
+
+static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
+	int ret = 0;
 	struct cpufreq_frequency_table *freq_table;
 
 	mutex_init(&tsens_throttle_lock);
@@ -206,41 +356,10 @@ static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
 		goto freq_table_err;
 	}
 
-	// TODO(AZL): Try skipping every other frequency (or even more skipping)
-	freq_table_size = 0;
-	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
-		freq = freq_table[i].frequency;
-		// frequencies < MAX_AXI cause lots of problems, like random
-		// lock-ups and hotplug issues.
-		if (freq >= MAX_AXI && freq != CPUFREQ_ENTRY_INVALID)
-			freq_table_size++;
+	ret = setup_freq_table(freq_table);
+	if (ret) {
+		goto freq_table_err;
 	}
-
-	if (freq_table_size == 0) {
-		pr_err("%s: Frequency table has no usable frequencies\n",
-			__func__);
-		ret = -ENODEV;
-		goto alloc_freq_err;
-	}
-
-	avail_freqs = kcalloc(freq_table_size, sizeof(uint32_t), GFP_KERNEL);
-	if (!avail_freqs) {
-		pr_err("%s: Could not allocate frequency table\n", __func__);
-		ret = -ENOMEM;
-		goto alloc_freq_err;
-	}
-
-	j = 0;
-	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
-		freq = freq_table[i].frequency;
-		if (freq >= MAX_AXI && freq != CPUFREQ_ENTRY_INVALID) {
-			avail_freqs[j++] = freq_table[i].frequency;
-			BUG_ON(j > freq_table_size);
-		}
-	}
-	sort(avail_freqs, freq_table_size, sizeof(uint32_t), long_rev_cmp,
-		NULL);
-	max_throttle_level = freq_table_size - 1;
 
 	tc_dev = thermal_cooling_device_register("Processor", NULL,
 		&tsens_throttle_ops);
@@ -256,8 +375,8 @@ static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
 	return 0;
 
 register_fail:
-	kfree(avail_freqs);
-alloc_freq_err:
+	if (avail_freqs)
+		kfree(avail_freqs);
 freq_table_err:
 	if (cpufreq_policy)
 		cpufreq_cpu_put(cpufreq_policy);
