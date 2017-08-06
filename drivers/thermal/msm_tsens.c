@@ -95,10 +95,10 @@ enum tsens_trip_type {
 #define TSENS_THRESHOLD_UPPER_LIMIT_MASK (TSENS_THRESHOLD_MAX_CODE << 8)
 #define TSENS_THRESHOLD_LOWER_LIMIT_MASK (TSENS_THRESHOLD_MAX_CODE << 0)
 /* Initial temperature threshold values */
-#define TSENS_LOWER_LIMIT_TH   0x50
-#define TSENS_UPPER_LIMIT_TH   0xdf
-#define TSENS_MIN_LIMIT_TH     0x38
-#define TSENS_MAX_LIMIT_TH     0xff
+#define TSENS_LOWER_LIMIT_TH   0x50  // -7 deg C
+#define TSENS_UPPER_LIMIT_TH   0xdf  // 94 deg C
+#define TSENS_MIN_LIMIT_TH     0x38  // -23 deg C
+#define TSENS_MAX_LIMIT_TH     0xff  // 116 deg C
 
 #define TSENS_S0_STATUS_ADDR (MSM_CLK_CTL_BASE + 0x00003628)
 #define TSENS_INT_STATUS_ADDR (MSM_CLK_CTL_BASE + 0x0000363c)
