@@ -15,7 +15,6 @@
  *
  */
 
-#include <linux/sched.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -32,6 +31,10 @@
 #include <linux/syscore_ops.h>
 
 #include <trace/events/power.h>
+
+#ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
+#include <linux/sched.h>
+#endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
 
 /**
  * The "cpufreq driver" - the arch- or hardware-dependent low
@@ -434,6 +437,11 @@ static ssize_t store_##file_name					\
 
 store_one(scaling_min_freq, min);
 
+#ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
+static bool user_set_max = false;
+static DEFINE_SPINLOCK(user_set_max_lock);
+#endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
+
 static ssize_t store_scaling_max_freq
 (struct cpufreq_policy *policy, const char *buf, size_t count)
 {
@@ -449,15 +457,21 @@ static ssize_t store_scaling_max_freq
 		return -EINVAL;
 
 #ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
-        struct task_struct *tsk = current;
-	if (tsk != NULL && !strcmp(tsk->comm, "thermald") &&
-				new_policy.max > CONFIG_MSM_CPU_FREQ_MAX) {
-		pr_err("Ignoring scaling_max_freq (> %u) request from "
-			"%i(thermald)\n",
-			CONFIG_MSM_CPU_FREQ_MAX,
-			tsk->pid);
-		return -EINVAL;
+	spin_lock(&user_set_max_lock);
+	if (!user_set_max && new_policy.max > CONFIG_MSM_CPU_FREQ_MAX) {
+        	struct task_struct *tsk = current;
+		if (tsk != NULL && !strcmp(tsk->comm, "thermald")) {
+			spin_unlock(&user_set_max_lock);
+			pr_err("Ignoring scaling_max_freq (> %u) request from "
+				"%i(thermald) until set by user.\n",
+				CONFIG_MSM_CPU_FREQ_MAX,
+				tsk->pid);
+			return -EINVAL;
+		} else {
+			user_set_max = true;
+		}
 	}
+	spin_unlock(&user_set_max_lock);
 #endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
 
 	ret = __cpufreq_set_policy(policy, &new_policy);
