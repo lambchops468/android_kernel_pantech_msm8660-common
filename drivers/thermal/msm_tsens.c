@@ -956,6 +956,7 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
 			TSENS_THRESHOLD_ADDR);
 
+	// Temporarily enable sensors, but with all trip points disabled.
 	reg |= TSENS_SLP_CLK_ENA | TSENS_EN | (TSENS_MEASURE_PERIOD << 16) |
 		(((1 << TSENS_NUM_SENSORS) - 1) << 3);
 	tmdev->disabled_trips = TSENS_LOWER_STATUS_CLR |
@@ -971,13 +972,19 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 
 	writel(reg, TSENS_CNTL_ADDR);
 
+	// Disable the sensors.
+	writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
+			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
+
+
 	tmdev->suspended = 0;
 
 	for (i = 0; i < TSENS_NUM_SENSORS; i++) {
 		char name[17];
 		sprintf(name, "tsens_tz_sensor%d", i);
 
-		tmdev->sensor[i].mode = THERMAL_DEVICE_ENABLED;
+		tmdev->sensor[i].mode = THERMAL_DEVICE_DISABLED;
+		tmdev->sensor[i].sensor_num = i;
 		tmdev->sensor[i].tz_dev = thermal_zone_device_register(name,
 				TSENS_TRIP_NUM, &tmdev->sensor[i],
 				// Polling faster than 1000ms is not useful
@@ -989,8 +996,6 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 			rc = -ENODEV;
 			goto register_err;
 		}
-		tmdev->sensor[i].sensor_num = i;
-		tmdev->sensor[i].mode = THERMAL_DEVICE_DISABLED;
 	}
 
 	rc = request_threaded_irq(TSENS_UPPER_LOWER_INT, tsens_isr,
@@ -1000,8 +1005,6 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		goto register_err;
 	}
 
-	writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
-			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	pr_notice("%s: OK\n", __func__);
 	return 0;
 
