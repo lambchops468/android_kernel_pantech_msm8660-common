@@ -986,8 +986,8 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		if (tmdev->sensor[i].tz_dev == NULL) {
 			pr_err("%s: thermal_zone_device_register() failed.\n",
 			__func__);
-			kfree(tmdev);
-			return -ENODEV;
+			rc = -ENODEV;
+			goto register_err;
 		}
 		tmdev->sensor[i].sensor_num = i;
 		tmdev->sensor[i].mode = THERMAL_DEVICE_DISABLED;
@@ -997,14 +997,25 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 		tsens_isr_thread, 0, "tsens", tmdev);
 	if (rc < 0) {
 		pr_err("%s: request_irq FAIL: %d\n", __func__, rc);
-		kfree(tmdev);
-		return rc;
+		goto register_err;
 	}
 
 	writel(reg & ~((((1 << TSENS_NUM_SENSORS) - 1) << 3)
 			| TSENS_SLP_CLK_ENA | TSENS_EN), TSENS_CNTL_ADDR);
 	pr_notice("%s: OK\n", __func__);
 	return 0;
+
+register_err:
+	for (i = 0; i < TSENS_NUM_SENSORS; i++) {
+		if (!tmdev->sensor[i].tz_dev) {
+			continue;
+		}
+		thermal_zone_device_unregister(tmdev->sensor[i].tz_dev);
+	}
+
+	kfree(tmdev);
+
+	return rc;
 }
 
 static int __devexit tsens_tm_remove(struct platform_device *pdev)
