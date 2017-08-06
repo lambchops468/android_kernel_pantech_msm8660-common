@@ -714,7 +714,7 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 				   int trip, long temp)
 {
 	unsigned long flags;
-	unsigned long old_temp;
+	unsigned long old_temp1, old_temp2;
 	int ret;
 
 	spin_lock_irqsave(&tmdev->lock, flags);
@@ -722,22 +722,54 @@ static int tsens_tz_set_trip_temp(struct thermal_zone_device *thermal,
 		ret = __tsens_tz_set_trip_temp(thermal, trip, temp);
 	} else {
 		ret = __tsens_tz_get_trip_temp(thermal, TSENS_TRIP_STAGE1,
-						&old_temp);
+						&old_temp1);
 		if (ret)
 			goto out;
 
-		ret = __tsens_tz_set_trip_temp(thermal, TSENS_TRIP_STAGE1,
-						temp-1);
+		ret = __tsens_tz_get_trip_temp(thermal, TSENS_TRIP_STAGE2,
+						&old_temp2);
 		if (ret)
 			goto out;
 
-		ret = __tsens_tz_set_trip_temp(thermal, TSENS_TRIP_STAGE2,
-						temp);
-		if (!ret)
-			goto out;
+		if (temp > old_temp2) {
+			// Change STAGE2 first so STAGE1 won't overlap with
+			// STAGE2.
+			ret = __tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE2,
+							temp);
+			if (ret)
+				goto out;
 
-		// Undo TSENS_TRIP_STAGE1
-		__tsens_tz_set_trip_temp(thermal, TSENS_TRIP_STAGE1, old_temp);
+			ret = __tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE1,
+							temp-1);
+			if (ret) {
+				// Undo TSENS_TRIP_STAGE2
+				__tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE2,
+							old_temp2);
+				goto out;
+			}
+		} else {
+			// Change STAGE1 first so STAGE2 won't overlap with
+			// STAGE1.
+			ret = __tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE1,
+							temp-1);
+			if (ret)
+				goto out;
+
+			ret = __tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE2,
+							temp);
+			if (ret) {
+				// Undo TSENS_TRIP_STAGE1
+				__tsens_tz_set_trip_temp(thermal,
+							TSENS_TRIP_STAGE1,
+							old_temp1);
+				goto out;
+			}
+		}
 	}
 out:
 	spin_unlock_irqrestore(&tmdev->lock, flags);
@@ -949,6 +981,7 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
 
+// TODO(AZL): enable sensor on bootup with correct thresholds.
 	// Set default trip threshold temperatures.
 	writel((TSENS_LOWER_LIMIT_TH << 0) | (TSENS_UPPER_LIMIT_TH << 8) |
 		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
