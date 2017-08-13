@@ -2017,21 +2017,6 @@ static int batt_read_adc(int channel, int *mv_reading)
 	struct completion  conv_complete_evt;
 
 	pr_debug("%s: called for %d\n", __func__, channel);
-//pz1946 20110904 battery remove issue
-//#ifdef CONFIG_SKY_CHARGING  //kobj 110513
-#if defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
-    if(channel == CHANNEL_ADC_BATT_ID){
-        struct pm8xxx_mpp_config_data sky_batt_analog_adc = {
-			.type	= PM8XXX_MPP_TYPE_A_INPUT,
-			.level	= PM8XXX_MPP_AIN_AMUX_CH8,
-			.control = PM8XXX_MPP_AOUT_CTRL_DISABLE,	
-		};	
-		ret = pm8xxx_mpp_config(PM8058_MPP_PM_TO_SYS(7), &sky_batt_analog_adc);
-        if (ret)
-            pr_err("%s: Config mpp8 on pmic 8058 failed\n", __func__);
-        msleep(1);
-    }
-#endif //CONFIG_SKY_CHARGING
 
 	ret = adc_channel_open(channel, &h);
 	if (ret) {
@@ -2062,23 +2047,6 @@ static int batt_read_adc(int channel, int *mv_reading)
 		*mv_reading = adc_chan_result.measurement;
 
 	pr_debug("%s: done for %d\n", __func__, channel);
-
-//pz1946 20110904 battery remove issue
-#if defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
-    if(channel == CHANNEL_ADC_BATT_ID){
-        struct pm8xxx_mpp_config_data sky_batt_digital_adc = {
-            .type	= PM8XXX_MPP_TYPE_D_INPUT,
-            .level	= PM8058_MPP_DIG_LEVEL_S3,
-            .control = PM8XXX_MPP_DIN_TO_INT,	
-        };
-
-        ret = pm8xxx_mpp_config(PM8058_MPP_PM_TO_SYS(7), &sky_batt_digital_adc);	
-    	if (ret < 0) {
-            pr_err("%s: couldnt mpp setting ret=%d\n",
-		                __func__, ret);
-        }
-    }
-#endif  //CONFIG_SKY_CHARGING
 
 	return adc_chan_result.physical;
 out:
