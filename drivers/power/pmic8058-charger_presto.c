@@ -2065,7 +2065,7 @@ static int batt_read_adc(int channel, int *mv_reading)
 
 //pz1946 20110904 battery remove issue
 #if defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
-    {
+    if(channel == CHANNEL_ADC_BATT_ID){
         struct pm8xxx_mpp_config_data sky_batt_digital_adc = {
             .type	= PM8XXX_MPP_TYPE_D_INPUT,
             .level	= PM8058_MPP_DIG_LEVEL_S3,
