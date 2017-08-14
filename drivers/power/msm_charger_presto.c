@@ -865,29 +865,35 @@ static int msm_start_charging(void)
 	struct msm_hardware_charger_priv *priv;
 
 #ifdef CONFIG_SKY_CHARGING  //kobj 110513
-			//-- is_charger_done = 0;
-			msm_charger_set_init_done(); //20120319 PZ1949 from KBJ
+	//-- is_charger_done = 0;
+	msm_charger_set_init_done(); //20120319 PZ1949 from KBJ
 #endif
 
 	priv = msm_chg.current_chg_priv;
 #ifndef CONFIG_SKY_CHARGING  	//20120319 PZ1949 from KBJ
 	wake_lock(&msm_chg.wl);
 #endif
+	if (!is_battery_temp_within_range()) {
+		ret = -EAGAIN;
+		goto err;
+	}
 	ret = priv->hw_chg->start_charging(priv->hw_chg, msm_chg.max_voltage,
 					 priv->max_source_current);
 	if (ret) {
-#ifndef CONFIG_SKY_CHARGING
-		wake_unlock(&msm_chg.wl);
-#endif
-		dev_err(msm_chg.dev, "%s couldnt start chg error = %d\n",
-			priv->hw_chg->name, ret);
-	} else
-	{
+		goto err;
+	}
 #ifdef __DEBUG_KOBJ__
-		dev_err(msm_chg.dev, "[msm_charger] msm_start_charging():%d hw_chg_state:CHG_CHARGING_STATE\n",ret);
+	dev_err(msm_chg.dev, "[msm_charger] msm_start_charging():%d hw_chg_state:CHG_CHARGING_STATE\n",ret);
 #endif
-		priv->hw_chg_state = CHG_CHARGING_STATE;
-	}//20120319 PZ1949 from KBJ
+	priv->hw_chg_state = CHG_CHARGING_STATE;
+	return ret;
+
+err:
+#ifndef CONFIG_SKY_CHARGING
+	wake_unlock(&msm_chg.wl);
+#endif
+	dev_err(msm_chg.dev, "%s couldnt start chg error = %d\n",
+		priv->hw_chg->name, ret);
 	return ret;
 }
 
