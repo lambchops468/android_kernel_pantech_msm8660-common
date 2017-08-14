@@ -299,7 +299,7 @@ static char *chargingFlagCHGType(unsigned int status)
 		case  CHG_TYPE_FACTORY : return "FACTORY";
 		case  CHG_TYPE_USB :  return "USB";
 		case  CHG_TYPE_AC :  return "AC";
-		default : return "Wrong type of charser ????";
+		default : return "Wrong type of charger ????";
     }
 }
 
@@ -1248,6 +1248,9 @@ static void handle_charger_ready(struct msm_hardware_charger_priv *hw_chg_priv)
 #ifdef __DEBUG_KOBJ__
 			dev_err(msm_chg.dev, "[-------->]handle_charger_ready CHG_CHARGING_STATE");
 #endif
+			// Needed when handle_event() handles a
+			// CHG_ENUMERATED_EVENT or CHG_INSERTED_EVENT after
+			// either a CHG_ENUMERATED_EVENT or CHG_INSERTED_EVENT.
 			msm_chg.current_chg_priv->hw_chg_state = CHG_CHARGING_STATE;
 		}
 	}
