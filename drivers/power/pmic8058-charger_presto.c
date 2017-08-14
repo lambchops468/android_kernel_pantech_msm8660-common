@@ -2099,13 +2099,6 @@ static int pm8058_get_battery_temperature(void)
 	return batt_read_adc(CHANNEL_ADC_BATT_THERM, NULL);
 }
 
-#ifdef CONFIG_SKY_CHARGING	// kobj 110823 change used temp
-#define BATT_THERM_OPERATIONAL_MAX_CELCIUS 55//45 //20120319 PZ1949 from KBJ  
-#define BATT_THERM_OPERATIONAL_MIN_CELCIUS 0
-#else
-#define BATT_THERM_OPERATIONAL_MAX_CELCIUS 40
-#define BATT_THERM_OPERATIONAL_MIN_CELCIUS 0
-#endif 
 static int pm8058_is_battery_temp_within_range(void)
 {
 // no battery temp

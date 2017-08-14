@@ -1048,7 +1048,7 @@ static void update_heartbeat(struct work_struct *work)
 	if (msm_chg.current_chg_priv
 		&& msm_chg.current_chg_priv->hw_chg_state
 			== CHG_CHARGING_STATE) {
-		if(temperature >= 55)
+		if(temperature >= BATT_THERM_OPERATIONAL_MAX_CELCIUS)
 		{
 			temp_cnt++;
 			if(temp_cnt>3)
@@ -1068,7 +1068,7 @@ static void update_heartbeat(struct work_struct *work)
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_AC pm8058_chg_get_current= %d mA, set_current_check = %d\n",
 									__func__, pm8058_chg_get_current(), set_current_check);
 #endif
-					if(temperature>=50&&temperature<=55)
+					if(temperature >= BATT_THERM_OPERATIONAL_HOT_THROTTLE && temperature <= BATT_THERM_OPERATIONAL_MAX_CELCIUS)
 					{
 						if(pm8058_chg_get_current() == 700)
 						{
@@ -1076,7 +1076,7 @@ static void update_heartbeat(struct work_struct *work)
 							set_current_check = 1;
 						}
 					}
-					else if(temperature<=49)
+					else if(temperature <= BATT_THERM_OPERATIONAL_HOT_UNTHROTTLE)
 					{
 						if(set_current_check)
 						{
@@ -1099,7 +1099,7 @@ static void update_heartbeat(struct work_struct *work)
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB pm8058_chg_get_current= %d mA\n",
 									__func__, pm8058_chg_get_current());
 #endif
-					if(!get_udc_state() && temperature <= 49)
+					if(!get_udc_state() && temperature <= BATT_THERM_OPERATIONAL_HOT_UNTHROTTLE)
 					{
 #ifdef __DEBUG_KOBJ__
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB get_udc_state= %d\n",
@@ -1121,7 +1121,7 @@ static void update_heartbeat(struct work_struct *work)
 #if 0
 //			if(temperature <= 41)
 #else
-			if(temperature <= 51)
+			if(temperature <= BATT_THERM_OPERATIONAL_HOT_RESTART)
 #endif
 			{
 				temp_cnt++;
