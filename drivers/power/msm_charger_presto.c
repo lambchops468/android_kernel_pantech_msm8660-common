@@ -608,11 +608,7 @@ static int msm_power_get_property(struct power_supply *psy,
 		break;
 #ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
 	case POWER_SUPPLY_PROP_TEMP:
-#if 0   //20120319 PZ1949 from KBJ  changed
-		val->intval = (get_battery_temperature()-0)*10;
-#else
-		val->intval = 0 ;
-#endif
+		val->intval = max_for_fuel_temp*10;
 		break;
 #endif
 	default:
@@ -675,6 +671,8 @@ static int msm_batt_power_get_property(struct power_supply *psy,
 		val->intval = 100;
 		break;
 #endif  //CONFIG_SKY_BATTERY_MAX17040
+	// TODO(AZL):  is this needed?
+	// case POWER_SUPPLY_PROP_TEMP:
 	default:
 		return -EINVAL;
 	}
