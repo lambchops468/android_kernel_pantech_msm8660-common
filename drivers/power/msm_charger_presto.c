@@ -550,9 +550,6 @@ static void update_batt_status(void)
 static enum power_supply_property msm_power_props[] = {
 	POWER_SUPPLY_PROP_PRESENT,
 	POWER_SUPPLY_PROP_ONLINE,
-#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
-	POWER_SUPPLY_PROP_TEMP,
-#endif
 };
 
 static char *msm_power_supplied_to[] = {
@@ -606,11 +603,6 @@ static int msm_power_get_property(struct power_supply *psy,
 #endif
 #endif  //CONFIG_SKY_CHARGING
 		break;
-#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
-	case POWER_SUPPLY_PROP_TEMP:
-		val->intval = max_for_fuel_temp*10;
-		break;
-#endif
 	default:
 		return -EINVAL;
 	}
@@ -629,6 +621,9 @@ static enum power_supply_property msm_batt_power_props[] = {
 	POWER_SUPPLY_PROP_VOLTAGE_NOW,
 	POWER_SUPPLY_PROP_CAPACITY,
 #endif	//CONFIG_SKY_BATTERY_MAX17040
+#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
+	POWER_SUPPLY_PROP_TEMP,
+#endif
 };
 
 static int msm_batt_power_get_property(struct power_supply *psy,
@@ -671,8 +666,11 @@ static int msm_batt_power_get_property(struct power_supply *psy,
 		val->intval = 100;
 		break;
 #endif  //CONFIG_SKY_BATTERY_MAX17040
-	// TODO(AZL):  is this needed?
-	// case POWER_SUPPLY_PROP_TEMP:
+#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
+	case POWER_SUPPLY_PROP_TEMP:
+		val->intval = max_for_fuel_temp*10;
+		break;
+#endif
 	default:
 		return -EINVAL;
 	}
