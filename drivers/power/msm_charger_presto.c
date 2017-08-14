@@ -995,6 +995,7 @@ static void update_heartbeat(struct work_struct *work)
 	static int set_current_check = 0; //20120319 PZ1949 from KBJ
 	static int temp_cnt = 0; //20120319 PZ1949 from KBJ
 #endif
+	mutex_lock(&msm_chg.status_lock);
 
 	if (msm_chg.batt_status == BATT_STATUS_ABSENT
 		|| msm_chg.batt_status == BATT_STATUS_ID_INVALID) {
@@ -1140,6 +1141,8 @@ static void update_heartbeat(struct work_struct *work)
 		}
 	}
 #endif
+	mutex_unlock(&msm_chg.status_lock);
+
 //] 20120319 PZ1949 from KBJ
 	/* notify that the voltage has changed
 	 * the read of the capacity will trigger a
