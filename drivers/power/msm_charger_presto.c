@@ -303,7 +303,7 @@ static char *chargingFlagCHGType(unsigned int status)
     }
 }
 
-static char *chargingFlagHwChgState(unsigned int status)
+static char *chargingFlagHwChgEvent(unsigned int status)
 {
     switch(status)
     {
@@ -319,6 +319,18 @@ static char *chargingFlagHwChgState(unsigned int status)
 		case CHG_BATT_REMOVED:  return "CHG_BATT_REMOVE";
 		case CHG_BATT_STATUS_CHANGE :  return "CHG_BATT_STATUS_CHANGE";
 		case CHG_BATT_NEEDS_RECHARGING :  return "CHG_BATT_NEEDS_RECHARGIN";
+		default : return "Wrong HW charging event ????";
+    }
+}
+
+static char *chargingFlagHwChgState(unsigned int status)
+{
+    switch(status)
+    {
+		case CHG_ABSENT_STATE : return "CHG_ABSENT_STATE";
+		case CHG_PRESENT_STATE :  return "CHG_PRESENT_STATE";
+		case CHG_READY_STATE :  return "CHG_READY_STATE";
+		case CHG_CHARGING_STATE :  return "CHG_CHARGING_STATE";
 		default : return "Wrong HW charging state ????";
     }
 }
