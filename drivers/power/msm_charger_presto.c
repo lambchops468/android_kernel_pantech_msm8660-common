@@ -1048,22 +1048,20 @@ static void update_heartbeat(struct work_struct *work)
 	if (msm_chg.current_chg_priv
 		&& msm_chg.current_chg_priv->hw_chg_state
 			== CHG_CHARGING_STATE) {
-#if 0
-//		if(temperature >= 48)
-//		{
-//			temp_cnt++;
-//			if(temp_cnt>3)
-//			{
-//				pm8058_set_out_range_temp();
-//				temp_cnt = 0;
-//			}
-//		}
-//		else
-//		{
-//			temp_cnt = 0;
-//		}
-//		/* TODO implement JEITA SPEC*/
-#else
+		if(temperature >= 55)
+		{
+			temp_cnt++;
+			if(temp_cnt>3)
+			{
+				pm8058_set_out_range_temp();
+				temp_cnt = 0;
+			}
+		}
+		else
+		{
+			temp_cnt = 0;
+		}
+		/* TODO implement JEITA SPEC*/
 				if(msm_chg.charger_type == CHG_TYPE_AC)			// ¹ß¿­·Î ÀÎÇÑ Ã³¸®
 				{
 #ifdef __DEBUG_KOBJ__
@@ -1101,7 +1099,7 @@ static void update_heartbeat(struct work_struct *work)
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB pm8058_chg_get_current= %d mA\n",
 									__func__, pm8058_chg_get_current());
 #endif
-					if(!get_udc_state())
+					if(!get_udc_state() && temperature <= 49)
 					{
 #ifdef __DEBUG_KOBJ__
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB get_udc_state= %d\n",
@@ -1115,7 +1113,6 @@ static void update_heartbeat(struct work_struct *work)
 									__func__, pm8058_chg_get_current());
 #endif
 				}
-#endif
 	}
 	else
 	{
