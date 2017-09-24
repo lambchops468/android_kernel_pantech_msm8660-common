@@ -50,9 +50,11 @@
  */
 #include <linux/cpufreq.h>
 #include <linux/cpumask.h>
+#include <linux/earlysuspend.h>
 #include <linux/err.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
+#include <linux/moduleparam.h>
 #include <linux/mutex.h>
 #include <linux/platform_device.h>
 #include <linux/slab.h>
@@ -64,21 +66,51 @@
 #define MAX_AXI 310500
 #define MAX_FREQUENCY_TABLE_SIZE 15
 
+// The current throttle level applied to hardware.
 // When throttle_level == 0 , no throttling is occuring.
 // If throttle_level > 0, then the CPU's highest throttle_level frequencies are
 // disabled. throttle_level indexes into avail_freqs.
-static long throttle_level = 0;
+static unsigned long throttle_level = 0;
+// Throttle level requested by thermal kernel subsystem. This includes the sysfs
+// interface and any thermal zones that need to throttle the CPU, like the the
+// one implemented by the msm_tsens driver.
+static unsigned long requested_throttle_level = 0;
+// Throttle level used when the screen is off. Can be set by kernel parameter,
+// but defaults 1/3 of the available throttling range.
+static unsigned long screen_off_throttle_level = 0;
+// Whether the screen is currently off.
+static bool screen_is_off = false;
+
 static struct thermal_cooling_device* tc_dev;
 // Used to hold a reference to the cpufreq driver so it can't be unloaded.
 static struct cpufreq_policy *cpufreq_policy;
 // Array of available CPU frequencies, sorted highest (fast) to lowest (slow).
 static uint32_t *avail_freqs;
-static size_t max_throttle_level;
-static struct mutex tsens_throttle_lock;
+static size_t max_throttle_level = 0;
+static DEFINE_MUTEX(tsens_throttle_lock);
+
+static int screen_off_throttle_level_set(const char *val,
+						struct kernel_param *kp);
+static struct kernel_param_ops screen_off_param_ops = {
+	.set = screen_off_throttle_level_set,
+	.get = param_get_long,
+};
+module_param_cb(screen_off_throttle_level, &screen_off_param_ops,
+		&screen_off_throttle_level, S_IRUGO | S_IWUSR);
+MODULE_PARM_DESC(screen_off_throttle_level, "The throttle level to set when "
+						"the screen turns off.");
+
+static void msm_throttle_early_suspend(struct early_suspend *h);
+static void msm_throttle_late_resume(struct early_suspend *h);
+struct early_suspend msm_throttle_early_suspend_ops = {
+	.level = EARLY_SUSPEND_LEVEL_BLANK_SCREEN,
+	.suspend = msm_throttle_early_suspend,
+	.resume = msm_throttle_late_resume,
+};
+
 
 // Sets the frequency limit at max_freq for cpu.
-static void update_cpu_max_freq(int cpu, uint32_t max_freq)
-{
+static void update_cpu_max_freq(int cpu, uint32_t max_freq) {
 	int ret = 0;
 
 	ret = msm_cpufreq_set_freq_limits(cpu, MSM_CPUFREQ_NO_LIMIT, max_freq);
@@ -90,7 +122,6 @@ static void update_cpu_max_freq(int cpu, uint32_t max_freq)
 		else
 			pr_warn("msm_tsens_throttle: Failed to reset cpu%d max "
 					"frequency (%d)\n", cpu, ret);
-		return;
 	}
 }
 
@@ -122,18 +153,36 @@ static int tsens_throttle_get_cur_state(struct thermal_cooling_device *cdev,
 		return -EINVAL;
 	}
 	mutex_lock(&tsens_throttle_lock);
-	*state = throttle_level;
+	*state = requested_throttle_level;
 	mutex_unlock(&tsens_throttle_lock);
 	return 0;
 }
 
-static int tsens_throttle_set_cur_state(struct thermal_cooling_device *cdev,
-				unsigned long state) {
-	int ret, cpu;
+static void __tsens_throttle_set_cur_state() {
+	int cpu;
 	uint32_t max_freq;
+	unsigned long state;
 
-	if (!cdev || state > max_throttle_level) {
-		return -EINVAL;
+	if (!screen_is_off) {
+		state = requested_throttle_level;
+	} else if (requested_throttle_level > screen_off_throttle_level) {
+		state = requested_throttle_level;
+	} else {
+		state = screen_off_throttle_level;
+	}
+
+	if (max_throttle_level == 0) {
+		return 0;
+	}
+
+	if (state > max_throttle_level) {
+		pr_err("msm_tsens_throttle: Clamped internal throttle level to "
+			"maximum supported level.\n");
+		state = max_throttle_level;
+	}
+
+	if (throttle_level == state) {
+		return 0;
 	}
 
 	if (state == 0) {
@@ -152,7 +201,6 @@ static int tsens_throttle_set_cur_state(struct thermal_cooling_device *cdev,
 		pr_info("msm_tsens_throttle: CPU max frequency reset\n");
 	}
 
-	mutex_lock(&tsens_throttle_lock);
 
 	for_each_possible_cpu(cpu) {
 		update_cpu_max_freq(cpu, max_freq);
@@ -163,9 +211,75 @@ static int tsens_throttle_set_cur_state(struct thermal_cooling_device *cdev,
 	}
 
 	throttle_level = state;
+}
+
+static int tsens_throttle_set_cur_state(struct thermal_cooling_device *cdev,
+				unsigned long state) {
+	if (!cdev || state > max_throttle_level) {
+		return -EINVAL;
+	}
+
+	mutex_lock(&tsens_throttle_lock);
+	requested_throttle_level = state;
+	__tsens_throttle_set_cur_state();
+	mutex_unlock(&tsens_throttle_lock);
+
+	return 0;
+}
+
+static void msm_throttle_early_suspend(struct early_suspend *h) {
+	mutex_lock(&tsens_throttle_lock);
+
+	screen_is_off = true;
+	__tsens_throttle_set_cur_state();
 
 	mutex_unlock(&tsens_throttle_lock);
-	return 0;
+}
+
+static void msm_throttle_late_resume(struct early_suspend *h) {
+	mutex_lock(&tsens_throttle_lock);
+
+	screen_is_off = false;
+	__tsens_throttle_set_cur_state();
+
+	mutex_unlock(&tsens_throttle_lock);
+}
+
+static void print_screen_off_throttle_speed() {
+	pr_info("msm_tsens_throttle: CPU Screen-Off Speed: %u MHz\n",
+		avail_freqs[screen_off_throttle_level]/1000);
+}
+
+static int screen_off_throttle_level_set(const char *val,
+						struct kernel_param *kp)
+{
+	int rc = 0;
+
+	mutex_lock(&tsens_throttle_lock);
+
+	rc = param_set_long(val, kp);
+	if (rc) {
+		goto out;
+	}
+
+	// If kernel param is set on boot, max_throttle_level might not be
+	// initialized yet, so finish here.
+	if (max_throttle_level == 0) {
+		goto out;
+	}
+
+	if (screen_off_throttle_level > max_throttle_level) {
+		rc = -EINVAL;
+		goto out;
+	}
+
+	print_screen_off_throttle_speed();
+
+	__tsens_throttle_set_cur_state();
+
+out:
+	mutex_unlock(&tsens_throttle_lock);
+	return rc;
 }
 
 static struct thermal_cooling_device_ops tsens_throttle_ops = {
@@ -323,6 +437,16 @@ static int setup_freq_table(struct cpufreq_frequency_table* freq_table) {
 	avail_freqs = freqs;
 	max_throttle_level = freqs_size - 1;
 
+	if (screen_off_throttle_level == 0) {
+		screen_off_throttle_level = freqs_size < 2 ? 0 :
+                                            freqs_size/2;
+	} else if (screen_off_throttle_level > max_throttle_level) {
+		pr_info("msm_tsens_throttle: Clamped screen_off_throttle_level "
+			"to maximum supported level.\n");
+		screen_off_throttle_level = max_throttle_level;
+	}
+	print_screen_off_throttle_speed();
+
 	return 0;
 
 shrink_err:
@@ -335,8 +459,6 @@ freq_table_err:
 static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
 	int ret = 0;
 	struct cpufreq_frequency_table *freq_table;
-
-	mutex_init(&tsens_throttle_lock);
 
 	/* cpufreq_cpu_get() should only be done on CPU0 (the boot cpu). For
 	 * other CPUs, the policy is destroyed/created on cpu hotplug (which
@@ -370,6 +492,8 @@ static int __devinit tsens_throttle_probe(struct platform_device *pdev) {
 		goto register_fail;
 	}
 
+	register_early_suspend(&msm_throttle_early_suspend_ops);
+
 	pr_notice("%s: OK\n", __func__);
 
 	return 0;
@@ -385,6 +509,8 @@ freq_table_err:
 }
 
 static int __devexit tsens_throttle_remove(struct platform_device *pdev) {
+	unregister_early_suspend(&msm_throttle_early_suspend_ops);
+
 	thermal_cooling_device_unregister(tc_dev);
 
 	if (avail_freqs)
@@ -392,8 +518,6 @@ static int __devexit tsens_throttle_remove(struct platform_device *pdev) {
 
 	if (cpufreq_policy)
 		cpufreq_cpu_put(cpufreq_policy);
-
-	mutex_destroy(&tsens_throttle_lock);
 
 	return 0;
 }
