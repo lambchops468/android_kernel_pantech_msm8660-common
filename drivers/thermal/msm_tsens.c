@@ -101,8 +101,8 @@ enum tsens_trip_type {
  *  TSENS_MIN_LIMIT_TH     0x38  // -23 deg C
  *  TSENS_MAX_LIMIT_TH     0xff  // 116 deg C
  */
-#define TSENS_LOWER_LIMIT_TH   0xad  // 59 deg C - cpu unthrottle temp
-#define TSENS_UPPER_LIMIT_TH   0xaf  // 60 deg C - cpu throttle temp
+#define TSENS_LOWER_LIMIT_TH   0xa2  // 51 deg C - cpu unthrottle temp
+#define TSENS_UPPER_LIMIT_TH   0xa3  // 52 deg C - cpu throttle temp
 #define TSENS_MIN_LIMIT_TH     0x38  //-23 deg C - cold emergency shutdown temp
 #define TSENS_MAX_LIMIT_TH     0xc4  // 75 deg C - hot emergency shutdown temp
 
