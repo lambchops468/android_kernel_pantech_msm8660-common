@@ -981,7 +981,6 @@ static int __devinit tsens_tm_probe(struct platform_device *pdev)
 	reg = readl(TSENS_CNTL_ADDR);
 	writel(reg | TSENS_SW_RST, TSENS_CNTL_ADDR);
 
-// TODO(AZL): enable sensor on bootup with correct thresholds.
 	// Set default trip threshold temperatures.
 	writel((TSENS_LOWER_LIMIT_TH << 0) | (TSENS_UPPER_LIMIT_TH << 8) |
 		(TSENS_MIN_LIMIT_TH << 16) | (TSENS_MAX_LIMIT_TH << 24),
