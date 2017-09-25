@@ -234,6 +234,9 @@ static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 						policy->cpuinfo.max_freq);
 	} else {
 		// Clamp policy->{min,max} to thermal throttle limits
+		// We apply the thermal throttle limits here before the cpufreq
+		// governor runs instead of after the cpufreq governor because
+		// we want the governor to have accurate state.
 		cpufreq_verify_within_limits(policy, limit->allowed_min,
 				limit->allowed_max);
 	}
