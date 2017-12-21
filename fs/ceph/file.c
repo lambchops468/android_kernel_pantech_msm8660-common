@@ -379,11 +379,12 @@ static ssize_t ceph_sync_read(struct file *file, char __user *data,
 	struct page **pages;
 	u64 off = *poff;
 	int num_pages, ret;
+	bool o_direct = ACCESS_ONCE(file->f_flags) & O_DIRECT;
 
 	dout("sync_read on file %p %llu~%u %s\n", file, off, len,
-	     (file->f_flags & O_DIRECT) ? "O_DIRECT" : "");
+	     o_direct ? "O_DIRECT" : "");
 
-	if (file->f_flags & O_DIRECT) {
+	if (o_direct) {
 		num_pages = calc_pages_for((unsigned long)data, len);
 		pages = ceph_get_direct_page_vector(data, num_pages, true);
 	} else {
@@ -404,16 +405,16 @@ static ssize_t ceph_sync_read(struct file *file, char __user *data,
 		goto done;
 
 	ret = striped_read(inode, off, len, pages, num_pages, checkeof,
-			   file->f_flags & O_DIRECT,
+			   o_direct,
 			   (unsigned long)data & ~PAGE_MASK);
 
-	if (ret >= 0 && (file->f_flags & O_DIRECT) == 0)
+	if (ret >= 0 && !o_direct)
 		ret = ceph_copy_page_vector_to_user(pages, data, off, ret);
 	if (ret >= 0)
 		*poff = off + ret;
 
 done:
-	if (file->f_flags & O_DIRECT)
+	if (o_direct)
 		ceph_put_page_vector(pages, num_pages, true);
 	else
 		ceph_release_page_vector(pages, num_pages);
@@ -464,12 +465,13 @@ static ssize_t ceph_sync_write(struct file *file, const char __user *data,
 	unsigned long buf_align;
 	int ret;
 	struct timespec mtime = CURRENT_TIME;
+	bool o_direct = ACCESS_ONCE(file->f_flags) & O_DIRECT;
 
 	if (ceph_snap(file->f_dentry->d_inode) != CEPH_NOSNAP)
 		return -EROFS;
 
 	dout("sync_write on file %p %lld~%u %s\n", file, *offset,
-	     (unsigned)left, (file->f_flags & O_DIRECT) ? "O_DIRECT" : "");
+	     (unsigned)left, o_direct ? "O_DIRECT" : "");
 
 	if (file->f_flags & O_APPEND)
 		pos = i_size_read(inode);
@@ -489,7 +491,7 @@ static ssize_t ceph_sync_write(struct file *file, const char __user *data,
 	flags = CEPH_OSD_FLAG_ORDERSNAP |
 		CEPH_OSD_FLAG_ONDISK |
 		CEPH_OSD_FLAG_WRITE;
-	if ((file->f_flags & (O_SYNC|O_DIRECT)) == 0)
+	if ((file->f_flags & O_SYNC) == 0 && !o_direct)
 		flags |= CEPH_OSD_FLAG_ACK;
 	else
 		do_sync = 1;
@@ -502,7 +504,7 @@ more:
 	io_align = pos & ~PAGE_MASK;
 	buf_align = (unsigned long)data & ~PAGE_MASK;
 	len = left;
-	if (file->f_flags & O_DIRECT) {
+	if (o_direct) {
 		/* write from beginning of first page, regardless of
 		   io alignment */
 		page_align = (pos - io_align + buf_align) & ~PAGE_MASK;
@@ -521,7 +523,7 @@ more:
 	if (!req)
 		return -ENOMEM;
 
-	if (file->f_flags & O_DIRECT) {
+	if (o_direct) {
 		pages = ceph_get_direct_page_vector(data, num_pages, false);
 		if (IS_ERR(pages)) {
 			ret = PTR_ERR(pages);
@@ -579,7 +581,7 @@ more:
 		}
 	}
 
-	if (file->f_flags & O_DIRECT)
+	if (o_direct)
 		ceph_put_page_vector(pages, num_pages, false);
 	else if (file->f_flags & O_SYNC)
 		ceph_release_page_vector(pages, num_pages);
@@ -642,7 +644,7 @@ again:
 	     ceph_cap_string(got));
 
 	if ((got & (CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO)) == 0 ||
-	    (iocb->ki_filp->f_flags & O_DIRECT) ||
+	    kiocb_is_direct(iocb) ||
 	    (inode->i_sb->s_flags & MS_SYNCHRONOUS))
 		/* hmm, this isn't really async... */
 		ret = ceph_sync_read(filp, base, len, ppos, &checkeof);
@@ -719,7 +721,7 @@ retry_snap:
 	     ceph_cap_string(got));
 
 	if ((got & (CEPH_CAP_FILE_BUFFER|CEPH_CAP_FILE_LAZYIO)) == 0 ||
-	    (iocb->ki_filp->f_flags & O_DIRECT) ||
+	    kiocb_is_direct(iocb) ||
 	    (inode->i_sb->s_flags & MS_SYNCHRONOUS)) {
 		ret = ceph_sync_write(file, iov->iov_base, iov->iov_len,
 			&iocb->ki_pos);

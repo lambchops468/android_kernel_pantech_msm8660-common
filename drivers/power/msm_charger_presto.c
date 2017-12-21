@@ -299,11 +299,11 @@ static char *chargingFlagCHGType(unsigned int status)
 		case  CHG_TYPE_FACTORY : return "FACTORY";
 		case  CHG_TYPE_USB :  return "USB";
 		case  CHG_TYPE_AC :  return "AC";
-		default : return "Wrong type of charser ????";
+		default : return "Wrong type of charger ????";
     }
 }
 
-static char *chargingFlagHwChgState(unsigned int status)
+static char *chargingFlagHwChgEvent(unsigned int status)
 {
     switch(status)
     {
@@ -319,6 +319,18 @@ static char *chargingFlagHwChgState(unsigned int status)
 		case CHG_BATT_REMOVED:  return "CHG_BATT_REMOVE";
 		case CHG_BATT_STATUS_CHANGE :  return "CHG_BATT_STATUS_CHANGE";
 		case CHG_BATT_NEEDS_RECHARGING :  return "CHG_BATT_NEEDS_RECHARGIN";
+		default : return "Wrong HW charging event ????";
+    }
+}
+
+static char *chargingFlagHwChgState(unsigned int status)
+{
+    switch(status)
+    {
+		case CHG_ABSENT_STATE : return "CHG_ABSENT_STATE";
+		case CHG_PRESENT_STATE :  return "CHG_PRESENT_STATE";
+		case CHG_READY_STATE :  return "CHG_READY_STATE";
+		case CHG_CHARGING_STATE :  return "CHG_CHARGING_STATE";
 		default : return "Wrong HW charging state ????";
     }
 }
@@ -550,9 +562,6 @@ static void update_batt_status(void)
 static enum power_supply_property msm_power_props[] = {
 	POWER_SUPPLY_PROP_PRESENT,
 	POWER_SUPPLY_PROP_ONLINE,
-#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
-	POWER_SUPPLY_PROP_TEMP,
-#endif
 };
 
 static char *msm_power_supplied_to[] = {
@@ -606,15 +615,6 @@ static int msm_power_get_property(struct power_supply *psy,
 #endif
 #endif  //CONFIG_SKY_CHARGING
 		break;
-#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
-	case POWER_SUPPLY_PROP_TEMP:
-#if 0   //20120319 PZ1949 from KBJ  changed
-		val->intval = (get_battery_temperature()-0)*10;
-#else
-		val->intval = 0 ;
-#endif
-		break;
-#endif
 	default:
 		return -EINVAL;
 	}
@@ -633,6 +633,9 @@ static enum power_supply_property msm_batt_power_props[] = {
 	POWER_SUPPLY_PROP_VOLTAGE_NOW,
 	POWER_SUPPLY_PROP_CAPACITY,
 #endif	//CONFIG_SKY_BATTERY_MAX17040
+#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
+	POWER_SUPPLY_PROP_TEMP,
+#endif
 };
 
 static int msm_batt_power_get_property(struct power_supply *psy,
@@ -675,6 +678,11 @@ static int msm_batt_power_get_property(struct power_supply *psy,
 		val->intval = 100;
 		break;
 #endif  //CONFIG_SKY_BATTERY_MAX17040
+#ifdef CONFIG_SKY_CHARGING  //p14682 kobj 110816
+	case POWER_SUPPLY_PROP_TEMP:
+		val->intval = max_for_fuel_temp*10;
+		break;
+#endif
 	default:
 		return -EINVAL;
 	}
@@ -869,29 +877,35 @@ static int msm_start_charging(void)
 	struct msm_hardware_charger_priv *priv;
 
 #ifdef CONFIG_SKY_CHARGING  //kobj 110513
-			//-- is_charger_done = 0;
-			msm_charger_set_init_done(); //20120319 PZ1949 from KBJ
+	//-- is_charger_done = 0;
+	msm_charger_set_init_done(); //20120319 PZ1949 from KBJ
 #endif
 
 	priv = msm_chg.current_chg_priv;
 #ifndef CONFIG_SKY_CHARGING  	//20120319 PZ1949 from KBJ
 	wake_lock(&msm_chg.wl);
 #endif
+	if (!is_battery_temp_within_range()) {
+		ret = -EAGAIN;
+		goto err;
+	}
 	ret = priv->hw_chg->start_charging(priv->hw_chg, msm_chg.max_voltage,
 					 priv->max_source_current);
 	if (ret) {
-#ifndef CONFIG_SKY_CHARGING
-		wake_unlock(&msm_chg.wl);
-#endif
-		dev_err(msm_chg.dev, "%s couldnt start chg error = %d\n",
-			priv->hw_chg->name, ret);
-	} else
-	{
+		goto err;
+	}
 #ifdef __DEBUG_KOBJ__
-		dev_err(msm_chg.dev, "[msm_charger] msm_start_charging():%d hw_chg_state:CHG_CHARGING_STATE\n",ret);
+	dev_err(msm_chg.dev, "[msm_charger] msm_start_charging():%d hw_chg_state:CHG_CHARGING_STATE\n",ret);
 #endif
-		priv->hw_chg_state = CHG_CHARGING_STATE;
-	}//20120319 PZ1949 from KBJ
+	priv->hw_chg_state = CHG_CHARGING_STATE;
+	return ret;
+
+err:
+#ifndef CONFIG_SKY_CHARGING
+	wake_unlock(&msm_chg.wl);
+#endif
+	dev_err(msm_chg.dev, "%s couldnt start chg error = %d\n",
+		priv->hw_chg->name, ret);
 	return ret;
 }
 
@@ -995,6 +1009,7 @@ static void update_heartbeat(struct work_struct *work)
 	static int set_current_check = 0; //20120319 PZ1949 from KBJ
 	static int temp_cnt = 0; //20120319 PZ1949 from KBJ
 #endif
+	mutex_lock(&msm_chg.status_lock);
 
 	if (msm_chg.batt_status == BATT_STATUS_ABSENT
 		|| msm_chg.batt_status == BATT_STATUS_ID_INVALID) {
@@ -1047,29 +1062,27 @@ static void update_heartbeat(struct work_struct *work)
 	if (msm_chg.current_chg_priv
 		&& msm_chg.current_chg_priv->hw_chg_state
 			== CHG_CHARGING_STATE) {
-#if 0
-//		if(temperature >= 48)
-//		{
-//			temp_cnt++;
-//			if(temp_cnt>3)
-//			{
-//				pm8058_set_out_range_temp();
-//				temp_cnt = 0;
-//			}
-//		}
-//		else
-//		{
-//			temp_cnt = 0;
-//		}
-//		/* TODO implement JEITA SPEC*/
-#else
+		if(temperature >= BATT_THERM_OPERATIONAL_MAX_CELCIUS)
+		{
+			temp_cnt++;
+			if(temp_cnt>3)
+			{
+				pm8058_set_out_range_temp();
+				temp_cnt = 0;
+			}
+		}
+		else
+		{
+			temp_cnt = 0;
+		}
+		/* TODO implement JEITA SPEC*/
 				if(msm_chg.charger_type == CHG_TYPE_AC)			// ¹ß¿­·Î ÀÎÇÑ Ã³¸®
 				{
 #ifdef __DEBUG_KOBJ__
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_AC pm8058_chg_get_current= %d mA, set_current_check = %d\n",
 									__func__, pm8058_chg_get_current(), set_current_check);
 #endif
-					if(temperature>=50&&temperature<=55)
+					if(temperature >= BATT_THERM_OPERATIONAL_HOT_THROTTLE && temperature <= BATT_THERM_OPERATIONAL_MAX_CELCIUS)
 					{
 						if(pm8058_chg_get_current() == 700)
 						{
@@ -1077,7 +1090,7 @@ static void update_heartbeat(struct work_struct *work)
 							set_current_check = 1;
 						}
 					}
-					else if(temperature<=49)
+					else if(temperature <= BATT_THERM_OPERATIONAL_HOT_UNTHROTTLE)
 					{
 						if(set_current_check)
 						{
@@ -1100,7 +1113,7 @@ static void update_heartbeat(struct work_struct *work)
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB pm8058_chg_get_current= %d mA\n",
 									__func__, pm8058_chg_get_current());
 #endif
-					if(!get_udc_state())
+					if(!get_udc_state() && temperature <= BATT_THERM_OPERATIONAL_HOT_UNTHROTTLE)
 					{
 #ifdef __DEBUG_KOBJ__
 					pr_info("[SKY CHG][msm-charger] %s CHG_TYPE_USB get_udc_state= %d\n",
@@ -1114,7 +1127,6 @@ static void update_heartbeat(struct work_struct *work)
 									__func__, pm8058_chg_get_current());
 #endif
 				}
-#endif
 	}
 	else
 	{
@@ -1123,7 +1135,7 @@ static void update_heartbeat(struct work_struct *work)
 #if 0
 //			if(temperature <= 41)
 #else
-			if(temperature <= 51)
+			if(temperature <= BATT_THERM_OPERATIONAL_HOT_RESTART)
 #endif
 			{
 				temp_cnt++;
@@ -1140,6 +1152,8 @@ static void update_heartbeat(struct work_struct *work)
 		}
 	}
 #endif
+	mutex_unlock(&msm_chg.status_lock);
+
 //] 20120319 PZ1949 from KBJ
 	/* notify that the voltage has changed
 	 * the read of the capacity will trigger a
@@ -1248,6 +1262,9 @@ static void handle_charger_ready(struct msm_hardware_charger_priv *hw_chg_priv)
 #ifdef __DEBUG_KOBJ__
 			dev_err(msm_chg.dev, "[-------->]handle_charger_ready CHG_CHARGING_STATE");
 #endif
+			// Needed when handle_event() handles a
+			// CHG_ENUMERATED_EVENT or CHG_INSERTED_EVENT after
+			// either a CHG_ENUMERATED_EVENT or CHG_INSERTED_EVENT.
 			msm_chg.current_chg_priv->hw_chg_state = CHG_CHARGING_STATE;
 		}
 	}

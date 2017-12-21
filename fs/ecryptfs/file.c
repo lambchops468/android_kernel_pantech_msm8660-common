@@ -160,6 +160,10 @@ static const struct vm_operations_struct ecryptfs_file_vm_ops = {
 static int ecryptfs_file_mmap(struct file *file, struct vm_area_struct *vma)
 {
 	int rc;
+	struct dentry *dentry = ecryptfs_dentry_to_lower(file->f_dentry);
+
+	if (!dentry->d_inode->i_fop->mmap)
+		return -ENODEV;
 
 	rc = generic_file_mmap(file, vma);
 	if (!rc)

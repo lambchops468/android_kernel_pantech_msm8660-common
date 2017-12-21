@@ -335,10 +335,10 @@ nfsd_setattr(struct svc_rqst *rqstp, struct svc_fh *fhp, struct iattr *iap,
 	 * which only requires access, and "set-[ac]time-to-X" which
 	 * requires ownership.
 	 * So if it looks like it might be "set both to the same time which
-	 * is close to now", and if inode_change_ok fails, then we
+	 * is close to now", and if setattr_prepare fails, then we
 	 * convert to "set to now" instead of "set to explicit time"
 	 *
-	 * We only call inode_change_ok as the last test as technically
+	 * We only call setattr_prepare as the last test as technically
 	 * it is not an interface that we should be using.  It is only
 	 * valid if the filesystem does not define it's own i_op->setattr.
 	 */
@@ -357,7 +357,7 @@ nfsd_setattr(struct svc_rqst *rqstp, struct svc_fh *fhp, struct iattr *iap,
 		if (delta < 0)
 			delta = -delta;
 		if (delta < MAX_TOUCH_TIME_ERROR &&
-		    inode_change_ok(inode, iap) != 0) {
+		    setattr_prepare(dentry, iap) != 0) {
 			/*
 			 * Turn off ATTR_[AM]TIME_SET but leave ATTR_[AM]TIME.
 			 * This will cause notify_change to set these times

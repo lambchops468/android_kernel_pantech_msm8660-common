@@ -51,7 +51,7 @@
 #include "xfs_trace.h"
 
 int
-xfs_setattr(
+__xfs_setattr(
 	struct xfs_inode	*ip,
 	struct iattr		*iattr,
 	int			flags)
@@ -67,18 +67,6 @@ xfs_setattr(
 	gid_t			gid=0, igid=0;
 	struct xfs_dquot	*udqp, *gdqp, *olddquot1, *olddquot2;
 	int			need_iolock = 1;
-
-	trace_xfs_setattr(ip);
-
-	if (mp->m_flags & XFS_MOUNT_RDONLY)
-		return XFS_ERROR(EROFS);
-
-	if (XFS_FORCED_SHUTDOWN(mp))
-		return XFS_ERROR(EIO);
-
-	code = -inode_change_ok(inode, iattr);
-	if (code)
-		return code;
 
 	olddquot1 = olddquot2 = NULL;
 	udqp = gdqp = NULL;
@@ -473,6 +461,60 @@ xfs_setattr(
 	}
 	return code;
 }
+
+int
+xfs_setattr(
+	struct xfs_inode	*ip,
+	struct iattr		*iattr,
+	int			flags)
+{
+	xfs_mount_t		*mp = ip->i_mount;
+	int			code;
+
+	trace_xfs_setattr(ip);
+
+	if (mp->m_flags & XFS_MOUNT_RDONLY)
+		return XFS_ERROR(EROFS);
+
+	if (XFS_FORCED_SHUTDOWN(mp))
+		return XFS_ERROR(EIO);
+
+	/* xfs_setattr() is deprecated. Use xfs_setattr_dentry(). */
+	WARN_ON(!(flags & XFS_ATTR_DMI));
+
+	code = -inode_change_ok(VFS_I(ip), iattr);
+	if (code)
+		return code;
+
+	return __xfs_setattr(ip, iattr, flags);
+}
+
+int
+xfs_setattr_dentry(
+	struct dentry		*dentry,
+	struct iattr		*iattr,
+	int			flags)
+{
+	struct inode		*inode = dentry->d_inode;
+	struct xfs_inode	*ip = XFS_I(inode);
+	xfs_mount_t		*mp = ip->i_mount;
+	int			code;
+
+	trace_xfs_setattr(ip);
+
+	if (mp->m_flags & XFS_MOUNT_RDONLY)
+		return XFS_ERROR(EROFS);
+
+	if (XFS_FORCED_SHUTDOWN(mp))
+		return XFS_ERROR(EIO);
+
+	code = -setattr_prepare(dentry, iattr);
+	if (code)
+		return code;
+
+	return __xfs_setattr(ip, iattr, flags);
+}
+
 
 /*
  * The maximum pathlen is 1024 bytes. Since the minimum file system
@@ -2791,7 +2833,11 @@ xfs_change_file_space(
 		iattr.ia_valid = ATTR_SIZE;
 		iattr.ia_size = startoffset;
 
-		error = xfs_setattr(ip, &iattr, attr_flags);
+		error = inode_newsize_ok(VFS_I(ip), startoffset);
+		if (error)
+			return -error;
+
+		error = __xfs_setattr(ip, &iattr, attr_flags);
 
 		if (error)
 			return error;

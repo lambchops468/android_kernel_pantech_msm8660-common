@@ -15,7 +15,6 @@
  *
  */
 
-#include <linux/sched.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -33,6 +32,10 @@
 
 #include <trace/events/power.h>
 
+#ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
+#include <linux/sched.h>
+#endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
+
 /**
  * The "cpufreq driver" - the arch- or hardware-dependent low
  * level driver of CPUFreq support, and its spinlock. This lock
@@ -44,7 +47,7 @@ static DEFINE_PER_CPU(struct cpufreq_policy *, cpufreq_cpu_data);
 /* This one keeps track of the previously set governor of a removed CPU */
 struct cpufreq_cpu_save_data {
 	char gov[CPUFREQ_NAME_LEN];
-	unsigned int max, min;
+	unsigned int user_max, user_min;
 };
 static DEFINE_PER_CPU(struct cpufreq_cpu_save_data, cpufreq_policy_save);
 #endif
@@ -434,6 +437,11 @@ static ssize_t store_##file_name					\
 
 store_one(scaling_min_freq, min);
 
+#ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
+static bool user_set_max = false;
+static DEFINE_SPINLOCK(user_set_max_lock);
+#endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
+
 static ssize_t store_scaling_max_freq
 (struct cpufreq_policy *policy, const char *buf, size_t count)
 {
@@ -449,15 +457,21 @@ static ssize_t store_scaling_max_freq
 		return -EINVAL;
 
 #ifdef CONFIG_MSM_CPU_FREQ_SET_MIN_MAX
-        struct task_struct *tsk = current;
-	if (tsk != NULL && !strcmp(tsk->comm, "thermald") &&
-				new_policy.max > CONFIG_MSM_CPU_FREQ_MAX) {
-		pr_err("Ignoring scaling_max_freq (> %u) request from "
-			"%i(thermald)\n",
-			CONFIG_MSM_CPU_FREQ_MAX,
-			tsk->pid);
-		return -EINVAL;
+	spin_lock(&user_set_max_lock);
+	if (!user_set_max && new_policy.max > CONFIG_MSM_CPU_FREQ_MAX) {
+        	struct task_struct *tsk = current;
+		if (tsk != NULL && !strcmp(tsk->comm, "thermald")) {
+			spin_unlock(&user_set_max_lock);
+			pr_err("Ignoring scaling_max_freq (> %u) request from "
+				"%i(thermald) until set by user.\n",
+				CONFIG_MSM_CPU_FREQ_MAX,
+				tsk->pid);
+			return -EINVAL;
+		} else {
+			user_set_max = true;
+		}
 	}
+	spin_unlock(&user_set_max_lock);
 #endif /* CONFIG_MSM_CPU_FREQ_SET_MIN_MAX */
 
 	ret = __cpufreq_set_policy(policy, &new_policy);
@@ -797,16 +811,18 @@ static int cpufreq_add_dev_policy(unsigned int cpu,
 		pr_debug("Restoring governor %s for cpu %d\n",
 		       policy->governor->name, cpu);
 	}
-	if (per_cpu(cpufreq_policy_save, cpu).min) {
-		policy->min = per_cpu(cpufreq_policy_save, cpu).min;
-		policy->user_policy.min = policy->min;
+	if (per_cpu(cpufreq_policy_save, cpu).user_min) {
+		policy->user_policy.min =
+				per_cpu(cpufreq_policy_save, cpu).user_min;
+		policy->min = per_cpu(cpufreq_policy_save, cpu).user_min;
 	}
-	if (per_cpu(cpufreq_policy_save, cpu).max) {
-		policy->max = per_cpu(cpufreq_policy_save, cpu).max;
-		policy->user_policy.max = policy->max;
+	if (per_cpu(cpufreq_policy_save, cpu).user_max) {
+		policy->user_policy.max =
+				per_cpu(cpufreq_policy_save, cpu).user_max;
+		policy->max = per_cpu(cpufreq_policy_save, cpu).user_max;
 	}
-	pr_debug("Restoring CPU%d min %d and max %d\n",
-		cpu, policy->min, policy->max);
+	pr_debug("Restoring CPU%d user_min %d, and user_max %d\n", cpu,
+		policy->user_policy.min, policy->user_policy.max);
 #endif
 
 	for_each_cpu(j, policy->cpus) {
@@ -1158,10 +1174,10 @@ static int __cpufreq_remove_dev(struct sys_device *sys_dev)
 #ifdef CONFIG_HOTPLUG_CPU
 	strncpy(per_cpu(cpufreq_policy_save, cpu).gov, data->governor->name,
 			CPUFREQ_NAME_LEN);
-	per_cpu(cpufreq_policy_save, cpu).min = data->min;
-	per_cpu(cpufreq_policy_save, cpu).max = data->max;
-	pr_debug("Saving CPU%d policy min %d and max %d\n",
-			cpu, data->min, data->max);
+	per_cpu(cpufreq_policy_save, cpu).user_min = data->user_policy.min;
+	per_cpu(cpufreq_policy_save, cpu).user_max = data->user_policy.max;
+	pr_debug("Saving CPU%d policy user_min %d, and user_max %d\n", cpu,
+		data->user_policy.min, data->user_policy.max);
 #endif
 
 	/* if we have other CPUs still registered, we need to unlink them,
@@ -1187,10 +1203,13 @@ static int __cpufreq_remove_dev(struct sys_device *sys_dev)
 #ifdef CONFIG_HOTPLUG_CPU
 			strncpy(per_cpu(cpufreq_policy_save, j).gov,
 				data->governor->name, CPUFREQ_NAME_LEN);
-			per_cpu(cpufreq_policy_save, j).min = data->min;
-			per_cpu(cpufreq_policy_save, j).max = data->max;
-			pr_debug("Saving CPU%d policy min %d and max %d\n",
-					j, data->min, data->max);
+			per_cpu(cpufreq_policy_save, j).user_min =
+							data->user_policy.min;
+			per_cpu(cpufreq_policy_save, j).user_max =
+							data->user_policy.max;
+			pr_debug("Saving CPU%d policy user_min %d, and "
+				"user_max %d\n", j, data->user_policy.min,
+				data->user_policy.max);
 #endif
 			cpu_sys_dev = get_cpu_sysdev(j);
 			kobj = &cpu_sys_dev->kobj;
@@ -1679,8 +1698,8 @@ void cpufreq_unregister_governor(struct cpufreq_governor *governor)
 		if (!strcmp(per_cpu(cpufreq_policy_save, cpu).gov,
 					governor->name))
 			strcpy(per_cpu(cpufreq_policy_save, cpu).gov, "\0");
-		per_cpu(cpufreq_policy_save, cpu).min = 0;
-		per_cpu(cpufreq_policy_save, cpu).max = 0;
+		per_cpu(cpufreq_policy_save, cpu).user_min = 0;
+		per_cpu(cpufreq_policy_save, cpu).user_max = 0;
 	}
 #endif
 

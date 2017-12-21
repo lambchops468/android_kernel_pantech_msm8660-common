@@ -1523,12 +1523,13 @@ size_t get_numpages(const size_t wsize, const size_t len, size_t *cur_len)
 }
 
 static ssize_t
-cifs_iovec_write(struct file *file, const struct iovec *iov,
+cifs_iovec_write(struct kiocb *iocb, const struct iovec *iov,
 		 unsigned long nr_segs, loff_t *poffset)
 {
+	struct file *file = iocb->ki_filp;
 	unsigned int written;
 	unsigned long num_pages, npages, i;
-	size_t copied, len, cur_len;
+	size_t bytes, copied, len, cur_len;
 	ssize_t total_written = 0;
 	struct kvec *to_send;
 	struct page **pages;
@@ -1545,7 +1546,7 @@ cifs_iovec_write(struct file *file, const struct iovec *iov,
 	if (!len)
 		return 0;
 
-	rc = generic_write_checks(file, poffset, &len, 0);
+	rc = generic_write_checks2(iocb, poffset, &len, 0);
 	if (rc)
 		return rc;
 
@@ -1585,17 +1586,52 @@ cifs_iovec_write(struct file *file, const struct iovec *iov,
 
 	do {
 		size_t save_len = cur_len;
-		for (i = 0; i < npages; i++) {
-			copied = min_t(const size_t, cur_len, PAGE_CACHE_SIZE);
+		for (i = 0; i < npages;) {
+			bytes = min_t(const size_t, cur_len, PAGE_CACHE_SIZE);
 			copied = iov_iter_copy_from_user(pages[i], &it, 0,
-							 copied);
+							 bytes);
+			if (!copied)
+				break;
+
 			cur_len -= copied;
 			iov_iter_advance(&it, copied);
 			to_send[i+1].iov_base = kmap(pages[i]);
 			to_send[i+1].iov_len = copied;
+			/*
+			 * i represents the number of actually used pages.
+			 * Increment it here, so if we break out of the loop it
+			 * is up-to-date.
+			 */
+			i++;
+			/*
+			 * If we didn't copy as much as we expected, then that
+			 * may mean we trod into an unmapped area. Stop copying
+			 * at that point. On the next pass through the big
+			 * loop, we'll likely end up getting a zero-length
+			 * write and bailing out of it.
+			 */
+			if (copied < bytes)
+				break;
 		}
 
 		cur_len = save_len - cur_len;
+
+		/*
+		 * If we have no data to send, then that probably means that
+		 * the copy above failed altogether. That's most likely because
+		 * the address in the iovec was bogus. Set the rc to -EFAULT.
+		 * No pages have been mapped.
+		 */
+		if (!cur_len) {
+			rc = -EFAULT;
+			break;
+		}
+
+		/*
+		 * i now represents the number of pages we actually used in the
+		 * copy phase above. Bring npages down to that.
+		 */
+		npages = i;
 
 		do {
 			if (open_file->invalidHandle) {
@@ -1662,7 +1698,7 @@ ssize_t cifs_user_writev(struct kiocb *iocb, const struct iovec *iov,
 	 * write request.
 	 */
 
-	written = cifs_iovec_write(iocb->ki_filp, iov, nr_segs, &pos);
+	written = cifs_iovec_write(iocb, iov, nr_segs, &pos);
 	if (written > 0) {
 		CIFS_I(inode)->invalid_mapping = true;
 		iocb->ki_pos = pos;

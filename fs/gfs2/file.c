@@ -592,7 +592,7 @@ static ssize_t gfs2_file_aio_write(struct kiocb *iocb, const struct iovec *iov,
 {
 	struct file *file = iocb->ki_filp;
 
-	if (file->f_flags & O_APPEND) {
+	if (kiocb_is_append(iocb)) {
 		struct dentry *dentry = file->f_dentry;
 		struct gfs2_inode *ip = GFS2_I(dentry->d_inode);
 		struct gfs2_holder gh;

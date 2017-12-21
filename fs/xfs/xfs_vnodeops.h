@@ -14,6 +14,8 @@ struct xfs_iomap;
 
 
 int xfs_setattr(struct xfs_inode *ip, struct iattr *vap, int flags);
+int xfs_setattr_dentry(struct dentry *dentry, struct iattr *vap, int flags);
+int __xfs_setattr(struct xfs_inode *ip, struct iattr *vap, int flags);
 #define	XFS_ATTR_DMI		0x01	/* invocation from a DMI function */
 #define	XFS_ATTR_NONBLOCK	0x02	/* return EAGAIN if operation would block */
 #define XFS_ATTR_NOLOCK		0x04	/* Don't grab any conflicting locks */

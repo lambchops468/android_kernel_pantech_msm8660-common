@@ -460,6 +460,8 @@ struct sk_buff *tipc_node_get_links(const void *req_tlv_area, int req_tlv_space)
 		return NULL;
 	}
 
+	memset(&link_info, 0, sizeof(link_info));
+
 	/* Add TLV for broadcast link */
 
 	link_info.dest = htonl(tipc_cluster_mask(tipc_own_addr));

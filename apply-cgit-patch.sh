@@ -44,6 +44,9 @@ if ! tail -n 2 "$PATCH_FILE" | grep -F "cgit" > /dev/null ; then
   exit 1
 fi
 
+export GIT_AUTHOR_NAME=`sed '2s/From: \(.*\) <.*>/\1/p;d' "$PATCH_FILE"`
+export GIT_AUTHOR_EMAIL=`sed '2s/.* <\(.*\)>/\1/p;d' "$PATCH_FILE"`
+export GIT_AUTHOR_DATE=`sed '3s/Date: \(.*\)/\1/p;d' "$PATCH_FILE"`
 SUBJECT_LINE=`sed "4q;d" "$PATCH_FILE"`
 # Check that $SUBJECT_LINE starts with "Subject: "
 if ! expr "$SUBJECT_LINE" : '\(Subject: \)' > /dev/null ; then
@@ -51,7 +54,7 @@ if ! expr "$SUBJECT_LINE" : '\(Subject: \)' > /dev/null ; then
   exit 1
 fi
 COMMIT_SUBJECT="${SUBJECT_LINE#Subject: }"
-COMMIT_MSG=`sed '/---/q' "$PATCH_FILE" | head -n-1`
+COMMIT_MSG=`sed '/^---/q' "$PATCH_FILE" | head -n-1`
 COMMIT_MSG=\
 "$COMMIT_SUBJECT
 
