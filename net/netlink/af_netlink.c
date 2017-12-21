@@ -899,7 +899,7 @@ static inline void netlink_rcv_wake(struct sock *sk)
 		wake_up_interruptible(&nlk->wait);
 }
 
-static inline int netlink_unicast_kernel(struct sock *sk, struct sk_buff *skb)
+static inline int netlink_unicast_kernel(struct sock *sk, struct sk_buff *skb, struct sock* ssk)
 {
 	int ret;
 	struct netlink_sock *nlk = nlk_sk(sk);
@@ -907,6 +907,7 @@ static inline int netlink_unicast_kernel(struct sock *sk, struct sk_buff *skb)
 	ret = -ECONNREFUSED;
 	if (nlk->netlink_rcv != NULL) {
 		ret = skb->len;
+		NETLINK_CB_LONG(skb).sk = ssk;
 		skb_set_owner_r(skb, sk);
 		nlk->netlink_rcv(skb);
 	}
@@ -932,7 +933,7 @@ retry:
 		return PTR_ERR(sk);
 	}
 	if (netlink_is_kernel(sk))
-		return netlink_unicast_kernel(sk, skb);
+		return netlink_unicast_kernel(sk, skb, ssk);
 
 	if (sk_filter(sk, skb)) {
 		err = skb->len;
@@ -1337,6 +1338,8 @@ static int netlink_sendmsg(struct kiocb *kiocb, struct socket *sock,
 	struct sk_buff *skb;
 	int err;
 	struct scm_cookie scm;
+	u32 netlink_skb_flags = 0;
+
 
 	if (msg->msg_flags&MSG_OOB)
 		return -EOPNOTSUPP;
@@ -1359,6 +1362,7 @@ static int netlink_sendmsg(struct kiocb *kiocb, struct socket *sock,
 		if ((dst_group || dst_pid) &&
 		    !netlink_capable(sock, NL_NONROOT_SEND))
 			goto out;
+		netlink_skb_flags |= NETLINK_SKB_DST;
 	} else {
 		dst_pid = nlk->dst_pid;
 		dst_group = nlk->dst_group;
@@ -1381,6 +1385,8 @@ static int netlink_sendmsg(struct kiocb *kiocb, struct socket *sock,
 	NETLINK_CB(skb).pid	= nlk->pid;
 	NETLINK_CB(skb).dst_group = dst_group;
 	memcpy(NETLINK_CREDS(skb), &siocb->scm->creds, sizeof(struct ucred));
+	NETLINK_CB_LONG(skb).flags = netlink_skb_flags;
+
 
 	err = -EFAULT;
 	if (memcpy_fromiovec(skb_put(skb, len), msg->msg_iov, len)) {
@@ -2137,6 +2143,7 @@ static int __init netlink_proto_init(void)
 		goto out;
 
 	BUILD_BUG_ON(sizeof(struct netlink_skb_parms) > sizeof(dummy_skb->cb));
+	BUILD_BUG_ON(sizeof(struct netlink_skb_parms_long) > sizeof(dummy_skb->cb));
 
 	nl_table = kcalloc(MAX_LINKS, sizeof(*nl_table), GFP_KERNEL);
 	if (!nl_table)

@@ -114,7 +114,7 @@ ext4_file_write(struct kiocb *iocb, const struct iovec *iov,
 			nr_segs = iov_shorten((struct iovec *)iov, nr_segs,
 					      sbi->s_bitmap_maxbytes - pos);
 		}
-	} else if (unlikely((iocb->ki_filp->f_flags & O_DIRECT) &&
+	} else if (unlikely(kiocb_is_direct(iocb) &&
 		   !is_sync_kiocb(iocb))) {
 		unaligned_aio = ext4_unaligned_aio(inode, iov, nr_segs, pos);
 	}

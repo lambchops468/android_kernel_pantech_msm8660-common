@@ -802,6 +802,14 @@ static int iowarrior_probe(struct usb_interface *interface,
 			/* this one will match for the IOWarrior56 only */
 			dev->int_out_endpoint = endpoint;
 	}
+
+	if (!dev->int_in_endpoint) {
+		dev_err(&interface->dev, "no interrupt-in endpoint found\n");
+		retval = -ENODEV;
+		goto error;
+	}
+
+
 	/* we have to check the report_size often, so remember it in the endianess suitable for our machine */
 	dev->report_size = le16_to_cpu(dev->int_in_endpoint->wMaxPacketSize);
 	if ((dev->interface->cur_altsetting->desc.bInterfaceNumber == 0) &&

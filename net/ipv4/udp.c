@@ -729,7 +729,7 @@ static int udp_send_skb(struct sk_buff *skb, struct flowi4 *fl4)
 	if (is_udplite)  				 /*     UDP-Lite      */
 		csum = udplite_csum(skb);
 
-	else if (sk->sk_no_check == UDP_CSUM_NOXMIT) {   /* UDP csum disabled */
+	else if (sk->sk_no_check == UDP_CSUM_NOXMIT && !skb_is_gso(skb)) {   /* UDP csum off */
 
 		skb->ip_summed = CHECKSUM_NONE;
 		goto send;
@@ -1170,14 +1170,8 @@ int udp_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	int is_udplite = IS_UDPLITE(sk);
 	bool slow;
 
-	/*
-	 *	Check any passed addresses
-	 */
-	if (addr_len)
-		*addr_len = sizeof(*sin);
-
 	if (flags & MSG_ERRQUEUE)
-		return ip_recv_error(sk, msg, len);
+		return ip_recv_error(sk, msg, len, addr_len);
 
 try_again:
 	skb = __skb_recv_datagram(sk, flags | (noblock ? MSG_DONTWAIT : 0),
@@ -1229,6 +1223,7 @@ try_again:
 		sin->sin_port = udp_hdr(skb)->source;
 		sin->sin_addr.s_addr = ip_hdr(skb)->saddr;
 		memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
+		*addr_len = sizeof(*sin);
 	}
 	if (inet->cmsg_flags)
 		ip_cmsg_recv(msg, skb);
@@ -1248,10 +1243,8 @@ csum_copy_err:
 		UDP_INC_STATS_USER(sock_net(sk), UDP_MIB_INERRORS, is_udplite);
 	unlock_sock_fast(sk, slow);
 
-	if (noblock)
-		return -EAGAIN;
-
-	/* starting over for a new packet */
+	/* starting over for a new packet, but check if we need to yield */
+	cond_resched();
 	msg->msg_flags &= ~MSG_TRUNC;
 	goto try_again;
 }

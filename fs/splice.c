@@ -608,6 +608,10 @@ ssize_t default_file_splice_read(struct file *in, loff_t *ppos,
 		.spd_release = spd_release_page,
 	};
 
+	if (unlikely(!(in->f_mode & FMODE_SPLICE_READ)))
+		return -EINVAL;
+
+
 	if (splice_grow_spd(pipe, &spd))
 		return -ENOMEM;
 
@@ -1006,11 +1010,23 @@ generic_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
 
 	splice_from_pipe_begin(&sd);
 	do {
+		size_t tmp_count = sd.total_len;
+		loff_t tmp_pos = sd.pos;
+
 		ret = splice_from_pipe_next(pipe, &sd);
 		if (ret <= 0)
 			break;
 
 		mutex_lock_nested(&inode->i_mutex, I_MUTEX_CHILD);
+		ret = generic_write_checks(out, &tmp_pos, &tmp_count,
+					   S_ISBLK(inode->i_mode));
+		if (ret < 0 || tmp_count == 0) {
+			mutex_unlock(&inode->i_mutex);
+			break;
+		}
+		sd.total_len = tmp_count;
+		WARN_ON(sd.pos != tmp_pos);
+
 		ret = file_remove_suid(out);
 		if (!ret) {
 			file_update_time(out);
@@ -1062,6 +1078,9 @@ static ssize_t default_file_splice_write(struct pipe_inode_info *pipe,
 					 size_t len, unsigned int flags)
 {
 	ssize_t ret;
+
+	if (unlikely(!(out->f_mode & FMODE_SPLICE_WRITE)))
+		return -EINVAL;
 
 	ret = splice_from_pipe(pipe, out, ppos, len, flags, write_pipe_buf);
 	if (ret > 0)

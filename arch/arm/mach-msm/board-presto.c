@@ -5060,6 +5060,11 @@ static struct platform_device msm_tsens_device = {
 	.id = -1,
 };
 
+static struct platform_device msm_tsens_throttle_device = {
+	.name   = "tsens-throttle",
+	.id = -1,
+};
+
 #ifdef CONFIG_SKY_WLAN
 #if defined(CONFIG_SKY_EF39S_BOARD) || defined(CONFIG_SKY_EF40K_BOARD) || defined(CONFIG_SKY_EF40S_BOARD)
 static uint32_t wlan_on_gpio_cfgs[] = {
@@ -6447,6 +6452,7 @@ static struct platform_device *surf_devices[] __initdata = {
 #endif /* CONFIG_WIFI_CONTROL_FUNC */
 
 	&msm_tsens_device,
+	&msm_tsens_throttle_device,
 	&msm_rpm_device,
 #ifdef CONFIG_ION_MSM
 	&ion_dev,

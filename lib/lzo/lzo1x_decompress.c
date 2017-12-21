@@ -27,6 +27,16 @@
 #define COPY4(dst, src)	\
 		put_unaligned(get_unaligned((const u32 *)(src)), (u32 *)(dst))
 
+/* This MAX_255_COUNT is the maximum number of times we can add 255 to a base
+ * count without overflowing an integer. The multiply will overflow when
+ * multiplying 255 by more than MAXINT/255. The sum will overflow earlier
+ * depending on the base count. Since the base count is taken from a u8
+ * and a few bits, it is safe to assume that it will always be lower than
+ * or equal to 2*255, thus we can always prevent any overflow by accepting
+ * two less 255 steps. See Documentation/lzo.txt for more information.
+ */
+#define MAX_255_COUNT      ((((size_t)~0) / 255) - 2)
+
 int lzo1x_decompress_safe(const unsigned char *in, size_t in_len,
 			unsigned char *out, size_t *out_len)
 {
@@ -57,15 +67,22 @@ int lzo1x_decompress_safe(const unsigned char *in, size_t in_len,
 		if (t >= 16)
 			goto match;
 		if (t == 0) {
+			size_t offset;
+			const unsigned char *ip_last = ip;
+
 			if (HAVE_IP(1, ip_end, ip))
 				goto input_overrun;
 			while (*ip == 0) {
-				t += 255;
 				ip++;
 				if (HAVE_IP(1, ip_end, ip))
 					goto input_overrun;
 			}
-			t += 15 + *ip++;
+			offset = ip - ip_last;
+			if (unlikely(offset > MAX_255_COUNT))
+				return LZO_E_ERROR;
+
+			offset = (offset << 8) - offset;
+			t += offset + 15 + *ip++;
 		}
 		if (HAVE_OP(t + 3, op_end, op))
 			goto output_overrun;
@@ -129,15 +146,22 @@ match:
 			} else if (t >= 32) {
 				t &= 31;
 				if (t == 0) {
+					size_t offset;
+					const unsigned char *ip_last = ip;
+
 					if (HAVE_IP(1, ip_end, ip))
 						goto input_overrun;
 					while (*ip == 0) {
-						t += 255;
 						ip++;
 						if (HAVE_IP(1, ip_end, ip))
 							goto input_overrun;
 					}
-					t += 31 + *ip++;
+					offset = ip - ip_last;
+					if (unlikely(offset > MAX_255_COUNT))
+						return LZO_E_ERROR;
+
+					offset = (offset << 8) - offset;
+					t += offset + 31 + *ip++;
 				}
 				m_pos = op - 1;
 				m_pos -= get_unaligned_le16(ip) >> 2;
@@ -148,15 +172,22 @@ match:
 
 				t &= 7;
 				if (t == 0) {
+					size_t offset;
+					const unsigned char *ip_last = ip;
+
 					if (HAVE_IP(1, ip_end, ip))
 						goto input_overrun;
 					while (*ip == 0) {
-						t += 255;
 						ip++;
 						if (HAVE_IP(1, ip_end, ip))
 							goto input_overrun;
 					}
-					t += 7 + *ip++;
+					offset = ip - ip_last;
+					if (unlikely(offset > MAX_255_COUNT))
+						return LZO_E_ERROR;
+
+					offset = (offset << 8) - offset;
+					t += offset + 7 + *ip++;
 				}
 				m_pos -= get_unaligned_le16(ip) >> 2;
 				ip += 2;

@@ -266,7 +266,7 @@ xfs_set_mode(struct inode *inode, mode_t mode)
 		iattr.ia_mode = mode;
 		iattr.ia_ctime = current_fs_time(inode->i_sb);
 
-		error = -xfs_setattr(XFS_I(inode), &iattr, XFS_ATTR_NOACL);
+		error = -__xfs_setattr(XFS_I(inode), &iattr, XFS_ATTR_NOACL);
 	}
 
 	return error;
@@ -425,16 +425,14 @@ xfs_xattr_acl_set(struct dentry *dentry, const char *name,
 		goto out_release;
 
 	if (type == ACL_TYPE_ACCESS) {
-		mode_t mode = inode->i_mode;
-		error = posix_acl_equiv_mode(acl, &mode);
+		umode_t mode = inode->i_mode;
+		struct posix_acl *old_acl = acl;
 
-		if (error <= 0) {
-			posix_acl_release(acl);
-			acl = NULL;
-
-			if (error < 0)
-				return error;
-		}
+		error = posix_acl_update_mode(inode, &mode, &acl);
+		if (error < 0)
+			goto out_release;
+		if (!acl)
+			posix_acl_release(old_acl);
 
 		error = xfs_set_mode(inode, mode);
 		if (error)

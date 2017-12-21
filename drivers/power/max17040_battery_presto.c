@@ -66,6 +66,7 @@
 #define MAX_READ	10
 //#define MAX17040_ALARM_RTC_ENABLE //RTC ENABLE
 
+//#define MAX17040_INPUT_DEBUG
 //#define MAX17040_DEG_ENABLE	//normal debug
 //#define MAX17040_SLEEP_DEBUG //sleep time debug
 //#define MAX17040_DEBUG_QUICK
@@ -218,8 +219,10 @@ struct max17040_chip {
 	/*battery quick data*/
 	struct max17040_quick_data quick_data;
 
+#ifdef MAX17040_INPUT_DEBUG
 	/* test code states*/
 	atomic_t set_test;
+#endif /* MAX17040_INPUT_DEBUG */
 
 	/* State Of update*/
 	MAX17040_EVENT event;
@@ -229,8 +232,10 @@ struct max17040_chip {
 
 
 	MAX17040_STATE slow_poll;
+#ifdef MAX17040_INPUT_DEBUG
 	/* test code : input device driver*/
 	struct input_dev *max17040_input_data;
+#endif /* MAX17040_INPUT_DEBUG */
 
 	/*ealry suspend */
 	struct early_suspend early_suspend;
@@ -742,6 +747,7 @@ static void max17040_get_version(void)
 }
 /*PS2 TEAM SHS [END]: depend on chip command*/
 
+#ifdef MAX17040_INPUT_DEBUG
 /*ps2 team shs [START] : depend on test code*/
 static ssize_t max17040_show_flag(struct device *dev, struct device_attribute *attr, char *buf)
 {
@@ -760,6 +766,7 @@ static ssize_t max17040_store_flag(struct device *dev, struct device_attribute *
 	dbg_func_out();
 	return count;
 }
+#endif /* MAX17040_INPUT_DEBUG */
 
 static ssize_t max17040_start_quickstart(struct device *dev, struct device_attribute *attr, char *buf)
 {
@@ -791,15 +798,21 @@ static ssize_t max17040_get_low_soc(struct device *dev, struct device_attribute 
 
 #endif
 
+#ifdef MAX17040_INPUT_DEBUG
 static DEVICE_ATTR(setflag, S_IWUSR | S_IRUGO, max17040_show_flag, max17040_store_flag);
+#endif /* MAX17040_INPUT_DEBUG */
+
 static DEVICE_ATTR(quickstart, S_IWUSR | S_IRUGO, max17040_start_quickstart, NULL);
+
 #ifdef MAX17040_DEBUG_QUICK
 static DEVICE_ATTR(voltage, S_IWUSR | S_IRUGO, max17040_get_low_voltage, NULL);
 static DEVICE_ATTR(soc, S_IWUSR | S_IRUGO, max17040_get_low_soc, NULL);
 #endif
 
 static struct attribute *max17040_attrs[] = {
+#ifdef MAX17040_INPUT_DEBUG
 	&dev_attr_setflag.attr, //ps2 team shs : add  test filed
+#endif /* MAX17040_INPUT_DEBUG */
 	&dev_attr_quickstart.attr, //ps2 team shs : quickstart test filed
 #ifdef MAX17040_DEBUG_QUICK
 	&dev_attr_voltage.attr, //ps2 team shs : quickstart test filed
@@ -881,6 +894,7 @@ static void max17040_work(struct work_struct *work)
 	max17040_quick_get_value();
 #endif
 
+#ifdef MAX17040_INPUT_DEBUG
 	enable = atomic_read(&max17040_data.set_test);
 	//save volate now and soc [TEST APPLICATION]
 	if(enable) {
@@ -894,6 +908,7 @@ static void max17040_work(struct work_struct *work)
 			input_sync(max17040_data.max17040_input_data);
 		}
 	}
+#endif /* MAX17040_INPUT_DEBUG */
 	//ps2 team shs : After you determine the value of voltage and soc If there are changes to the event generates.
 	if(max17040_data.slow_poll) {
 		//do not call early resume state.
@@ -994,7 +1009,9 @@ static int __devinit max17040_probe(struct i2c_client *client,
 			const struct i2c_device_id *id)
 {
 	struct i2c_adapter *adapter = to_i2c_adapter(client->dev.parent);
+#ifdef MAX17040_INPUT_DEBUG
 	struct input_dev *input_data = NULL;
+#endif /* MAX17040_INPUT_DEBUG */
 	int ret;
 #ifndef FEATURE_SKY_BATTERY_MAX17040
 	int aflag=0;
@@ -1048,6 +1065,7 @@ static int __devinit max17040_probe(struct i2c_client *client,
 	}
 #endif
 
+#ifdef MAX17040_INPUT_DEBUG
 	//The code used in the test mode [TEST MODE]
 	atomic_set(&max17040_data.set_test, 0);
 	input_data = input_allocate_device();
@@ -1073,6 +1091,7 @@ static int __devinit max17040_probe(struct i2c_client *client,
 	}
 	input_set_drvdata(input_data, &max17040_data);
 	max17040_data.max17040_input_data=input_data;
+#endif /* MAX17040_INPUT_DEBUG */
 	//initialize workqueue and alarm setting
 	wake_lock_init(&max17040_data.work_wake_lock, WAKE_LOCK_SUSPEND,
 			"max17040-battery");

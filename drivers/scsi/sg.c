@@ -72,6 +72,12 @@ static void sg_proc_cleanup(void);
 
 #define SG_MAX_DEVS 32768
 
+/* SG_MAX_CDB_SIZE should be 260 (spc4r37 section 3.1.30) however the type
+ * of sg_io_hdr::cmd_len can only represent 255. All SCSI commands greater
+ * than 16 bytes are "variable length" whose length is a multiple of 4
+ */
+#define SG_MAX_CDB_SIZE 252
+
 /*
  * Suppose you want to calculate the formula muldiv(x,m,d)=int(x * m / d)
  * Then when using 32 bit integers x * m may overflow during the calculation.
@@ -543,6 +549,9 @@ sg_write(struct file *filp, const char __user *buf, size_t count, loff_t * ppos)
 	sg_io_hdr_t *hp;
 	unsigned char cmnd[MAX_COMMAND_SIZE];
 
+	if (unlikely(segment_eq(get_fs(), KERNEL_DS)))
+		return -EINVAL;
+
 	if ((!(sfp = (Sg_fd *) filp->private_data)) || (!(sdp = sfp->parentdp)))
 		return -ENXIO;
 	SCSI_LOG_TIMEOUT(3, printk("sg_write: %s, count=%d\n",
@@ -739,8 +748,14 @@ sg_common_write(Sg_fd * sfp, Sg_request * srp,
 		return k;	/* probably out of space --> ENOMEM */
 	}
 	if (sdp->detached) {
-		if (srp->bio)
+		if (srp->bio) {
+			if (srp->rq->cmd != srp->rq->__cmd)
+				kfree(srp->rq->cmd);
+
 			blk_end_request_all(srp->rq, -EIO);
+			srp->rq = NULL;
+		}
+
 		sg_finish_rem_req(srp);
 		return -ENODEV;
 	}
@@ -950,6 +965,8 @@ sg_ioctl(struct file *filp, unsigned int cmd_in, unsigned long arg)
 		result = get_user(val, ip);
 		if (result)
 			return result;
+		if (val > SG_MAX_CDB_SIZE)
+			return -ENOMEM;
 		sfp->next_cmd_len = (val > 0) ? val : 0;
 		return 0;
 	case SG_GET_VERSION_NUM:

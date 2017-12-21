@@ -444,7 +444,7 @@ static struct kiocb *__aio_get_req(struct kioctx *ctx)
 	req->ki_flags = 0;
 	req->ki_users = 2;
 	req->ki_key = 0;
-	req->ki_ctx = ctx;
+	req->ki_ctx = (unsigned long)ctx;
 	req->ki_cancel = NULL;
 	req->ki_retry = NULL;
 	req->ki_dtor = NULL;
@@ -1542,6 +1542,11 @@ static int io_submit_one(struct kioctx *ctx, struct iocb __user *user_iocb,
 		fput(file);
 		return -EAGAIN;
 	}
+	/*
+	 * req isn't visible yet so we can modify ki_flags with non-atomic
+	 * ops
+	 */
+	req->ki_flags |= iocb_flags(file);
 	req->ki_filp = file;
 	if (iocb->aio_flags & IOCB_FLAG_RESFD) {
 		/*

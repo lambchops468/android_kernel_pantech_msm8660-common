@@ -10,13 +10,13 @@ How to build:
 1. Obtain compiler from Android project:
 1a. Get android’s ‘repo’ http://source.android.com/source/downloading.html
 1b. Run
-      repo init -u https://android.googlesource.com/platform/manifest -b android-4.4.4_r1
+      repo init --depth=1 -u https://android.googlesource.com/platform/manifest -b android-4.4.4_r1
 1c. Run
-      repo sync platform/prebuilt
+      repo sync platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7 platform/prebuilts/misc
 2. Build the Kernel
 2a. In the kernel directory, Run
       ARCH=arm
-      CROSS_COMPILE=../android-4.4.4_r1-prebuilt/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
+      CROSS_COMPILE="prebuilts/misc/linux-x86/ccache/ccache ../android-4.4.4_r1-prebuilt/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-"
       make -j4 zImage modules
     This will use the .config located at the root of this repository.
     The .config located at the root of this repository is based off the config that
@@ -27,3 +27,32 @@ How to build:
 2b. Alternatively, in the kernel directory, Run
       ./build_kernel.sh
     This uses the config at arch/arm/configs/cyanogenmod_presto_defconfig 
+
+
+
+Obtaining the latest security patches
+
+SUSE Linux Enterprise 11 Service Pack 4 uses the 3.0.101 kernel, and as of November 2017, is currently supported. We'll try to use their security backports in our kernel to bring our kernel up to date, since this kernel is also based on 3.0.101
+The SUSE kernel source is browsable at https://kernel.opensuse.org/cgit/kernel/log/Makefile?h=SLE11-SP4 or at https://github.com/openSUSE/kernel/tree/SLE11-SP4
+
+1. Add the SUSE kernel repo as a remote:
+     git remote add -t SLE11-SP4 -m SLE11-SP4 suse https://github.com/openSUSE/kernel
+
+2. Fetch all the objects since the creation of the 3.0.101 release
+     git fetch --shallow-since 2013-10-20 suse
+
+   If you need a local copy of the repo for conflict resolution, you can do a shallow one-branch clone:
+     git clone --single-branch -b SLE11-SP4 --shallow-since 2013-10-20 https://github.com/openSUSE/kernel sle-kernel
+
+3. Rebase interactively SUSE kernel patches into our kernel. You'll want to go through the list of commits being rebased and exclude any that add new kernel features, since those are for enterprise kernels and might mess with the android-specific changes in the kernel.
+
+   Create the new branch into which we will add the security patches and switch to it.
+     git checkout cm-11.0-mod
+     git branch cm-11.0-mod-suse-sle11-sp4-6d327cd0f13-import  # 6d327cd0f13 is the last commit in the suse repo.
+
+   Configure git so that it shows us full commit messages during interactive rebase 
+     git config --add rebase.instructionFormat "%s - %b%n"
+
+   Perform the rebase, adding the security patches to the newly created branch. Skip any commits that are not security fixes during this process. Luckily, security fixes have "CVE" and the CVE number in their descriptions, so they are easy to spot. During the editing of the rebase TODO list, just remove any lines which do not contain "CVE". Of those containing "CVE," try to drop security fixes for subsystems not used by Android to avoid unnecssary conflicts.
+     git rebase -i --onto cm-11.0-mod-suse-sle11-sp4-6d327cd0f13-import 5dba9ddd98c suse/SLE11-SP4  # 5dba9ddd98c is the commit that creates the 3.0.101 release
+

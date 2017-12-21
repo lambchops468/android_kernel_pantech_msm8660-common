@@ -46,6 +46,16 @@ config THERMAL_TSENS
 	  Also able to set threshold temperature for both hot and cold and update
 	  when a threshold is reached.
 
+config THERMAL_TSENS_THROTTLE
+	bool "Qualcomm Tsens CPU Throttling Driver"
+	depends on THERMAL
+	depends on CPU_FREQ_MSM
+	default n
+	help
+	  This enables the thermal sysfs driver for the throttling the CPU based
+	  on the temperature of the Tsens device. It shows up in Sysfs as a
+	  thermal cooling device.
+
 config THERMAL_TSENS8960
 	tristate "Qualcomm 8960 Tsens Temperature Alarm"
 	depends on THERMAL

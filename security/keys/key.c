@@ -580,7 +580,7 @@ int key_reject_and_link(struct key *key,
 
 	mutex_unlock(&key_construction_mutex);
 
-	if (keyring)
+	if (keyring && link_ret == 0)
 		__key_link_end(keyring, key->type, prealloc);
 
 	/* wake up anyone waiting for a key to be constructed */
@@ -625,6 +625,12 @@ found_dead_key:
 
 	key_check(key);
 
+	/* Throw away the key data if the key is instantiated */
+	if (test_bit(KEY_FLAG_INSTANTIATED, &key->flags) &&
+	    !test_bit(KEY_FLAG_NEGATIVE, &key->flags) &&
+	    key->type->destroy)
+		key->type->destroy(key);
+
 	security_key_free(key);
 
 	/* deal with the user's key tracking and quota */
@@ -640,10 +646,6 @@ found_dead_key:
 		atomic_dec(&key->user->nikeys);
 
 	key_user_put(key->user);
-
-	/* now throw away the key memory */
-	if (key->type->destroy)
-		key->type->destroy(key);
 
 	kfree(key->description);
 

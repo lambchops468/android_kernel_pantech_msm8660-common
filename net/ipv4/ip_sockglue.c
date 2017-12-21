@@ -373,7 +373,7 @@ void ip_local_error(struct sock *sk, int err, __be32 daddr, __be16 port, u32 inf
 /*
  *	Handle MSG_ERRQUEUE
  */
-int ip_recv_error(struct sock *sk, struct msghdr *msg, int len)
+int ip_recv_error(struct sock *sk, struct msghdr *msg, int len, int *addr_len)
 {
 	struct sock_exterr_skb *serr;
 	struct sk_buff *skb, *skb2;
@@ -410,6 +410,7 @@ int ip_recv_error(struct sock *sk, struct msghdr *msg, int len)
 						   serr->addr_offset);
 		sin->sin_port = serr->port;
 		memset(&sin->sin_zero, 0, sizeof(sin->sin_zero));
+		*addr_len = sizeof(*sin);
 	}
 
 	memcpy(&errhdr.ee, &serr->ee, sizeof(struct sock_extended_err));
@@ -1009,7 +1010,8 @@ e_inval:
  */
 int ip_queue_rcv_skb(struct sock *sk, struct sk_buff *skb)
 {
-	if (!(inet_sk(sk)->cmsg_flags & IP_CMSG_PKTINFO))
+	if (!(inet_sk(sk)->cmsg_flags & IP_CMSG_PKTINFO) &&
+	    !IPCB(skb)->opt.optlen)
 		skb_dst_drop(skb);
 	return sock_queue_rcv_skb(sk, skb);
 }

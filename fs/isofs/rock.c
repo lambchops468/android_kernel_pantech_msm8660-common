@@ -30,6 +30,7 @@ struct rock_state {
 	int cont_size;
 	int cont_extent;
 	int cont_offset;
+	int cont_loops;
 	struct inode *inode;
 };
 
@@ -73,6 +74,9 @@ static void init_rock_state(struct rock_state *rs, struct inode *inode)
 	rs->inode = inode;
 }
 
+/* Maximum number of Rock Ridge continuation entries */
+#define RR_MAX_CE_ENTRIES 32
+
 /*
  * Returns 0 if the caller should continue scanning, 1 if the scan must end
  * and -ve on error.
@@ -105,6 +109,8 @@ static int rock_continue(struct rock_state *rs)
 			goto out;
 		}
 		ret = -EIO;
+		if (++rs->cont_loops >= RR_MAX_CE_ENTRIES)
+			goto out;
 		bh = sb_bread(rs->inode->i_sb, rs->cont_extent);
 		if (bh) {
 			memcpy(rs->buffer, bh->b_data + rs->cont_offset,
@@ -197,6 +203,8 @@ int get_rock_ridge_filename(struct iso_directory_record *de,
 	int retnamlen = 0;
 	int truncate = 0;
 	int ret = 0;
+	char *p;
+	int len;
 
 	if (!ISOFS_SB(inode->i_sb)->s_rock)
 		return 0;
@@ -261,12 +269,17 @@ repeat:
 					rr->u.NM.flags);
 				break;
 			}
-			if ((strlen(retname) + rr->len - 5) >= 254) {
+			len = rr->len - 5;
+			if (retnamlen + len >= 254) {
 				truncate = 1;
 				break;
 			}
-			strncat(retname, rr->u.NM.name, rr->len - 5);
-			retnamlen += rr->len - 5;
+			p = memchr(rr->u.NM.name, '\0', len);
+			if (unlikely(p))
+				len = p - rr->u.NM.name;
+			memcpy(retname + retnamlen, rr->u.NM.name, len);
+			retnamlen += len;
+			retname[retnamlen] = '\0';
 			break;
 		case SIG('R', 'E'):
 			kfree(rs.buffer);

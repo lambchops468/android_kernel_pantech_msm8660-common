@@ -823,7 +823,7 @@ inode_has_hashed_dentries(struct inode *inode)
 	struct dentry *dentry;
 
 	spin_lock(&inode->i_lock);
-	list_for_each_entry(dentry, &inode->i_dentry, d_alias) {
+	list_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias) {
 		if (!d_unhashed(dentry) || IS_ROOT(dentry)) {
 			spin_unlock(&inode->i_lock);
 			return true;
@@ -1979,7 +1979,7 @@ cifs_setattr_unix(struct dentry *direntry, struct iattr *attrs)
 	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NO_PERM)
 		attrs->ia_valid |= ATTR_FORCE;
 
-	rc = inode_change_ok(inode, attrs);
+	rc = setattr_prepare(direntry, attrs);
 	if (rc < 0)
 		goto out;
 
@@ -2118,7 +2118,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
 	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NO_PERM)
 		attrs->ia_valid |= ATTR_FORCE;
 
-	rc = inode_change_ok(inode, attrs);
+	rc = setattr_prepare(direntry, attrs);
 	if (rc < 0) {
 		FreeXid(xid);
 		return rc;

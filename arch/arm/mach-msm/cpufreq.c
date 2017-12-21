@@ -25,6 +25,7 @@
 #include <linux/completion.h>
 #include <linux/cpu.h>
 #include <linux/cpumask.h>
+#include <linux/msm_tsens_throttle.h>
 #include <linux/sched.h>
 #include <linux/suspend.h>
 #include <mach/socinfo.h>
@@ -59,7 +60,6 @@ struct cpu_freq {
 	uint32_t min;
 	uint32_t allowed_max;
 	uint32_t allowed_min;
-	uint32_t limits_init;
 };
 
 static DEFINE_PER_CPU(struct cpu_freq, cpu_freq_info);
@@ -70,16 +70,20 @@ static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq)
 	struct cpufreq_freqs freqs;
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, policy->cpu);
 
-	if (limit->limits_init) {
-		if (new_freq > limit->allowed_max) {
-			new_freq = limit->allowed_max;
-			pr_debug("max: limiting freq to %d\n", new_freq);
-		}
+	// If set_cpu_freq is called under normal conditions, these limits
+	// should already be applied by msm_cpufreq_verify().
+	if (new_freq > limit->allowed_max) {
+		pr_warn("%s: Target frequency %u max-limited to %u.\n",
+			__func__, new_freq,
+			limit->allowed_max);
+		new_freq = limit->allowed_max;
+	}
 
-		if (new_freq < limit->allowed_min) {
-			new_freq = limit->allowed_min;
-			pr_debug("min: limiting freq to %d\n", new_freq);
-		}
+	if (new_freq < limit->allowed_min) {
+		pr_warn("%s: Target frequency %u min-limited to %u.\n",
+			__func__, new_freq,
+			limit->allowed_min);
+		new_freq = limit->allowed_min;
 	}
 
 	freqs.old = policy->cur;
@@ -214,8 +218,35 @@ done:
 
 static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 {
-	cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq,
-			policy->cpuinfo.max_freq);
+	struct cpufreq_frequency_table *freq_table =
+		cpufreq_frequency_get_table(policy->cpu);
+	struct cpu_freq *limit = &per_cpu(cpu_freq_info, policy->cpu);
+	int ret;
+
+	if (freq_table == NULL) {
+		pr_warn("%s: cpufreq driver not initialized yet.\n", __func__);
+		return -ENODEV;
+	}
+
+	if (limit->min == 0) {
+		// limit table is not initialized yet
+		cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq,
+						policy->cpuinfo.max_freq);
+	} else {
+		// Clamp policy->{min,max} to thermal throttle limits
+		// We apply the thermal throttle limits here before the cpufreq
+		// governor runs instead of after the cpufreq governor because
+		// we want the governor to have accurate state.
+		cpufreq_verify_within_limits(policy, limit->allowed_min,
+				limit->allowed_max);
+	}
+
+	// Ensure there is at least one valid frequency that the hardware
+	// supports. policy->max may be bumped up.
+	ret = cpufreq_frequency_table_verify(policy, freq_table);
+	if (ret) {
+		return ret;
+	}
 	return 0;
 }
 
@@ -231,6 +262,7 @@ static inline int msm_cpufreq_limits_init(void)
 	struct cpufreq_frequency_table *table = NULL;
 	uint32_t min = (uint32_t) -1;
 	uint32_t max = 0;
+	uint32_t freq;
 	struct cpu_freq *limit = NULL;
 
 	for_each_possible_cpu(cpu) {
@@ -239,19 +271,24 @@ static inline int msm_cpufreq_limits_init(void)
 		if (table == NULL) {
 			pr_err("%s: error reading cpufreq table for cpu %d\n",
 					__func__, cpu);
-			continue;
-		}
-		for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END); i++) {
-			if (table[i].frequency > max)
-				max = table[i].frequency;
-			if (table[i].frequency < min)
-				min = table[i].frequency;
+			min = 0;
+			max = ~0;
+		} else {
+			for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END);
+									i++) {
+				freq = table[i].frequency;
+				if (freq == CPUFREQ_ENTRY_INVALID)
+					continue;
+				if (freq > max)
+					max = freq;
+				if (freq < min)
+					min = freq;
+			}
 		}
 		limit->allowed_min = min;
 		limit->allowed_max = max;
 		limit->min = min;
 		limit->max = max;
-		limit->limits_init = 1;
 	}
 
 	return 0;
@@ -260,25 +297,61 @@ static inline int msm_cpufreq_limits_init(void)
 int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 {
 	struct cpu_freq *limit = &per_cpu(cpu_freq_info, cpu);
+        struct cpufreq_frequency_table *freq_table =
+		cpufreq_frequency_get_table(0);
+	int i;
+	uint32_t new_max, new_min;
+	bool exists_valid_frequency_in_range;
 
-	if (!limit->limits_init)
-		msm_cpufreq_limits_init();
+	if (limit->min == 0 || freq_table == NULL) {
+		pr_warn("%s: Attempted call before cpufreq driver is "
+			"initialized.\n", __func__);
+		return -ENODEV;
+	}
 
-	if ((min != MSM_CPUFREQ_NO_LIMIT) &&
-		min >= limit->min && min <= limit->max)
-		limit->allowed_min = min;
-	else
-		limit->allowed_min = limit->min;
+	if (min == MSM_CPUFREQ_NO_LIMIT) {
+		new_min = limit->min;
+	} else {
+		new_min = min;
+	}
 
+	if (max == MSM_CPUFREQ_NO_LIMIT) {
+		new_max = limit->max;
+	} else {
+		new_max = max;
+	}
 
-	if ((max != MSM_CPUFREQ_NO_LIMIT) &&
-		max <= limit->max && max >= limit->min)
-		limit->allowed_max = max;
-	else
-		limit->allowed_max = limit->max;
+	exists_valid_frequency_in_range = false;
+	for (i = 0; (freq_table[i].frequency != CPUFREQ_TABLE_END); i++) {
+		unsigned int freq = freq_table[i].frequency;
+		if (freq == CPUFREQ_ENTRY_INVALID)
+			continue;
+		if ((freq >= new_min) && (freq <= new_max)) {
+			exists_valid_frequency_in_range = true;
+			break;
+		}
+	}
+	if (!exists_valid_frequency_in_range) {
+		pr_warn("%s: Attempted to set invalid limits: New min: "
+			"%u, max: %u, but there are no valid cpu scaling "
+			"frequencies in the new limits.\n",
+			__func__, new_min, new_max);
+		return -EINVAL;
+	}
 
-	pr_debug("%s: Limiting cpu %d min = %d, max = %d\n",
-			__func__, cpu,
+	if (new_min >= limit->min && new_min <= limit->max &&
+			new_min <= new_max && new_max >= limit->min &&
+			new_max <= limit->max && new_max >= new_min) {
+		limit->allowed_min = new_min;
+		limit->allowed_max = new_max;
+	} else {
+		pr_warn("%s: Attempted to set invalid limits: New min: "
+			"%u, max: %u. Allowed min: %u, max: %u\n", __func__,
+			new_min, new_max, limit->min, limit->max);
+		return -EINVAL;
+	}
+
+	pr_debug("%s: Limiting cpu %d min = %d, max = %d\n", __func__, cpu,
 			limit->allowed_min, limit->allowed_max);
 
 	return 0;
@@ -430,6 +503,10 @@ static int __init msm_cpufreq_register(void)
 	if (err)
 		pr_err("Failed to create sysfs mfreq\n");
 
+	// Frequency table should already be setup by cpufreq_table_init()
+	// in acpuclock-presto.c.
+	msm_cpufreq_limits_init();
+
 	for_each_possible_cpu(cpu) {
 		mutex_init(&(per_cpu(cpufreq_suspend, cpu).suspend_mutex));
 		per_cpu(cpufreq_suspend, cpu).device_suspended = 0;
@@ -442,7 +519,15 @@ static int __init msm_cpufreq_register(void)
 #endif
 
 	register_pm_notifier(&msm_cpufreq_pm_notifier);
-	return cpufreq_register_driver(&msm_cpufreq_driver);
+	err = cpufreq_register_driver(&msm_cpufreq_driver);
+	if (err)
+		return err;
+
+	err = msm_tsens_throttle_init();
+	if (err)
+		pr_err("Failed to register msm_tsens_throttle driver\n");
+
+	return 0;
 }
 
 late_initcall(msm_cpufreq_register);
