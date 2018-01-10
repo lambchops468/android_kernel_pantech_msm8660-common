@@ -1181,6 +1181,13 @@ static int usb_phy_susp_dig_vol = 750000;
 struct delayed_work pmic_id_det;
 
 #ifdef CONFIG_MACH_MSM8X60_PRESTO
+// NOTE(USB PHY Power Collapse): This is a hack that breaks USB Hotplug when
+// the system is suspended. Presto hardware doesn't support this out-of-band
+// notification. If a USB cable is connected to the device (phone) while the
+// system is suspended, the system will hang. If the USB cable was connected at
+// the device (phone) end when the phone was not suspended and a connection is
+// made at the host end while the system is suspended, things will work
+// correctly.
 static int pmic_id_notif_supported = 1;
 #else
 static int pmic_id_notif_supported;
@@ -6066,8 +6073,8 @@ static int pmic8058_xoadc_vreg_config(int on)
 			pr_err("%s: Enable of regulator ldo18_adc "
 						"failed\n", __func__);
 	} else {
-#if 0 //defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
-         rc = 0;
+#if defined(CONFIG_SKY_CHARGING) || defined(CONFIG_SKY_SMB_CHARGER)
+        rc = 0;
 #else /* CONFIG_SKY_CHARGING || CONFIG_SKY_SMB_CHARGER */
 		rc = regulator_disable(vreg_ldo18_adc);
 		if (rc)
@@ -8855,6 +8862,7 @@ static void __init msm8x60_init_buses(void)
 	if (SOCINFO_VERSION_MAJOR(socinfo_get_version()) == 2 &&
 			(machine_is_msm8x60_surf() ||
 #ifdef CONFIG_MACH_MSM8X60_PRESTO
+			 // See NOTE(USB PHY Power Collapse) above.
 			 machine_is_msm8x60_presto() ||
 #endif
 			(machine_is_msm8x60_ffa() &&
