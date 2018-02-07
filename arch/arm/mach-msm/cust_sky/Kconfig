@@ -164,6 +164,13 @@ config PANTECH_AUDIO_PRESTO_AUDIENCE2020
 config PANTECH_AUDIO_PRESTO_FAB2200
 	bool
 
+config MACH_MSM8X60_PRESTO_SMALL_RESVMEM
+    depends on MACH_MSM8X60_PRESTO
+    default n
+    bool "Presto: Reduce size of reserved memory regions"
+    help
+      Reduces the size various reserved memory regions set aside for coprocessors to free more memory for user applications
+
 config PANTECH_AUDIO_SUBCHIP_CAL_TOOL
 	bool
 
