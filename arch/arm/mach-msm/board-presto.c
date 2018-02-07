@@ -3235,7 +3235,7 @@ static void __init msm8x60_init_dsps(void)
 #if defined(CONFIG_MACH_MSM8X60_PRESTO) || defined(CONFIG_MACH_MSM8X60_QUANTINA)
 #define MSM_PMEM_SF_SIZE 0x1800000 /* 24 Mbytes */
 #else /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
-#define MSM_PMEM_SF_SIZE 0x3000000 /* 48 Mbytes */
+#define MSM_PMEM_SF_SIZE 0x4000000 /* 64 Mbytes */
 #endif /* CONFIG_MACH_MSM8X60_PRESTO || CONFIG_MACH_MSM8X60_QUANTINA */
 #endif /* CONFIG_F_SKYDISP_USE_ASHMEM */
 #define MSM_HDMI_PRIM_PMEM_SF_SIZE 0x3000000 /* 48 Mbytes */
@@ -3271,7 +3271,7 @@ unsigned char hdmi_is_primary;
 #ifdef CONFIG_MACH_MSM8X60_PRESTO // pz1945: not used for presto
 #define MSM_PMEM_ADSP_SIZE         0x1800000
 #else /* CONFIG_MACH_MSM8X60_PRESTO */
-#define MSM_PMEM_ADSP_SIZE         0x3180000
+#define MSM_PMEM_ADSP_SIZE         0x4200000
 #endif /* CONFIG_MACH_MSM8X60_PRESTO */
 #define MSM_PMEM_AUDIO_SIZE        0x1E9000
 
