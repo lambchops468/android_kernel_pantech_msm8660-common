@@ -1409,8 +1409,17 @@ config MSM_CPU_FREQ_MIN
 	default 245760
 
 config MSM_FORCE_MAX_CPU_TABLE
-	bool "Force Max CPU Table"
+	bool "Force Max Overclocked CPU Table"
 	default n
+	help
+		Use an overclocked CPU speed-voltage table.
+
+config MSM_FORCE_MAX_CPU_TABLE_UNDERVOLT
+	depends on MSM_FORCE_MAX_CPU_TABLE
+	bool "Use the calibrated unvolted overclocked CPU Table"
+	default n
+	help
+		Use a calibrated CPU speed-voltage table. It is undervolted and will only the device the table has been calibrated for.
 
 endif # CPU_FREQ_MSM
 
