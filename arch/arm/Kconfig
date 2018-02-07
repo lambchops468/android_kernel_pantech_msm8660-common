@@ -1460,6 +1460,8 @@ choice
 
 	config VMSPLIT_3G
 		bool "3G/1G user/kernel split"
+	config VMSPLIT_3G_OPT
+	bool "3G/1G user/kernel split (for full 1GB low memory w/128MB vmalloc)"
 	config VMSPLIT_2G
 		bool "2G/2G user/kernel split"
 	config VMSPLIT_1G
@@ -1470,9 +1472,7 @@ config PAGE_OFFSET
 	hex
 	default 0x40000000 if VMSPLIT_1G
 	default 0x80000000 if VMSPLIT_2G
-	# The default value for VMSPLIT_3G
-	# default 0xC0000000
-	#
+	# VMSPLIT_3G_OPT
 	# According to arch/arm/mach-msm/include/mach/vmalloc.h , the default
 	# VMALLOC_END is PAGE_OFFSET (0xC0000000) + 0x3A000000 = 0xFA000000
 	# Let's call 0x3A000000 KERNEL_SPACE and 0xFA000000 BOUNDARY.
@@ -1487,7 +1487,8 @@ config PAGE_OFFSET
 	# To keep the same BOUNDARY, we have to set PAGE_OFFSET to 0xB2000000
 	# This means that each userspace process can use up to 0xB2000000 of
 	# address space and the rest is for the kernel.
-	default 0xB2000000
+	default 0xB2000000 if VMSPLIT_3G_OPT
+	default 0xC0000000
 
 config NR_CPUS
 	int "Maximum number of CPUs (2-32)"
