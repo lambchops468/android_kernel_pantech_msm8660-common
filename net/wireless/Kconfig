@@ -74,6 +74,17 @@ config CFG80211_REG_DEBUG
 
 	  If unsure, say N.
 
+config CFG80211_USE_VMALLOC
+	bool "use vmalloc in wiphy_new"
+	depends on CFG80211
+	default n
+	help
+    Some cfg80211-based drivers have large private data structures
+    which cannot be reliably allocated using kmalloc when memory is
+    fragmented. Enable this to use vmalloc, which will succeed in such
+    scenarios. This does not work if the driver assumes contiguous
+    memory for its data structures. 
+
 config CFG80211_DEFAULT_PS
 	bool "enable powersave by default"
 	depends on CFG80211

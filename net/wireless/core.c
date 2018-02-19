@@ -341,7 +341,11 @@ struct wiphy *wiphy_new(const struct cfg80211_ops *ops, int sizeof_priv)
 
 	alloc_size = sizeof(*rdev) + sizeof_priv;
 
+#ifdef CONFIG_CFG80211_USE_VMALLOC
+	rdev = vzalloc(alloc_size);
+#else /* CONFIG_CFG80211_USE_VMALLOC */
 	rdev = kzalloc(alloc_size, GFP_KERNEL);
+#endif /* CONFIG_CFG80211_USE_VMALLOC */
 	if (!rdev)
 		return NULL;
 
@@ -355,7 +359,11 @@ struct wiphy *wiphy_new(const struct cfg80211_ops *ops, int sizeof_priv)
 		wiphy_counter--;
 		mutex_unlock(&cfg80211_mutex);
 		/* ugh, wrapped! */
+#ifdef CONFIG_CFG80211_USE_VMALLOC
+		vfree(rdev);
+#else /* CONFIG_CFG80211_USE_VMALLOC */
 		kfree(rdev);
+#endif /* CONFIG_CFG80211_USE_VMALLOC */
 		return NULL;
 	}
 
@@ -392,7 +400,11 @@ struct wiphy *wiphy_new(const struct cfg80211_ops *ops, int sizeof_priv)
 				   &rdev->rfkill_ops, rdev);
 
 	if (!rdev->rfkill) {
+#ifdef CONFIG_CFG80211_USE_VMALLOC
+		vfree(rdev);
+#else /* CONFIG_CFG80211_USE_VMALLOC */
 		kfree(rdev);
+#endif /* CONFIG_CFG80211_USE_VMALLOC */
 		return NULL;
 	}
 
@@ -718,7 +730,11 @@ void cfg80211_dev_free(struct cfg80211_registered_device *rdev)
 	list_for_each_entry_safe(scan, tmp, &rdev->bss_list, list)
 		cfg80211_put_bss(&scan->pub);
 	cfg80211_rdev_free_wowlan(rdev);
+#ifdef CONFIG_CFG80211_USE_VMALLOC
+	vfree(rdev);
+#else /* CONFIG_CFG80211_USE_VMALLOC */
 	kfree(rdev);
+#endif /* CONFIG_CFG80211_USE_VMALLOC */
 }
 
 void wiphy_free(struct wiphy *wiphy)
