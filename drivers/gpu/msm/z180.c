@@ -1,4 +1,4 @@
-/* Copyright (c) 2002,2007-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2002,2007-2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -124,6 +124,9 @@ static void z180_cmdwindow_write(struct kgsl_device *device,
 	| (MMU_CONFIG << MH_MMU_CONFIG__TC_R_CLNT_BEHAVIOR__SHIFT)   \
 	| (MMU_CONFIG << MH_MMU_CONFIG__PA_W_CLNT_BEHAVIOR__SHIFT))
 
+/*default log levels is error for everything*/
+#define KGSL_LOG_LEVEL_DEFAULT 3
+
 static const struct kgsl_functable z180_functable;
 
 static struct z180_device device_2d0 = {
@@ -145,11 +148,20 @@ static struct z180_device device_2d0 = {
 			.config = Z180_MMU_CONFIG,
 		},
 		.pwrctrl = {
+#ifdef CONFIG_KGSL_COMPAT
 			.regulator_name = "fs_gfx2d0",
+#endif
 			.irq_name = KGSL_2D0_IRQ,
 		},
 		.iomemname = KGSL_2D0_REG_MEMORY,
 		.ftbl = &z180_functable,
+		.cmd_log = KGSL_LOG_LEVEL_DEFAULT,
+		.ctxt_log = KGSL_LOG_LEVEL_DEFAULT,
+		.drv_log = KGSL_LOG_LEVEL_DEFAULT,
+		.mem_log = KGSL_LOG_LEVEL_DEFAULT,
+		.pwr_log = KGSL_LOG_LEVEL_DEFAULT,
+		.ft_log = KGSL_LOG_LEVEL_DEFAULT,
+		.pm_dump_enable = 0,
 	},
 	.cmdwin_lock = __SPIN_LOCK_INITIALIZER(device_2d1.cmdwin_lock),
 };
@@ -173,11 +185,20 @@ static struct z180_device device_2d1 = {
 			.config = Z180_MMU_CONFIG,
 		},
 		.pwrctrl = {
+#ifdef CONFIG_KGSL_COMPAT
 			.regulator_name = "fs_gfx2d1",
+#endif
 			.irq_name = KGSL_2D1_IRQ,
 		},
 		.iomemname = KGSL_2D1_REG_MEMORY,
 		.ftbl = &z180_functable,
+		.cmd_log = KGSL_LOG_LEVEL_DEFAULT,
+		.ctxt_log = KGSL_LOG_LEVEL_DEFAULT,
+		.drv_log = KGSL_LOG_LEVEL_DEFAULT,
+		.mem_log = KGSL_LOG_LEVEL_DEFAULT,
+		.pwr_log = KGSL_LOG_LEVEL_DEFAULT,
+		.ft_log = KGSL_LOG_LEVEL_DEFAULT,
+		.pm_dump_enable = 0,
 	},
 	.cmdwin_lock = __SPIN_LOCK_INITIALIZER(device_2d1.cmdwin_lock),
 };
@@ -235,10 +256,13 @@ static void z180_cleanup_pt(struct kgsl_device *device,
 	struct z180_device *z180_dev = Z180_DEVICE(device);
 
 	kgsl_mmu_unmap(pagetable, &device->mmu.setstate_memory);
+	kgsl_mmu_put_gpuaddr(pagetable, &device->mmu.setstate_memory);
 
 	kgsl_mmu_unmap(pagetable, &device->memstore);
+	kgsl_mmu_put_gpuaddr(pagetable, &device->memstore);
 
 	kgsl_mmu_unmap(pagetable, &z180_dev->ringbuffer.cmdbufdesc);
+	kgsl_mmu_put_gpuaddr(pagetable, &z180_dev->ringbuffer.cmdbufdesc);
 }
 
 static int z180_setup_pt(struct kgsl_device *device,
@@ -271,9 +295,11 @@ static int z180_setup_pt(struct kgsl_device *device,
 
 error_unmap_dummy:
 	kgsl_mmu_unmap(pagetable, &device->mmu.setstate_memory);
+	kgsl_mmu_put_gpuaddr(pagetable, &device->mmu.setstate_memory);
 
 error_unmap_memstore:
 	kgsl_mmu_unmap(pagetable, &device->memstore);
+	kgsl_mmu_put_gpuaddr(pagetable, &device->memstore);
 
 error:
 	return result;
@@ -426,7 +452,7 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 			     "Cannot make kernel mapping for gpuaddr 0x%x\n",
 			     cmd);
 		result = -EINVAL;
-		goto error;
+		goto error_put;
 	}
 
 	KGSL_CMD_INFO(device, "ctxt %d ibaddr 0x%08x sizedwords %d\n",
@@ -436,6 +462,7 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 	    (ctrl & KGSL_CONTEXT_CTX_SWITCH)) {
 		KGSL_CMD_INFO(device, "context switch %d -> %d\n",
 			context->id, z180_dev->ringbuffer.prevctx);
+		z180_idle(device);
 		kgsl_mmu_setstate(&device->mmu, pagetable,
 				KGSL_MEMSTORE_GLOBAL);
 		cnt = PACKETSIZE_STATESTREAM;
@@ -452,7 +479,7 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 	if (result < 0) {
 		KGSL_CMD_ERR(device, "wait_event_interruptible_timeout "
 			"failed: %ld\n", result);
-		goto error;
+		goto error_put;
 	}
 	result = 0;
 
@@ -484,6 +511,8 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 
 	z180_cmdwindow_write(device, ADDR_VGV3_CONTROL, cmd);
 	z180_cmdwindow_write(device, ADDR_VGV3_CONTROL, 0);
+error_put:
+	kgsl_mem_entry_put(entry);
 error:
 
 	kgsl_trace_issueibcmds(device, context->id, ibdesc, numibs,
@@ -826,13 +855,29 @@ static int z180_waittimestamp(struct kgsl_device *device,
 				unsigned int msecs)
 {
 	int status = -EINVAL;
+	long timeout = 0;
 
-	/* Don't wait forever, set a max (10 sec) value for now */
+	/* Don't wait forever, set a max (20 sec) value for now */
 	if (msecs == -1)
-		msecs = 10 * MSEC_PER_SEC;
+		msecs = 20 * MSEC_PER_SEC;
 
 	mutex_unlock(&device->mutex);
-	status = z180_wait(device, context, timestamp, msecs);
+	timeout = wait_io_event_interruptible_timeout(
+			device->wait_queue,
+			kgsl_check_timestamp(device, context, timestamp),
+			msecs_to_jiffies(msecs));
+
+	if (timeout > 0)
+		status = 0;
+	else if (timeout == 0) {
+		status = -ETIMEDOUT;
+		mutex_lock(&device->mutex);
+		kgsl_pwrctrl_set_state(device, KGSL_STATE_HUNG);
+		kgsl_postmortem_dump(device, 0);
+		mutex_unlock(&device->mutex);
+	} else
+		status = timeout;
+
 	mutex_lock(&device->mutex);
 
 	return status;

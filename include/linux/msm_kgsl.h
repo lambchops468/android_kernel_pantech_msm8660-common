@@ -12,25 +12,28 @@
 #define KGSL_VERSION_MINOR        14
 
 /*context flags */
-#define KGSL_CONTEXT_SAVE_GMEM		  0x00000001
-#define KGSL_CONTEXT_NO_GMEM_ALLOC	  0x00000002
-#define KGSL_CONTEXT_SUBMIT_IB_LIST	  0x00000004
-#define KGSL_CONTEXT_CTX_SWITCH		  0x00000008
-#define KGSL_CONTEXT_PREAMBLE		  0x00000010
-#define KGSL_CONTEXT_TRASH_STATE	  0x00000020
-#define KGSL_CONTEXT_PER_CONTEXT_TS	  0x00000040
-#define KGSL_CONTEXT_USER_GENERATED_TS	  0x00000080
-#define KGSL_CONTEXT_END_OF_FRAME         0x00000100
-#define KGSL_CONTEXT_NO_FAULT_TOLERANCE	  0x00000200
-/* bits [12:15] are reserved for future use */
-#define KGSL_CONTEXT_TYPE_MASK            0x01F00000
-#define KGSL_CONTEXT_TYPE_SHIFT           20
+#define KGSL_CONTEXT_SAVE_GMEM		0x00000001
+#define KGSL_CONTEXT_NO_GMEM_ALLOC	0x00000002
+#define KGSL_CONTEXT_SUBMIT_IB_LIST	0x00000004
+#define KGSL_CONTEXT_CTX_SWITCH		0x00000008
+#define KGSL_CONTEXT_PREAMBLE		0x00000010
+#define KGSL_CONTEXT_TRASH_STATE	0x00000020
+#define KGSL_CONTEXT_PER_CONTEXT_TS	0x00000040
+#define KGSL_CONTEXT_USER_GENERATED_TS	0x00000080
+#define KGSL_CONTEXT_END_OF_FRAME	0x00000100
 
-#define KGSL_CONTEXT_TYPE_ANY		  0
-#define KGSL_CONTEXT_TYPE_GL		  1
-#define KGSL_CONTEXT_TYPE_CL		  2
-#define KGSL_CONTEXT_TYPE_C2D		  3
-#define KGSL_CONTEXT_TYPE_RS		  4
+#define KGSL_CONTEXT_NO_FAULT_TOLERANCE 0x00000200
+#define KGSL_CONTEXT_SYNC               0x00000400
+#define KGSL_CONTEXT_PWR_CONSTRAINT     0x00000800
+/* bits [12:15] are reserved for future use */
+#define KGSL_CONTEXT_TYPE_MASK          0x01F00000
+#define KGSL_CONTEXT_TYPE_SHIFT         20
+
+#define KGSL_CONTEXT_TYPE_ANY		0
+#define KGSL_CONTEXT_TYPE_GL		1
+#define KGSL_CONTEXT_TYPE_CL		2
+#define KGSL_CONTEXT_TYPE_C2D		3
+#define KGSL_CONTEXT_TYPE_RS		4
 
 #define KGSL_CONTEXT_INVALID 0xffffffff
 
@@ -194,6 +197,7 @@ enum kgsl_property_type {
 	KGSL_PROP_VERSION         = 0x00000008,
 	KGSL_PROP_GPU_RESET_STAT  = 0x00000009,
 	KGSL_PROP_PWRCTRL         = 0x0000000E,
+	KGSL_PROP_PWR_CONSTRAINT  = 0x00000012,
 };
 
 struct kgsl_shadowprop {
@@ -228,6 +232,7 @@ struct kgsl_version {
 #define KGSL_PERFCOUNTER_GROUP_VBIF_PWR 0xE
 
 #define KGSL_PERFCOUNTER_NOT_USED 0xFFFFFFFF
+#define KGSL_PERFCOUNTER_BROKEN 0xFFFFFFFE
 
 /* structure holds list of ibs */
 struct kgsl_ibdesc {
@@ -282,7 +287,7 @@ struct kgsl_device_waittimestamp_ctxtid {
 #define IOCTL_KGSL_DEVICE_WAITTIMESTAMP_CTXTID \
 	_IOW(KGSL_IOC_TYPE, 0x7, struct kgsl_device_waittimestamp_ctxtid)
 
-/* issue indirect commands to the GPU.
+/* DEPRECATED: issue indirect commands to the GPU.
  * drawctxt_id must have been created with IOCTL_KGSL_DRAWCTXT_CREATE
  * ibaddr and sizedwords must specify a subset of a buffer created
  * with IOCTL_KGSL_SHAREDMEM_FROM_PMEM
@@ -290,6 +295,9 @@ struct kgsl_device_waittimestamp_ctxtid {
  * timestamp is a returned counter value which can be passed to
  * other ioctls to determine when the commands have been executed by
  * the GPU.
+ *
+ * This fucntion is deprecated - consider using IOCTL_KGSL_SUBMIT_COMMANDS
+ * instead
  */
 struct kgsl_ringbuffer_issueibcmds {
 	unsigned int drawctxt_id;
@@ -683,7 +691,8 @@ struct kgsl_gpumem_sync_cache {
  * struct kgsl_perfcounter_get - argument to IOCTL_KGSL_PERFCOUNTER_GET
  * @groupid: Performance counter group ID
  * @countable: Countable to select within the group
- * @offset: Return offset of the reserved counter
+ * @offset: Return offset of the reserved LO counter
+ * @offset_hi: Return offset of the reserved HI counter
  *
  * Get an available performance counter from a specified groupid.  The offset
  * of the performance counter will be returned after successfully assigning
@@ -698,8 +707,9 @@ struct kgsl_perfcounter_get {
 	unsigned int groupid;
 	unsigned int countable;
 	unsigned int offset;
+	unsigned int offset_hi;
 /* private: reserved for future use */
-	unsigned int __pad[2]; /* For future binary compatibility */
+	unsigned int __pad; /* For future binary compatibility */
 };
 
 #define IOCTL_KGSL_PERFCOUNTER_GET \
@@ -770,7 +780,7 @@ struct kgsl_perfcounter_query {
 struct kgsl_perfcounter_read_group {
 	unsigned int groupid;
 	unsigned int countable;
-	uint64_t value;
+	unsigned long long value;
 };
 
 struct kgsl_perfcounter_read {
