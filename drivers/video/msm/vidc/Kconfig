@@ -37,6 +37,13 @@ config MSM_VIDC_VDEC
 	help
 	This option enables support for Video decoder.
 
+config MSM_VIDC_COMPAT
+	bool "Compatibility with older kernel versions"
+	depends on MSM_VIDC
+	default y
+	help
+		Among other things, use old ION APIs.
+
 config MSM_VIDC_CONTENT_PROTECTION
 	bool "Enable Content Protection"
 	help

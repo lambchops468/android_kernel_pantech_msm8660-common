@@ -25,7 +25,7 @@
 #include <linux/uaccess.h>
 #include <linux/wait.h>
 #include <linux/workqueue.h>
-#include <linux/android_pmem.h>
+
 #include <linux/clk.h>
 #include <mach/msm_subsystem_map.h>
 #include <media/msm/vidc_type.h>
@@ -41,9 +41,6 @@
 #endif
 
 #define ERR(x...) printk(KERN_ERR x)
-static unsigned int vidc_mmu_subsystem[] = {
-	MSM_SUBSYSTEM_VIDEO};
-
 
 u32 vid_enc_set_get_base_cfg(struct video_client_ctx *client_ctx,
 		struct venc_basecfg *base_config, u32 set_flag)
@@ -1620,7 +1617,12 @@ u32 vid_enc_set_buffer(struct video_client_ctx *client_ctx,
 	enum vcd_buffer_type vcd_buffer_t = VCD_BUFFER_INPUT;
 	enum buffer_dir dir_buffer = BUFFER_TYPE_INPUT;
 	u32 vcd_status = VCD_ERR_FAIL;
-	unsigned long kernel_vaddr, length = 0;
+	unsigned long kernel_vaddr, length, user_vaddr, phy_addr = 0;
+	int pmem_fd = 0;
+	struct ion_handle *buff_handle = NULL;
+	u32 ion_flag = 0;
+	struct file *file = NULL;
+	s32 buffer_index = 0;
 
 	if (!client_ctx || !buffer_info)
 		return false;
@@ -1641,6 +1643,38 @@ u32 vid_enc_set_buffer(struct video_client_ctx *client_ctx,
 		    __func__, buffer_info->pbuffer);
 		return false;
 	}
+
+	/*
+	* Flush output buffers explcitly once, during registration. This ensures
+	* any pending CPU writes (if cleared after allocation) are
+	* committed right away, or else this may get flushed _after_
+	* the hardware has written bitstream. rare bug, but can happen !
+	*/
+	if (buffer == VEN_BUFFER_TYPE_OUTPUT) {
+		user_vaddr = (unsigned long)buffer_info->pbuffer;
+		if (!vidc_lookup_addr_table(client_ctx, BUFFER_TYPE_OUTPUT,
+					true, &user_vaddr, &kernel_vaddr,
+					&phy_addr, &pmem_fd, &file,
+					&buffer_index)) {
+			ERR("%s(): vidc_lookup_addr_table failed\n",
+			__func__);
+			return false;
+		}
+
+		ion_flag = vidc_get_fd_info(client_ctx, BUFFER_TYPE_OUTPUT,
+				buffer_info->fd, kernel_vaddr, buffer_index,
+				&buff_handle);
+
+		if (ion_flag == ION_FLAG_CACHED && buff_handle) {
+			msm_ion_do_cache_op(
+					client_ctx->user_ion_client,
+					buff_handle,
+					NULL,
+					(unsigned long) length,
+					ION_IOC_INV_CACHES);
+		}
+	}
+
 
 	vcd_status = vcd_set_buffer(client_ctx->vcd_handle,
 				    vcd_buffer_t, (u8 *) kernel_vaddr,
@@ -1765,7 +1799,7 @@ u32 vid_enc_encode_frame(struct video_client_ctx *client_ctx,
 				&buff_handle);
 
 		if (vcd_input_buffer.data_len > 0) {
-			if (ion_flag == CACHED && buff_handle) {
+			if ((ion_flag & ION_FLAG_CACHED) && buff_handle) {
 				msm_ion_do_cache_op(
 				client_ctx->user_ion_client,
 				buff_handle,
@@ -1842,11 +1876,9 @@ u32 vid_enc_set_recon_buffers(struct video_client_ctx *client_ctx,
 		struct venc_recon_addr *venc_recon)
 {
 	u32 vcd_status = VCD_ERR_FAIL;
-	u32 len, i, flags = 0;
-	struct file *file;
+	u32 len, i;
 	struct vcd_property_hdr vcd_property_hdr;
 	struct vcd_property_enc_recon_buffer *control = NULL;
-	struct msm_mapped_buffer *mapped_buffer = NULL;
 	int rc = -1;
 	unsigned long ionflag = 0;
 	unsigned long iova = 0;
@@ -1878,27 +1910,14 @@ u32 vid_enc_set_recon_buffers(struct video_client_ctx *client_ctx,
 	control->user_virtual_addr = venc_recon->pbuffer;
 
 	if (!vcd_get_ion_status()) {
-		if (get_pmem_file(control->pmem_fd, (unsigned long *)
-			(&(control->physical_addr)), (unsigned long *)
-			(&control->kernel_virtual_addr),
-			(unsigned long *) (&len), &file)) {
-				ERR("%s(): get_pmem_file failed\n", __func__);
-				return false;
-			}
-			put_pmem_file(file);
-			flags = MSM_SUBSYSTEM_MAP_IOVA;
-			mapped_buffer = msm_subsystem_map_buffer(
-			(unsigned long)control->physical_addr, len,
-			flags, vidc_mmu_subsystem,
-			sizeof(vidc_mmu_subsystem)/sizeof(unsigned int));
-			if (IS_ERR(mapped_buffer)) {
-				pr_err("buffer map failed");
-				return false;
-			}
-			control->client_data = (void *) mapped_buffer;
-			control->dev_addr = (u8 *)mapped_buffer->iova[0];
+		pr_err("PMEM not available\n");
+		return false;
 	} else {
+#ifdef CONFIG_MSM_VIDC_COMPAT
 		client_ctx->recon_buffer_ion_handle[i] = ion_import_fd(
+#else
+		client_ctx->recon_buffer_ion_handle[i] = ion_import_dma_buf(
+#endif
 				client_ctx->user_ion_client, control->pmem_fd);
 		if (IS_ERR_OR_NULL(client_ctx->recon_buffer_ion_handle[i])) {
 			ERR("%s(): get_ION_handle failed\n", __func__);
@@ -1915,7 +1934,11 @@ u32 vid_enc_set_recon_buffers(struct video_client_ctx *client_ctx,
 		control->kernel_virtual_addr = (u8 *) ion_map_kernel(
 			client_ctx->user_ion_client,
 			client_ctx->recon_buffer_ion_handle[i],
+#ifdef CONFIG_MSM_VIDC_COMPAT
 			ionflag);
+#else
+			client_ctx->recon_buffer_ion_handle[i]);
+#endif
 		if (!control->kernel_virtual_addr) {
 			ERR("%s(): get_ION_kernel virtual addr fail\n",
 				 __func__);
@@ -1941,7 +1964,7 @@ u32 vid_enc_set_recon_buffers(struct video_client_ctx *client_ctx,
 					VIDEO_DOMAIN,
 					VIDEO_MAIN_POOL,
 					SZ_4K,
-					0,
+					control->buffer_size * 2,
 					(unsigned long *)&iova,
 					(unsigned long *)&buffer_size,
 					UNCACHED, 0);

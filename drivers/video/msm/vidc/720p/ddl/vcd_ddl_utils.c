@@ -124,10 +124,13 @@ void ddl_pmem_alloc(struct ddl_buf_addr *buff_addr, size_t sz, u32 align)
 					ddl_context->video_ion_client,
 					alloc_size,
 					SZ_4K,
+#ifdef CONFIG_MSM_VIDC_COMPAT
 					buff_addr->mem_type);
-		if (!buff_addr->alloc_handle) {
-			ERR("\n%s(): DDL ION alloc failed\n",
-					__func__);
+#else
+					buff_addr->mem_type, 0);
+#endif
+		if (IS_ERR_OR_NULL(buff_addr->alloc_handle)) {
+			ERR("\n%s(): DDL ION alloc failed\n", __func__);
 			goto bailout;
 		}
 		ret = ion_phys(ddl_context->video_ion_client,
@@ -142,8 +145,12 @@ void ddl_pmem_alloc(struct ddl_buf_addr *buff_addr, size_t sz, u32 align)
 		buff_addr->physical_base_addr = (u32 *)phyaddr;
 		kernel_vaddr = (unsigned long *) ion_map_kernel(
 					ddl_context->video_ion_client,
+#ifdef CONFIG_MSM_VIDC_COMPAT
 					buff_addr->alloc_handle,
 					UNCACHED);
+#else
+					buff_addr->alloc_handle);
+#endif
 		if (IS_ERR_OR_NULL(kernel_vaddr)) {
 			ERR("\n%s(): DDL ION map failed\n", __func__);
 			goto unmap_ion_buffer;

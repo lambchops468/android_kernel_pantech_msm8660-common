@@ -1,4 +1,4 @@
-/* Copyright (c) 2002,2007-2012, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2002,2007-2012,2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -73,12 +73,12 @@ static struct kgsl_process_private *
 _get_priv_from_kobj(struct kobject *kobj)
 {
 	struct kgsl_process_private *private;
-	unsigned long name;
+	unsigned int name;
 
 	if (!kobj)
 		return NULL;
 
-	if (sscanf(kobj->name, "%ld", &name) != 1)
+	if (kstrtou32(kobj->name, 0, &name))
 		return NULL;
 
 	list_for_each_entry(private, &kgsl_driver.process_list, list) {
@@ -146,9 +146,6 @@ static struct kobj_type ktype_mem_entry = {
 
 static struct mem_entry_stats mem_stats[] = {
 	MEM_ENTRY_STAT(KGSL_MEM_ENTRY_KERNEL, kernel),
-#ifdef CONFIG_ANDROID_PMEM
-	MEM_ENTRY_STAT(KGSL_MEM_ENTRY_PMEM, pmem),
-#endif
 #ifdef CONFIG_ASHMEM
 	MEM_ENTRY_STAT(KGSL_MEM_ENTRY_ASHMEM, ashmem),
 #endif
@@ -172,17 +169,19 @@ kgsl_process_uninit_sysfs(struct kgsl_process_private *private)
 	kobject_put(&private->kobj);
 }
 
-void
+int
 kgsl_process_init_sysfs(struct kgsl_process_private *private)
 {
 	unsigned char name[16];
-	int i, ret;
+	int i, ret = 0;
 
 	snprintf(name, sizeof(name), "%d", private->pid);
 
-	if (kobject_init_and_add(&private->kobj, &ktype_mem_entry,
-		kgsl_driver.prockobj, name))
-		return;
+	ret = kobject_init_and_add(&private->kobj, &ktype_mem_entry,
+		kgsl_driver.prockobj, name);
+
+	if (ret)
+		return ret;
 
 	for (i = 0; i < ARRAY_SIZE(mem_stats); i++) {
 		/* We need to check the value of sysfs_create_file, but we
@@ -193,6 +192,7 @@ kgsl_process_init_sysfs(struct kgsl_process_private *private)
 		ret = sysfs_create_file(&private->kobj,
 			&mem_stats[i].max_attr.attr);
 	}
+	return ret;
 }
 
 static int kgsl_drv_memstat_show(struct device *dev,
@@ -531,11 +531,15 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 			size_t size)
 {
 	int pcount = 0, order, ret = 0;
-	int j, len, page_size, sglen_alloc, sglen = 0;
+	int j, page_size, sglen_alloc, sglen = 0;
+	size_t len;
 	struct page **pages = NULL;
 	pgprot_t page_prot = pgprot_writecombine(PAGE_KERNEL);
 	void *ptr;
 	unsigned int align;
+	size = PAGE_ALIGN(size);
+	if (size == 0 || size > UINT_MAX)
+		return -EINVAL;
 
 	align = (memdesc->flags & KGSL_MEMALIGN_MASK) >> KGSL_MEMALIGN_SHIFT;
 
@@ -552,7 +556,6 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 
 	sglen_alloc = PAGE_ALIGN(size) >> PAGE_SHIFT;
 
-	memdesc->size = size;
 	memdesc->pagetable = pagetable;
 	memdesc->ops = &kgsl_page_alloc_ops;
 
@@ -615,6 +618,14 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 				continue;
 			}
 
+			/*
+			 * Update sglen and memdesc size,as requested allocation
+			 * not served fully. So that they can be correctly freed
+			 * in kgsl_sharedmem_free().
+			 */
+			memdesc->sglen = sglen;
+			memdesc->size = (size - len);
+
 			KGSL_CORE_ERR(
 				"Out of memory: only allocated %dKB of %dKB requested\n",
 				(size - len) >> 10, size >> 10);
@@ -631,6 +642,7 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 	}
 
 	memdesc->sglen = sglen;
+	memdesc->size = size;
 
 	/*
 	 * All memory that goes to the user has to be zeroed out before it gets
@@ -671,15 +683,15 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 	outer_cache_range_op_sg(memdesc->sg, memdesc->sglen,
 				KGSL_CACHE_OP_FLUSH);
 
-	KGSL_STATS_ADD(size, kgsl_driver.stats.page_alloc,
-		kgsl_driver.stats.page_alloc_max);
-
 	order = get_order(size);
 
 	if (order < 16)
 		kgsl_driver.stats.histogram[order]++;
 
 done:
+	KGSL_STATS_ADD(memdesc->size, kgsl_driver.stats.page_alloc,
+		kgsl_driver.stats.page_alloc_max);
+
 	if ((memdesc->sglen_alloc * sizeof(struct page *)) > PAGE_SIZE)
 		vfree(pages);
 	else
@@ -758,8 +770,10 @@ void kgsl_sharedmem_free(struct kgsl_memdesc *memdesc)
 	if (memdesc == NULL || memdesc->size == 0)
 		return;
 
-	if (memdesc->gpuaddr)
+	if (memdesc->gpuaddr) {
 		kgsl_mmu_unmap(memdesc->pagetable, memdesc);
+		kgsl_mmu_put_gpuaddr(memdesc->pagetable, memdesc);
+	}
 
 	if (memdesc->ops && memdesc->ops->free)
 		memdesc->ops->free(memdesc);

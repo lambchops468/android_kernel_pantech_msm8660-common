@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2013, 2016, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -53,11 +53,17 @@ static int kgsl_sync_pt_has_signaled(struct sync_pt *pt)
 	struct kgsl_sync_timeline *ktimeline =
 		 (struct kgsl_sync_timeline *) pt->parent;
 	unsigned int ts = kpt->timestamp;
-	unsigned int last_ts = ktimeline->last_timestamp;
+	unsigned int last_ts ;
+	spin_lock(&ktimeline->lock);
+
+	last_ts = ktimeline->last_timestamp;
+
 	if (timestamp_cmp(last_ts, ts) >= 0) {
 		/* signaled */
+		spin_unlock(&ktimeline->lock);
 		return 1;
 	}
+	spin_unlock(&ktimeline->lock);
 	return 0;
 }
 
@@ -90,8 +96,8 @@ static inline void kgsl_fence_event_cb(struct kgsl_device *device,
 {
 	struct kgsl_fence_event_priv *ev = priv;
 
-	/* Signal time timeline for every event type */
-	kgsl_sync_timeline_signal(ev->context->timeline, timestamp);
+	/* Signal event time timeline for every event type */
+	kgsl_sync_timeline_signal(ev->context->timeline, ev->timestamp);
 	kgsl_context_put(ev->context);
 	kfree(ev);
 }
@@ -194,12 +200,16 @@ fail_pt:
 static unsigned int kgsl_sync_get_timestamp(
 	struct kgsl_sync_timeline *ktimeline, enum kgsl_timestamp_type type)
 {
-	struct kgsl_context *context = idr_find(&ktimeline->device->context_idr,
-						ktimeline->context_id);
-	if (context == NULL)
-		return 0;
+	unsigned int ret = 0;
 
-	return kgsl_readtimestamp(ktimeline->device, context, type);
+	struct kgsl_context *context = kgsl_context_get(ktimeline->device,
+			ktimeline->context_id);
+
+	if (context)
+		ret = kgsl_readtimestamp(ktimeline->device, context, type);
+
+	kgsl_context_put(context);
+	return ret;
 }
 
 static void kgsl_sync_timeline_value_str(struct sync_timeline *sync_timeline,
@@ -262,6 +272,7 @@ int kgsl_sync_timeline_create(struct kgsl_context *context)
 	ktimeline->last_timestamp = 0;
 	ktimeline->device = context->dev_priv->device;
 	ktimeline->context_id = context->id;
+	spin_lock_init(&ktimeline->lock);
 
 	return 0;
 }
@@ -272,8 +283,10 @@ void kgsl_sync_timeline_signal(struct sync_timeline *timeline,
 	struct kgsl_sync_timeline *ktimeline =
 		(struct kgsl_sync_timeline *) timeline;
 
+	spin_lock(&ktimeline->lock);
 	if (timestamp_cmp(timestamp, ktimeline->last_timestamp) > 0)
 		ktimeline->last_timestamp = timestamp;
+	spin_unlock(&ktimeline->lock);
 	sync_timeline_signal(timeline);
 }
 

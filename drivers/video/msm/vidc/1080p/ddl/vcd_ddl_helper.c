@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2010-2013, 2015, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -10,12 +10,15 @@
  * GNU General Public License for more details.
  *
  */
+#ifdef CONFIG_MSM_VIDC_COMPAT
 #include <linux/ion.h>
+#else
+#include <linux/msm_ion.h>
+#endif
 #include <mach/msm_memtypes.h>
 #include "vcd_ddl.h"
 #include "vcd_ddl_shared_mem.h"
 #include "vcd_res_tracker_api.h"
-
 
 struct ddl_context *ddl_get_context(void)
 {
@@ -23,7 +26,6 @@ struct ddl_context *ddl_get_context(void)
 	return &ddl_context;
 }
 
-#ifdef DDL_MSG_LOG
 s8 *ddl_get_state_string(enum ddl_client_state client_state)
 {
 	s8 *ptr;
@@ -71,7 +73,6 @@ s8 *ddl_get_state_string(enum ddl_client_state client_state)
 	}
 	return ptr;
 }
-#endif
 
 u32 ddl_client_transact(u32 operation,
 	struct ddl_client_context **pddl_client)
@@ -254,7 +255,9 @@ u32 ddl_decoder_dpb_init(struct ddl_client_context *ddl)
 	struct ddl_decoder_data *decoder = &ddl->codec_data.decoder;
 	struct ddl_dec_buffers *dec_buffers = &decoder->hw_bufs;
 	struct vcd_frame_data *vcd_frm;
+#ifdef CONFIG_MSM_VIDC_COMPAT
 	unsigned int ionflag = 0;
+#endif
 	u32 luma[DDL_MAX_BUFFER_COUNT], chroma[DDL_MAX_BUFFER_COUNT];
 	u32 mv[DDL_MAX_BUFFER_COUNT], luma_size, i, dpb;
 	luma_size = ddl_get_yuv_buf_size(decoder->frame_size.width,
@@ -269,16 +272,22 @@ u32 ddl_decoder_dpb_init(struct ddl_client_context *ddl)
 		if (!res_trk_check_for_sec_session()) {
 			u8 *kernel_vaddr = NULL;
 			if (luma_size <= vcd_frm->alloc_len) {
+#ifdef CONFIG_MSM_VIDC_COMPAT
 				if (ion_handle_get_flags(ddl_context->video_ion_client,
 						vcd_frm->buff_ion_handle,
 						&ionflag)) {
 					pr_err("%s() ION get flag failed", __func__);
 					return VCD_ERR_FAIL;
 				}
+#endif
 
 				kernel_vaddr = (u8 *)ion_map_kernel(
 						ddl_context->video_ion_client,
+#ifdef CONFIG_MSM_VIDC_COMPAT
 						vcd_frm->buff_ion_handle, ionflag);
+#else
+						vcd_frm->buff_ion_handle);
+#endif
 				if (IS_ERR_OR_NULL(kernel_vaddr)) {
 					DDL_MSG_ERROR("%s(): ION_MAP for "\
 					"DPB[%u] failed\n", __func__, i);
@@ -288,7 +297,8 @@ u32 ddl_decoder_dpb_init(struct ddl_client_context *ddl)
 					memset(kernel_vaddr + luma_size,
 						0x80808080,
 						vcd_frm->alloc_len - luma_size);
-					if (vcd_frm->ion_flag == CACHED) {
+					if (vcd_frm->ion_flag &
+						ION_FLAG_CACHED) {
 						msm_ion_do_cache_op(
 						ddl_context->video_ion_client,
 						vcd_frm->buff_ion_handle,
@@ -791,7 +801,7 @@ u32 ddl_allocate_dec_hw_buffers(struct ddl_client_context *ddl)
 		else {
 			if (!res_trk_check_for_sec_session()) {
 				memset(dec_bufs->desc.align_virtual_addr,
-					0, buf_size.sz_desc);
+					   0, buf_size.sz_desc);
 				msm_ion_do_cache_op(
 					ddl_context->video_ion_client,
 					dec_bufs->desc.alloc_handle,
@@ -850,7 +860,7 @@ u32 ddl_calc_enc_hw_buffers_size(enum vcd_codec codec, u32 width,
 		sz_strm = DDL_ALIGN(ddl_get_yuv_buf_size(width, height,
 			DDL_YUV_BUF_TYPE_LINEAR) + ddl_get_yuv_buf_size(width,
 			height/2, DDL_YUV_BUF_TYPE_LINEAR), DDL_KILO_BYTE(4));
-		sz_mv = DDL_ALIGN(2 * mb_x * mb_y * 8, DDL_KILO_BYTE(2));
+		sz_mv = DDL_ALIGN(2 * mb_x * 8, DDL_KILO_BYTE(2));
 		if ((codec == VCD_CODEC_MPEG4) ||
 			(codec == VCD_CODEC_H264)) {
 			sz_col_zero = DDL_ALIGN(((mb_x * mb_y + 7) / 8) *
@@ -1043,6 +1053,8 @@ u32 ddl_check_reconfig(struct ddl_client_context *ddl)
 	if (decoder->cont_mode) {
 		if ((decoder->actual_output_buf_req.sz <=
 			 decoder->client_output_buf_req.sz) &&
+			 decoder->frame_size.width <= decoder->adaptive_width &&
+			 decoder->frame_size.height <= decoder->adaptive_height &&
 			(decoder->actual_output_buf_req.actual_count <=
 			 decoder->client_output_buf_req.actual_count)) {
 			need_reconfig = false;
@@ -1076,14 +1088,46 @@ u32 ddl_check_reconfig(struct ddl_client_context *ddl)
 			decoder->progressive_only)
 				need_reconfig = false;
 	}
+	DDL_MSG_HIGH("%s(): need_reconfig = %u, cont_mode = %u\n"\
+	"Actual: WxH = %ux%u, SxSH = %ux%u, sz = %u, min = %u, act = %u\n"\
+	"Client: WxH = %ux%u, SxSH = %ux%u, sz = %u, min = %u, act = %u\n",
+	__func__, need_reconfig, decoder->cont_mode,
+	decoder->frame_size.width, decoder->frame_size.height,
+	decoder->frame_size.stride, decoder->frame_size.scan_lines,
+	decoder->actual_output_buf_req.sz,
+	decoder->actual_output_buf_req.min_count,
+	decoder->actual_output_buf_req.actual_count,
+	decoder->client_frame_size.width,
+	decoder->client_frame_size.height,
+	decoder->client_frame_size.stride,
+	decoder->client_frame_size.scan_lines,
+	decoder->client_output_buf_req.sz,
+	decoder->client_output_buf_req.min_count,
+	decoder->client_output_buf_req.actual_count);
+
 	return need_reconfig;
 }
 
 void ddl_handle_reconfig(u32 res_change, struct ddl_client_context *ddl)
 {
 	struct ddl_decoder_data *decoder = &ddl->codec_data.decoder;
+	struct vidc_1080p_dec_disp_info *dec_disp_info =
+		&(decoder->dec_disp_info);
+
+	u32 width = 0;
+	u32 height = 0;
+	u32 adaptive_width = 0;
+	u32 adaptive_height = 0;
+
+	width = DDL_ALIGN(dec_disp_info->img_size_x, DDL_TILE_ALIGN_WIDTH);
+	height = DDL_ALIGN(dec_disp_info->img_size_y, DDL_TILE_ALIGN_HEIGHT);
+
+	adaptive_width = DDL_ALIGN(decoder->adaptive_width, DDL_TILE_ALIGN_WIDTH);
+	adaptive_height = DDL_ALIGN(decoder->adaptive_height, DDL_TILE_ALIGN_HEIGHT);
+
 	if ((decoder->cont_mode) &&
-		(res_change == DDL_RESL_CHANGE_DECREASED)) {
+		(res_change == DDL_RESL_CHANGE_DECREASED) &&
+		width <= adaptive_width && height <= adaptive_height) {
 		DDL_MSG_LOW("%s Resolution decreased, continue decoding\n",
 				 __func__);
 		vidc_sm_get_min_yc_dpb_sizes(

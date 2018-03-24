@@ -13,7 +13,11 @@
 #ifndef _VIDEO_720P_RESOURCE_TRACKER_H_
 #define _VIDEO_720P_RESOURCE_TRACKER_H_
 #include <mach/board.h>
+#ifdef CONFIG_MSM_VIDC_COMPAT
 #include <linux/ion.h>
+#else
+#include <linux/msm_ion.h>
+#endif
 #include "vcd_res_tracker_api.h"
 
 #define VCD_RESTRK_MIN_PERF_LEVEL 37900
