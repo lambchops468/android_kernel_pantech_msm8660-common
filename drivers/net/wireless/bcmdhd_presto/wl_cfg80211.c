@@ -3122,6 +3122,14 @@ wl_cfg80211_connect(struct wiphy *wiphy, struct net_device *dev,
 		memcpy(&ext_join_params->assoc.bssid, sme->bssid, ETH_ALEN);
 	else
 		memcpy(&ext_join_params->assoc.bssid, &ether_bcast, ETH_ALEN);
+  printk(KERN_ERR "@@@@@@@@@@ bcmdhd: bssid selected: %x:%x:%x:%x:%x:%x\n",
+			ext_join_params->assoc.bssid.octet[0],
+			ext_join_params->assoc.bssid.octet[1],
+			ext_join_params->assoc.bssid.octet[2],
+			ext_join_params->assoc.bssid.octet[3],
+			ext_join_params->assoc.bssid.octet[4],
+			ext_join_params->assoc.bssid.octet[5]);
+
 	ext_join_params->assoc.chanspec_num = chan_cnt;
 	if (chan_cnt) {
 #ifdef ROAM_CHANNEL_CACHE
