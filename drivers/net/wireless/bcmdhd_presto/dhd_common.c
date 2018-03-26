@@ -69,7 +69,7 @@
 #ifdef WLMEDIA_HTSF
 extern void htsf_update(struct dhd_info *dhd, void *data);
 #endif
-int dhd_msg_level = DHD_ERROR_VAL;
+int dhd_msg_level = DHD_ERROR_VAL | DHD_INFO_VAL | DHD_EVENT_VAL;
 
 #include <wl_iw.h>
 
@@ -974,13 +974,13 @@ wl_show_host_event(wl_event_msg_t *event, void *event_data)
 	}
 
 	/* show any appended data */
-	if (datalen) {
-		buf = (uchar *) event_data;
-		DHD_EVENT((" data (%d) : ", datalen));
-		for (i = 0; i < datalen; i++)
-			DHD_EVENT((" 0x%02x ", *buf++));
-		DHD_EVENT(("\n"));
-	}
+	// if (datalen) {
+	// 	buf = (uchar *) event_data;
+	// 	DHD_EVENT((" data (%d) : ", datalen));
+	// 	for (i = 0; i < datalen; i++)
+	// 		DHD_EVENT((" 0x%02x ", *buf++));
+	// 	DHD_EVENT(("\n"));
+	// }
 }
 #endif /* SHOW_EVENTS */
 
